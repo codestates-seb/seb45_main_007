@@ -1,14 +1,9 @@
 package com.codestates.main07.security.jwt.auth.filter;
 
+import com.codestates.main07.security.jwt.auth.jwt.JwtTokenizer;
+import com.codestates.main07.security.jwt.login.LoginDto;
+import com.codestates.main07.security.jwt.login.LoginResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
-<<<<<<< HEAD
-import com.preproject_35.element.member.entity.Member;
-=======
-import com.preproject_35.element.member.Entity.Member;
->>>>>>> 3fdc87512dda1d97a862a485d2cd42939ef48555
-import com.preproject_35.security.auth.jwt.JwtTokenizer;
-import com.preproject_35.security.login.LoginDto;
-import com.preproject_35.security.login.LoginResponseDto;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

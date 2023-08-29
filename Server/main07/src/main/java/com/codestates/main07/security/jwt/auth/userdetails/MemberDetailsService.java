@@ -1,18 +1,8 @@
 package com.codestates.main07.security.jwt.auth.userdetails;
 
 
-<<<<<<< HEAD
-import com.preproject_35.element.error.BusinessLogicException;
-import com.preproject_35.element.error.ExceptionCode;
-import com.preproject_35.element.member.entity.Member;
-=======
-import com.preproject_35.element.member.Entity.Member;
-import com.preproject_35.element.error.BusinessLogicException;
-import com.preproject_35.element.error.ExceptionCode;
 
->>>>>>> 3fdc87512dda1d97a862a485d2cd42939ef48555
-import com.preproject_35.element.member.Repository.MemberRepository;
-import com.preproject_35.security.utils.CustomAuthorityUtils;
+import com.codestates.main07.security.jwt.utils.CustomAuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

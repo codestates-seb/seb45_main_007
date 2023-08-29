@@ -1,7 +1,7 @@
 package com.codestates.main07.security.jwt.utils;
 
+import com.codestates.main07.security.jwt.response.ErrorResponse;
 import com.google.gson.Gson;
-import com.preproject_35.security.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 

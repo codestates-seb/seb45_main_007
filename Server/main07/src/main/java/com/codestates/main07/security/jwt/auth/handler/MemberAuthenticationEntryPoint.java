@@ -1,6 +1,6 @@
 package com.codestates.main07.security.jwt.auth.handler;
 
-import com.preproject_35.security.utils.ErrorResponder;
+import com.codestates.main07.security.jwt.utils.ErrorResponder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;

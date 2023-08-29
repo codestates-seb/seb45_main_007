@@ -1,13 +1,14 @@
 package com.codestates.main07.security.jwt.config;
 
-import com.preproject_35.security.auth.filter.JwtAuthenticationFilter;
-import com.preproject_35.security.auth.filter.JwtVerificationFilter;
-import com.preproject_35.security.auth.handler.MemberAccessDeniedHandler;
-import com.preproject_35.security.auth.handler.MemberAuthenticationEntryPoint;
-import com.preproject_35.security.auth.handler.MemberAuthenticationFailureHandler;
-import com.preproject_35.security.auth.handler.MemberAuthenticationSuccessHandler;
-import com.preproject_35.security.auth.jwt.JwtTokenizer;
-import com.preproject_35.security.utils.CustomAuthorityUtils;
+
+import com.codestates.main07.security.jwt.auth.filter.JwtAuthenticationFilter;
+import com.codestates.main07.security.jwt.auth.filter.JwtVerificationFilter;
+import com.codestates.main07.security.jwt.auth.handler.MemberAccessDeniedHandler;
+import com.codestates.main07.security.jwt.auth.handler.MemberAuthenticationEntryPoint;
+import com.codestates.main07.security.jwt.auth.handler.MemberAuthenticationFailureHandler;
+import com.codestates.main07.security.jwt.auth.handler.MemberAuthenticationSuccessHandler;
+import com.codestates.main07.security.jwt.auth.jwt.JwtTokenizer;
+import com.codestates.main07.security.jwt.utils.CustomAuthorityUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
