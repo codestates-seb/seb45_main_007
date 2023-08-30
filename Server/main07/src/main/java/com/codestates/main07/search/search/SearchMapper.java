@@ -9,5 +9,5 @@ public interface SearchMapper {
     Search searchPostToSearch(SearchDto.Post requestBody);
     Search searchPatchToSearch(SearchDto.Patch requestBody);
     SearchDto.Response searchToSearchResponse(Search search);
-    List<SearchDto.Response> searchesToSearchResponses(List<Search> searches);
+    List<SearchDto.Responses> searchesToSearchResponses(List<Search> searches);
 }

@@ -26,6 +26,7 @@ public class SearchController {
         service.createSearch(search);
         SearchDto.Response response = mapper.searchToSearchResponse(search);
 
+        response.setSuccess(true);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -34,9 +35,14 @@ public class SearchController {
                                       @RequestBody SearchDto.Patch requestBody) {
 
         Search search = mapper.searchPatchToSearch(requestBody);
+        search.setSearchId(searchId);
         service.updateSearch(search);
-        SearchDto.Response response = mapper.searchToSearchResponse(search);
 
+        // 방금 update한 search 정보 불러오기
+        Search newSearch = service.findSearch(searchId);
+        SearchDto.Response response = mapper.searchToSearchResponse(newSearch);
+
+        response.setSuccess(true);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -46,6 +52,7 @@ public class SearchController {
         Search search = service.findSearch(searchId);
         SearchDto.Response response = mapper.searchToSearchResponse(search);
 
+        response.setSuccess(true);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -55,15 +62,15 @@ public class SearchController {
 
         Page<Search> pageSearches = service.findSearches(page - 1, size);
         List<Search> searches = pageSearches.getContent();
-        List<SearchDto.Response> responses = mapper.searchesToSearchResponses(searches);
+        List<SearchDto.Responses> responses = mapper.searchesToSearchResponses(searches);
 
         return new ResponseEntity<>(
-                new SearchDto.MultiResponse<>(responses, pageSearches), HttpStatus.OK);
+                new SearchDto.MultiResponse<>(responses, pageSearches, true), HttpStatus.OK);
     }
 
     @DeleteMapping("/{search-id}")
     public ResponseEntity deleteSearch(@PathVariable ("search-id") long searchId) {
         service.deleteSearch(searchId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(new SearchDto.SuccessResponse(true), HttpStatus.OK);
     }
 }

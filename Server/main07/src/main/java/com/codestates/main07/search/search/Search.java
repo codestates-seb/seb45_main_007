@@ -21,6 +21,12 @@ public class Search {
     private String content;
 
     @Column
+    private String category;
+
+    @Column
+    private boolean adopted;
+
+    @Column
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column
