@@ -1,4 +1,4 @@
-package com.codestates.main07.member.memberdto;
+package com.codestates.main07.member.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +7,8 @@ import javax.validation.constraints.Email;
 
 @Getter
 @Setter
-public class MemberPostDto {
+public class MemberUpdateDto {
+    private long memberId;
     @Email
     private String email;
     private String username;
