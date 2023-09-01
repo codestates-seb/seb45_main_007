@@ -53,16 +53,16 @@ public class MemberController {
     }
 
     @GetMapping("/{member-id}")
-    public ResponseEntity getMember(
+    public ResponseEntity viewMember(
             @PathVariable("member-id") long memberId) {
-        Member response = memberService.findMember(memberId);
+        Member response = memberService.viewMember(memberId);
         return new ResponseEntity<>(mapper.memberToMemberResponseDto(response),
                 HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity getMembers() {
-        List<Member> members = memberService.findMembers();
+    public ResponseEntity viewMembers() {
+        List<Member> members = memberService.viewMembers();
 
         List<MemberResponseDto> response =
                 members.stream()

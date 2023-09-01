@@ -1,6 +1,7 @@
 package com.codestates.main07.member.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -27,5 +28,13 @@ public class GlobalExceptionAdvice {
         final ErrorResponse response = ErrorResponse.of(e.getConstraintViolations());
 
         return response;
+    }
+
+    @ExceptionHandler
+    public ResponseEntity handleBusinessLogicException(BusinessLogicException e) {
+        System.out.println(e.getExceptionCode().getStatus());
+        System.out.println(e.getMessage());
+
+        return new ResponseEntity<>(HttpStatus.valueOf(e.getExceptionCode().getStatus()));
     }
 }

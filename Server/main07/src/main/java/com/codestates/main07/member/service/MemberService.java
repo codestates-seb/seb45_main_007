@@ -1,6 +1,8 @@
 package com.codestates.main07.member.service;
 
 import com.codestates.main07.member.entity.Member;
+import com.codestates.main07.member.exception.BusinessLogicException;
+import com.codestates.main07.member.exception.ExceptionCode;
 import com.codestates.main07.member.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,28 +18,39 @@ public class MemberService {
         private MemberRepository memberRepository;
 
         public Member createMember(Member member) {
+            if (memberRepository.existsById(member.getMemberId())) {
+                throw new BusinessLogicException(ExceptionCode.EMAIL_ALREADY_EXISTS);
+            }
             return memberRepository.save(member);
         }
 
     public Member updateMember(Member member) {
-        // 기존 데이터가 있는지 확인
-        if (memberRepository.existsById(member.getMemberId())) {
-            return memberRepository.save(member);  // 있으면 업데이트
+        if (!memberRepository.existsById(member.getMemberId())) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
         }
-        // TODO 없으면 예외 처리 or 다른 로직 필요
-        return null;
+        return memberRepository.save(member);
     }
 
-    public Member findMember(long memberId) {
+    public Member viewMember(long memberId) {
         Optional<Member> optionalMember = memberRepository.findById(memberId);
-        return optionalMember.orElse(null);  // TODO 찾지 못하면 null 반환 (또는 예외 처리)
+        if (!optionalMember.isPresent()) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+        }
+        return optionalMember.get();
     }
 
-    public List<Member> findMembers() {
-        return memberRepository.findAll();
+    public List<Member> viewMembers() {
+        List<Member> members = memberRepository.findAll();
+        if (members.isEmpty()) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+        }
+        return members;
     }
 
     public void deleteMember(long memberId) {
+        if (!memberRepository.existsById(memberId)) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+        }
         memberRepository.deleteById(memberId);
     }
 }
