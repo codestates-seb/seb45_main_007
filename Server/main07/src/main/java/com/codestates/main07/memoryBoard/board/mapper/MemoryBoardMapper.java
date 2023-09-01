@@ -1,10 +1,10 @@
-package com.codestates.main07.memory.board.mapper;
+package com.codestates.main07.memoryBoard.board.mapper;
 
-import com.codestates.main07.memory.board.dto.MemoryBoardCreateDto;
-import com.codestates.main07.memory.board.dto.MemoryBoardResponseDto;
-import com.codestates.main07.memory.board.dto.MemoryBoardResponsesDto;
-import com.codestates.main07.memory.board.dto.MemoryBoardUpdateDto;
-import com.codestates.main07.memory.board.entity.MemoryBoard;
+import com.codestates.main07.memoryBoard.board.dto.MemoryBoardCreateDto;
+import com.codestates.main07.memoryBoard.board.dto.MemoryBoardResponseDto;
+import com.codestates.main07.memoryBoard.board.dto.MemoryBoardResponsesDto;
+import com.codestates.main07.memoryBoard.board.dto.MemoryBoardUpdateDto;
+import com.codestates.main07.memoryBoard.board.entity.MemoryBoard;
 import org.mapstruct.Mapper;
 
 import java.util.List;

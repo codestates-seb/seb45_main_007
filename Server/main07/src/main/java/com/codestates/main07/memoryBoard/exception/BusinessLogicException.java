@@ -1,4 +1,4 @@
-package com.codestates.main07.memory.exception;
+package com.codestates.main07.memoryBoard.exception;
 
 
 public class BusinessLogicException extends RuntimeException {

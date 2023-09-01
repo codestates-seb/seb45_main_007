@@ -1,4 +1,4 @@
-package com.codestates.main07.memory.board.entity;
+package com.codestates.main07.memoryBoard.answer.entity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,35 +6,24 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
 @Getter
 @Setter
-@Entity
-public class MemoryBoard {
+public class MemoryBoardAnswer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long memoryBoardId;
-
-    @Column(length = 100)
-    private String title;
+    private long memoryBoardAnswerId;
 
     @Column(columnDefinition = "TEXT")
     private String content;
-
-    @Column
-    private String category;
-
-    @Column
     private boolean adopted;
-
-    @Column
     private LocalDateTime createdAt = LocalDateTime.now();
-
-    @Column
     private LocalDateTime modifiedAt = LocalDateTime.now();
-
-    @Column
     private LocalDateTime deletedAt;
 
-    // 찾아줘 글 작성자
+    // 찾아줘 답변 작성자
     private long memberId;
+
+    // 매핑 필요
+    private long memoryBoardId;
 }

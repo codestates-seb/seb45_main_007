@@ -1,4 +1,4 @@
-package com.codestates.main07.memory.pagination;
+package com.codestates.main07.memoryBoard.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

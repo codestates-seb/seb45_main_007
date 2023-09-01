@@ -1,4 +1,4 @@
-package com.codestates.main07.memory.board.dto;
+package com.codestates.main07.memoryBoard.response;
 
 import lombok.Getter;
 import lombok.Setter;

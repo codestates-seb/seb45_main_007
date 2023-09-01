@@ -1,14 +1,15 @@
-package com.codestates.main07.memory.exception;
+package com.codestates.main07.memoryBoard.exception;
 
 import lombok.Getter;
 
+@Getter
 public enum ExceptionCode {
-    MEMORYBOARD_NOT_FOUND(404, "Memory board not found");
+    MEMORY_BOARD_NOT_FOUND(404, "Memory board not found"),
+    ANSWER_NOT_FOUND(404, "Answer not found"),
+    COMMENT_NOT_FOUND(404, "Comment not found");
 
-    @Getter
     private int status;
 
-    @Getter
     private String message;
 
     ExceptionCode(int code, String message) {

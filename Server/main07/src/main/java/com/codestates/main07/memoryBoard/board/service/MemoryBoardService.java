@@ -1,9 +1,9 @@
-package com.codestates.main07.memory.board.service;
+package com.codestates.main07.memoryBoard.board.service;
 
-import com.codestates.main07.memory.board.entity.MemoryBoard;
-import com.codestates.main07.memory.board.repository.MemoryBoardRepository;
-import com.codestates.main07.memory.exception.BusinessLogicException;
-import com.codestates.main07.memory.exception.ExceptionCode;
+import com.codestates.main07.memoryBoard.board.entity.MemoryBoard;
+import com.codestates.main07.memoryBoard.board.repository.MemoryBoardRepository;
+import com.codestates.main07.memoryBoard.exception.BusinessLogicException;
+import com.codestates.main07.memoryBoard.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -27,18 +27,18 @@ public class MemoryBoardService {
     }
 
     public MemoryBoard updateMemoryBoard(MemoryBoard newMemoryBoard) {
-        MemoryBoard oldMemoryBoard = findCorrectMemoryBoard(newMemoryBoard.getMemoryBoardId());
+        MemoryBoard savedMemoryBoard = findCorrectMemoryBoard(newMemoryBoard.getMemoryBoardId());
 
         Optional.ofNullable(newMemoryBoard.getTitle())
-                .ifPresent(oldMemoryBoard::setTitle);
+                .ifPresent(savedMemoryBoard::setTitle);
         Optional.ofNullable(newMemoryBoard.getContent())
-                .ifPresent(oldMemoryBoard::setContent);
+                .ifPresent(savedMemoryBoard::setContent);
         Optional.ofNullable(newMemoryBoard.getCategory())
-                .ifPresent(oldMemoryBoard::setCategory);
+                .ifPresent(savedMemoryBoard::setCategory);
 
-        oldMemoryBoard.setModifiedAt(LocalDateTime.now());
+        savedMemoryBoard.setModifiedAt(LocalDateTime.now());
 
-        return oldMemoryBoard;
+        return savedMemoryBoard;
     }
 
     public MemoryBoard findMemoryBoard(long memoryBoardId) {
@@ -58,6 +58,6 @@ public class MemoryBoardService {
     private MemoryBoard findCorrectMemoryBoard(long memoryBoardId) {
         Optional<MemoryBoard> optional = repository.findById(memoryBoardId);
         return optional.orElseThrow(() ->
-                new BusinessLogicException(ExceptionCode.MEMORYBOARD_NOT_FOUND));
+                new BusinessLogicException(ExceptionCode.MEMORY_BOARD_NOT_FOUND));
     }
 }

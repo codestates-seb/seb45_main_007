@@ -1,4 +1,4 @@
-package com.codestates.main07.memory.board.dto;
+package com.codestates.main07.memoryBoard.board.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class MemoryBoardUpdateDto {
-    private String memberId;
+    private long memberId;
     private String title;
     private String content;
     private String category;

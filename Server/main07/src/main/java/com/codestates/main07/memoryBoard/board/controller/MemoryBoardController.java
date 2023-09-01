@@ -1,9 +1,10 @@
-package com.codestates.main07.memory.board.controller;
+package com.codestates.main07.memoryBoard.board.controller;
 
-import com.codestates.main07.memory.board.dto.*;
-import com.codestates.main07.memory.board.entity.MemoryBoard;
-import com.codestates.main07.memory.board.mapper.MemoryBoardMapper;
-import com.codestates.main07.memory.board.service.MemoryBoardService;
+import com.codestates.main07.memoryBoard.board.dto.*;
+import com.codestates.main07.memoryBoard.board.entity.MemoryBoard;
+import com.codestates.main07.memoryBoard.board.mapper.MemoryBoardMapper;
+import com.codestates.main07.memoryBoard.board.service.MemoryBoardService;
+import com.codestates.main07.memoryBoard.response.SuccessDto;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +28,8 @@ public class MemoryBoardController {
     public ResponseEntity createMemoryBoard(@RequestBody MemoryBoardCreateDto createDto) {
 
         MemoryBoard memoryBoard = mapper.createDtoToMemoryBoard(createDto);
-        service.createMemoryBoard(memoryBoard);
-        MemoryBoardResponseDto response = mapper.memoryBoardToResponseDto(memoryBoard);
+        MemoryBoard createdMemoryBoard = service.createMemoryBoard(memoryBoard);
+        MemoryBoardResponseDto response = mapper.memoryBoardToResponseDto(createdMemoryBoard);
 
         response.setSuccess(true);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -50,7 +51,7 @@ public class MemoryBoardController {
     }
 
     @GetMapping("/{memoryBoard-id}")
-    public ResponseEntity getMemoryBoard(@PathVariable ("memoryBoard-id") long memoryBoardId) {
+    public ResponseEntity viewMemoryBoard(@PathVariable ("memoryBoard-id") long memoryBoardId) {
 
         MemoryBoard memoryBoard = service.findMemoryBoard(memoryBoardId);
         MemoryBoardResponseDto response = mapper.memoryBoardToResponseDto(memoryBoard);
@@ -60,7 +61,7 @@ public class MemoryBoardController {
     }
 
     @GetMapping
-    public ResponseEntity getMemoryBoards(@Positive @RequestParam int page,
+    public ResponseEntity viewMemoryBoards(@Positive @RequestParam int page,
                                           @Positive @RequestParam int size) {
 
         Page<MemoryBoard> pageMemoryBoards = service.findMemoryBoards(page - 1, size);
@@ -68,7 +69,7 @@ public class MemoryBoardController {
         List<MemoryBoardResponsesDto> responses = mapper.memoryBoardsToResponsesDto(memoryBoards);
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(responses, pageMemoryBoards, true), HttpStatus.OK);
+                new MemoryBoardMultiResponseDto<>(responses, pageMemoryBoards, true), HttpStatus.OK);
     }
 
     @DeleteMapping("/{memoryBoard-id}")

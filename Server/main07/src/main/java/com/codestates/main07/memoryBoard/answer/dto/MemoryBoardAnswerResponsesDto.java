@@ -1,17 +1,16 @@
-package com.codestates.main07.memory.board.dto;
+package com.codestates.main07.memoryBoard.answer.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
-@AllArgsConstructor
-public class MemoryBoardResponsesDto {
-    private long memoryBoardId;
-    private String title;
+@Setter
+// success 없는 Response
+public class MemoryBoardAnswerResponsesDto {
+    private long memoryBoardAnswerId;
     private String content;
-    private String category;
     private boolean adopted;
 
     // member 구현 후엔 memberId 대신 nickname 사용
@@ -20,4 +19,7 @@ public class MemoryBoardResponsesDto {
 
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+
+    // 매핑 필요
+    private long memoryBoardId;
 }
