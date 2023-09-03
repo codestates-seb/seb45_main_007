@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/memoryBoards")
+@CrossOrigin
 public class MemoryBoardController {
     private final MemoryBoardService service;
     private final MemoryBoardMapper mapper;

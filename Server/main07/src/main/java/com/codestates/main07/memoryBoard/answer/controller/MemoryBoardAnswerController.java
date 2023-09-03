@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/memoryBoards")
+@CrossOrigin
 public class MemoryBoardAnswerController {
     private final MemoryBoardAnswerService service;
     private final MemoryBoardAnswerMapper mapper;
