@@ -7,6 +7,7 @@ import com.codestates.main07.member.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +18,7 @@ public class MemberService {
         @Autowired
         private MemberRepository memberRepository;
 
+        @Transactional
         public Member createMember(Member member) {
             if (memberRepository.existsById(member.getMemberId())) {
                 throw new BusinessLogicException(ExceptionCode.EMAIL_ALREADY_EXISTS);
@@ -24,6 +26,7 @@ public class MemberService {
             return memberRepository.save(member);
         }
 
+    @Transactional
     public Member updateMember(Member member) {
         if (!memberRepository.existsById(member.getMemberId())) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
@@ -31,6 +34,7 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
+    @Transactional(readOnly = true)
     public Member viewMember(long memberId) {
         Optional<Member> optionalMember = memberRepository.findById(memberId);
         if (!optionalMember.isPresent()) {
@@ -39,6 +43,7 @@ public class MemberService {
         return optionalMember.get();
     }
 
+    @Transactional(readOnly = true)
     public List<Member> viewMembers() {
         List<Member> members = memberRepository.findAll();
         if (members.isEmpty()) {
@@ -47,6 +52,7 @@ public class MemberService {
         return members;
     }
 
+    @Transactional
     public void deleteMember(long memberId) {
         if (!memberRepository.existsById(memberId)) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
