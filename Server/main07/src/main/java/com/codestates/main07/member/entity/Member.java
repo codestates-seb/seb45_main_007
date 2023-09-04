@@ -7,11 +7,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Column;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.Pattern;
@@ -53,4 +49,25 @@ public class Member {
 
     @LastModifiedDate
     private LocalDateTime modifiedAt;
+
+//    @OneToMany(mappedBy = "member")
+//    private List<MemoryBoard> memoryBoards;
+//
+//    @OneToMany(mappedBy = "member")
+//    private List<MemoryBoardAnswer> memoryBoardAnswers;
+//
+//    @OneToMany(mappedBy = "member")
+//    private List<MemoryBoardAnswerComment> memoryBoardAnswerComments;
+//
+//    @OneToMany(mappedBy = "author")
+//    private List<MemoryBoardAnswerAdopt> memoryBoardAnswerAdopts;
+//
+//    @OneToMany(mappedBy = "author")
+//    private List<BuySellBoard> buySellBoards;
+//
+//    @OneToMany(mappedBy = "author")
+//    private List<BuySellBoardComment> buySellBoardComments;
+//
+//    @OneToMany(mappedBy = "author")
+//    private List<BuySellBoardVote> buySellBoardVotes;
 }
