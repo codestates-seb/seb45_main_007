@@ -5,6 +5,8 @@ import lombok.Getter;
 public enum ExceptionCode {
     // 일반적인 상황
     MEMBER_NOT_FOUND(404, "회원을 찾을 수 없습니다"),
+    BOARD_NOT_FOUND(404, "게시글을 찾을 수 없습니다"),
+    COMMENT_NOT_FOUND(404, "댓글을 찾을 수 없습니다"),
     INVALID_REQUEST(400, "잘못된 요청입니다"),
 
     // 회원 가입과 관련된 예외
