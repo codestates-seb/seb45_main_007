@@ -24,9 +24,6 @@ public class ClubBoard {
     private String category;
 
     @Column
-    private boolean adopted;
-
-    @Column
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column
