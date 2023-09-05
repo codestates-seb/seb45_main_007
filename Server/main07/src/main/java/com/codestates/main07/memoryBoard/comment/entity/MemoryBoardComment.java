@@ -23,7 +23,4 @@ public class MemoryBoardComment {
 
     // 댓글 작성자
     private long memberId;
-
-    // 매핑 예정
-    private long memoryBoardAnswerId;
 }
