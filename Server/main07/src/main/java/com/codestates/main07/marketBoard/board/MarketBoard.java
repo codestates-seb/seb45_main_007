@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-@Table(name = "buysellBoard")
 @Entity
 public class MarketBoard {
 

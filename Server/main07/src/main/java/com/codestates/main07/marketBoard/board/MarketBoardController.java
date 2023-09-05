@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @Validated
-@RequestMapping("/buysellBoards")
+@RequestMapping("/marketBoards")
 @RestController
 public class MarketBoardController {
 }
