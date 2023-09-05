@@ -7,8 +7,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class MemoryBoardCommentResponsesDto {
-    private long memoryBoardCommentId;
+public class ClubBoardCommentResponsesDto {
+    private long clubBoardCommentId;
     private String content;
     LocalDateTime createdAt = LocalDateTime.now();
     LocalDateTime modifiedAt = LocalDateTime.now();
@@ -17,5 +17,5 @@ public class MemoryBoardCommentResponsesDto {
     private long memberId;
 
     // 매핑 예정
-    private long memoryBoardAnswerId;
+    private long clubBoardId;
 }

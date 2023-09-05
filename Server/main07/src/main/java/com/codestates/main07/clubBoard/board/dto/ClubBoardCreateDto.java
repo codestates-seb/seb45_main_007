@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class MemoryBoardCreateDto {
+public class ClubBoardCreateDto {
     private long memberId;
     private String title;
     private String content;

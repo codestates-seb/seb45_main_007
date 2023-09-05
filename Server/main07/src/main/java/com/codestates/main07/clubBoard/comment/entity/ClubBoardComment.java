@@ -9,10 +9,10 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-public class MemoryBoardComment {
+public class ClubBoardComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long memoryBoardCommentId;
+    private long clubBoardCommentId;
 
     @Column(columnDefinition = "TEXT")
     private String content;
@@ -23,4 +23,7 @@ public class MemoryBoardComment {
 
     // 댓글 작성자
     private long memberId;
+
+    // 매핑
+    private long clubBoardId;
 }

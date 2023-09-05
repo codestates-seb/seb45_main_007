@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class MemoryBoardUpdateDto {
+public class ClubBoardUpdateDto {
     private long memberId;
     private String title;
     private String content;

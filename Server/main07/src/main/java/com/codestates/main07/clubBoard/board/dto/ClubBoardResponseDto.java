@@ -9,13 +9,12 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @AllArgsConstructor
-public class MemoryBoardResponseDto {
+public class ClubBoardResponseDto {
     private boolean success;
-    private long memoryBoardId;
+    private long clubBoardId;
     private String title;
     private String content;
     private String category;
-    private boolean adopted;
 
     // member 구현 후엔 memberId 대신 nickname 사용
     private long memberId;

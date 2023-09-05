@@ -9,10 +9,10 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-public class MemoryBoard {
+public class ClubBoard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long memoryBoardId;
+    private long clubBoardId;
 
     @Column(length = 100)
     private String title;
