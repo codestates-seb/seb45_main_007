@@ -43,12 +43,13 @@ public class Member {
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W).*$", message = "영문, 숫자, 특수문자를 포함해주세요.")
     private String password;
 
-    @CreatedDate
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    private LocalDateTime modifiedAt;
+//    audit 브랜치에서 클래스 생성 예정
+//    @CreatedDate
+//    @Column(updatable = false)
+//    private LocalDateTime createdAt;
+//
+//    @LastModifiedDate
+//    private LocalDateTime modifiedAt;
 
 //    @OneToMany(mappedBy = "member")
 //    private List<MemoryBoard> memoryBoards;
@@ -59,15 +60,15 @@ public class Member {
 //    @OneToMany(mappedBy = "member")
 //    private List<MemoryBoardAnswerComment> memoryBoardAnswerComments;
 //
-//    @OneToMany(mappedBy = "author")
+//    @OneToMany(mappedBy = "member")
 //    private List<MemoryBoardAnswerAdopt> memoryBoardAnswerAdopts;
 //
-//    @OneToMany(mappedBy = "author")
+//    @OneToMany(mappedBy = "member")
 //    private List<BuySellBoard> buySellBoards;
 //
-//    @OneToMany(mappedBy = "author")
+//    @OneToMany(mappedBy = "member")
 //    private List<BuySellBoardComment> buySellBoardComments;
 //
-//    @OneToMany(mappedBy = "author")
+//    @OneToMany(mappedBy = "member")
 //    private List<BuySellBoardVote> buySellBoardVotes;
 }

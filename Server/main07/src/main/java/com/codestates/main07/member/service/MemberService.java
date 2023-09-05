@@ -1,8 +1,8 @@
 package com.codestates.main07.member.service;
 
 import com.codestates.main07.member.entity.Member;
-import com.codestates.main07.member.exception.BusinessLogicException;
-import com.codestates.main07.member.exception.ExceptionCode;
+//import com.codestates.main07.exception.BusinessLogicException;
+//import com.codestates.main07.exception.ExceptionCode;
 import com.codestates.main07.member.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,43 +20,43 @@ public class MemberService {
 
         @Transactional
         public Member createMember(Member member) {
-            if (memberRepository.existsById(member.getMemberId())) {
-                throw new BusinessLogicException(ExceptionCode.EMAIL_ALREADY_EXISTS);
-            }
+//            if (memberRepository.existsById(member.getMemberId())) {
+//                throw new BusinessLogicException(ExceptionCode.EMAIL_ALREADY_EXISTS);
+//            }
             return memberRepository.save(member);
         }
 
     @Transactional
     public Member updateMember(Member member) {
-        if (!memberRepository.existsById(member.getMemberId())) {
-            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
-        }
+//        if (!memberRepository.existsById(member.getMemberId())) {
+//            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+//        }
         return memberRepository.save(member);
     }
 
     @Transactional(readOnly = true)
     public Member viewMember(long memberId) {
         Optional<Member> optionalMember = memberRepository.findById(memberId);
-        if (!optionalMember.isPresent()) {
-            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
-        }
+//        if (!optionalMember.isPresent()) {
+//            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+//        }
         return optionalMember.get();
     }
 
     @Transactional(readOnly = true)
     public List<Member> viewMembers() {
         List<Member> members = memberRepository.findAll();
-        if (members.isEmpty()) {
-            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
-        }
+//        if (members.isEmpty()) {
+//            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+//        }
         return members;
     }
 
     @Transactional
     public void deleteMember(long memberId) {
-        if (!memberRepository.existsById(memberId)) {
-            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
-        }
+//        if (!memberRepository.existsById(memberId)) {
+//            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+//        }
         memberRepository.deleteById(memberId);
     }
 }
