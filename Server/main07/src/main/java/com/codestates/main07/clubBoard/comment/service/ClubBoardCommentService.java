@@ -2,8 +2,8 @@ package com.codestates.main07.clubBoard.comment.service;
 
 import com.codestates.main07.clubBoard.comment.entity.ClubBoardComment;
 import com.codestates.main07.clubBoard.comment.repository.ClubBoardCommentRepository;
-import com.codestates.main07.clubBoard.exception.BusinessLogicException;
-import com.codestates.main07.clubBoard.exception.ExceptionCode;
+import com.codestates.main07.exception.BusinessLogicException;
+import com.codestates.main07.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;

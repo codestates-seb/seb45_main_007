@@ -2,13 +2,13 @@ package com.codestates.main07.clubBoard.board.service;
 
 import com.codestates.main07.clubBoard.board.entity.ClubBoard;
 import com.codestates.main07.clubBoard.board.repository.ClubBoardRepository;
-import com.codestates.main07.clubBoard.exception.BusinessLogicException;
-import com.codestates.main07.clubBoard.exception.ExceptionCode;
+import com.codestates.main07.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.codestates.main07.exception.BusinessLogicException;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
