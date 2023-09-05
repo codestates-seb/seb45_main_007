@@ -1,4 +1,4 @@
-package com.codestates.main07.buysellBoard.comment;
+package com.codestates.main07.marketBoard.board;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Table(name = "buysellBoard")
 @Entity
-public class BuysellBoardComment {
+public class MarketBoard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

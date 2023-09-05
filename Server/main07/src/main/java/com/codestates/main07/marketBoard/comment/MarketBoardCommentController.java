@@ -1,4 +1,4 @@
-package com.codestates.main07.buysellBoard.comment;
+package com.codestates.main07.marketBoard.comment;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RequestMapping("/buysellBoardComments")
 @RestController
-public class BuysellBoardCommentController {
+public class MarketBoardCommentController {
 }
