@@ -17,8 +17,17 @@ public class ClubBoard {
     @Column(length = 100)
     private String title;
 
-    @Column(columnDefinition = "TEXT")
+    @Lob
+    @Column
     private String content;
+
+    @Lob
+    @Column
+    private byte[] photo;
+
+    @Lob
+    @Column
+    private byte[] voice;
 
     @Column
     private String category;

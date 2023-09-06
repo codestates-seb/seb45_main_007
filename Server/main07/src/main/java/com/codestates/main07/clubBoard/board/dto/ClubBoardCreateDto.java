@@ -9,5 +9,7 @@ public class ClubBoardCreateDto {
     private long memberId;
     private String title;
     private String content;
+    private byte[] photo;
+    private byte[] voice;
     private String category;
 }

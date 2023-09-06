@@ -11,6 +11,8 @@ public class ClubBoardResponsesDto {
     private long clubBoardId;
     private String title;
     private String content;
+    private byte[] photo;
+    private byte[] voice;
     private String category;
 
     // member 구현 후엔 memberId 대신 nickname 사용
