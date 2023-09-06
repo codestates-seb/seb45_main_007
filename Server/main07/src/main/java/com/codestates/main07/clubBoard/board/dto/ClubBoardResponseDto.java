@@ -22,6 +22,7 @@ public class ClubBoardResponseDto {
     private long memberId;
 //        private String nickname;
 
+    private int viewCount;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 }

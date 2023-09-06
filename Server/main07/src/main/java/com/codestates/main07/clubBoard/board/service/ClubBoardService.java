@@ -60,4 +60,8 @@ public class ClubBoardService {
         return optional.orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
     }
+
+    public void plusViewCount(ClubBoard clubBoard) {
+        clubBoard.setViewCount(clubBoard.getViewCount() + 1);
+    }
 }

@@ -55,6 +55,7 @@ public class ClubBoardController {
     public ResponseEntity viewClubBoard(@PathVariable ("clubBoard-id") long clubBoardId) {
 
         ClubBoard clubBoard = service.findClubBoard(clubBoardId);
+        service.plusViewCount(clubBoard);
         ClubBoardResponseDto response = mapper.clubBoardToResponseDto(clubBoard);
 
         response.setSuccess(true);
