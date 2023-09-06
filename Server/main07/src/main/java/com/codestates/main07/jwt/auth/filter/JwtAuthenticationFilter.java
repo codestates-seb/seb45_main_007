@@ -1,8 +1,9 @@
 package com.codestates.main07.jwt.auth.filter;
 
-import com.codestates.main07.security.jwt.auth.jwt.JwtTokenizer;
+import com.codestates.main07.jwt.auth.jwt.JwtTokenizer;
 import com.codestates.main07.jwt.login.LoginDto;
 import com.codestates.main07.jwt.login.LoginResponseDto;
+import com.codestates.main07.member.entity.Member;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 // Username/Password 기반의 인증을 처리하기 위해 UsernamePasswordAuthenticationFilter를 확장해서 구현
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -95,12 +97,25 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             claims.put("username", username);
         }
 
+        // "authorities" 클레임 추가
+        List<String> authorities = member.getRoles().stream()
+                .map(role -> "ROLE_" + role)
+                .collect(Collectors.toList());
+        claims.put("authorities", authorities);
+
         String subject = member.getEmail();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
 
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
 
-        String accessToken = jwtTokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKey, member.getMemberId(), member.getEmail(), member.getUsername());
+        String accessToken = jwtTokenizer.generateAccessToken(claims,
+                subject,
+                expiration,
+                base64EncodedSecretKey,
+                member.getMemberId(),
+                member.getEmail(),
+                member.getUsername(),
+                authorities);
 
         return accessToken;
     }

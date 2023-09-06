@@ -1,5 +1,6 @@
 package com.codestates.main07.jwt.utils;
 
+import com.codestates.main07.member.entity.Member;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -16,21 +17,34 @@ public class CustomAuthorityUtils {
     private String adminMailAddress;
 
     private final List<GrantedAuthority> ADMIN_ROLES = AuthorityUtils.createAuthorityList("ROLE_ADMIN", "ROLE_USER");
-    private final List<GrantedAuthority> USER_ROLES = AuthorityUtils.createAuthorityList("ROLE_USER");
     private final List<String> ADMIN_ROLES_STRING = List.of("ADMIN", "USER");
     private final List<String> USER_ROLES_STRING = List.of("USER");
 
-    // 메모리 상의 Role을 기반으로 권한 정보 생성.
+
+    // 메모리 상의 Role을 기반으로 권한 정보 생성
     public List<GrantedAuthority> createAuthorities(String email) {
+        List<GrantedAuthority> authorities;
         if (email.equals(adminMailAddress)) {
-            return ADMIN_ROLES;
+            authorities = ADMIN_ROLES;
+        } else {
+            authorities = USER_ROLES_STRING.stream()
+                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                    .collect(Collectors.toList());
         }
-        return USER_ROLES;
+        return authorities;
     }
 
     // DB에 저장된 Role을 기반으로 권한 정보 생성
-    public List<GrantedAuthority> createAuthorities(List<String> roles) {
+    public List<GrantedAuthority> createAuthoritiesFromRoles(List<String> roles) {
         List<GrantedAuthority> authorities = roles.stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                .collect(Collectors.toList());
+        return authorities;
+    }
+
+    // Member 객체를 기반으로 권한 정보 생성
+    public List<GrantedAuthority> createAuthorities(Member member) {
+        List<GrantedAuthority> authorities = member.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toList());
         return authorities;

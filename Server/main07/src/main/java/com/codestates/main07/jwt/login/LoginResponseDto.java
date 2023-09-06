@@ -1,5 +1,6 @@
 package com.codestates.main07.jwt.login;
 
+import com.codestates.main07.member.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 

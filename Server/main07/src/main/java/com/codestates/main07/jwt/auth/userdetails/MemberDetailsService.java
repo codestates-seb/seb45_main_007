@@ -1,16 +1,24 @@
 package com.codestates.main07.jwt.auth.userdetails;
 
-
-
+import com.codestates.main07.exception.BusinessLogicException;
+import com.codestates.main07.exception.ExceptionCode;
 import com.codestates.main07.jwt.utils.CustomAuthorityUtils;
+import com.codestates.main07.member.entity.Member;
+import com.codestates.main07.member.repository.MemberRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+
+import static org.apache.tomcat.jni.SSL.setPassword;
 
 @Component
 public class MemberDetailsService implements UserDetailsService {
@@ -36,12 +44,20 @@ public class MemberDetailsService implements UserDetailsService {
             setMemberId(member.getMemberId());
             setEmail(member.getEmail());
             setPassword(member.getPassword());
-            setRoles(member.getRoles());
+//            setRole(member.getRole());
         }
 
         @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
-            return authorityUtils.createAuthorities(this.getRoles());
+            List<GrantedAuthority> authorities = new ArrayList<>();
+
+            // 스프링 시큐리티에서 권한 정보를 가져와서 authorities에 추가
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null) {
+                authorities.addAll(authentication.getAuthorities());
+            }
+
+            return authorities;
         }
 
         @Override

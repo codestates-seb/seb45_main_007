@@ -1,7 +1,7 @@
 package com.codestates.main07.jwt.auth.filter;
 
-import com.preproject_35.security.auth.jwt.JwtTokenizer;
-import com.preproject_35.security.utils.CustomAuthorityUtils;
+import com.codestates.main07.jwt.auth.jwt.JwtTokenizer;
+import com.codestates.main07.jwt.utils.CustomAuthorityUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -69,7 +69,13 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 
     private void setAuthenticationToContext(Map<String, Object> claims) {
         String username = (String) claims.get("username");   // JWT에서 파싱 한 Claims에서 username을 얻습니다.
-        List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List)claims.get("roles"));  // 얻은 권한 정보를 기반으로 List를 생성
+
+        // "authorities" 클레임을 List<String>으로 형변환
+        List<String> authoritiesClaim = (List<String>) claims.get("authorities");
+
+        // 권한 정보 생성
+        List<GrantedAuthority> authorities = authorityUtils.createAuthoritiesFromRoles(authoritiesClaim);
+
         Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);  // Authentication 객체를 생성
         SecurityContextHolder.getContext().setAuthentication(authentication); // SecurityContext에 Authentication 객체를 저장
     }
