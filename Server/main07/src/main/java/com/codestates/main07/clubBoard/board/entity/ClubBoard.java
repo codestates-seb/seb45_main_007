@@ -1,10 +1,13 @@
 package com.codestates.main07.clubBoard.board.entity;
 
+import com.codestates.main07.clubBoard.comment.entity.ClubBoardComment;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -43,4 +46,7 @@ public class ClubBoard {
 
     // 찾아줘 글 작성자
     private long memberId;
+
+    @OneToMany(mappedBy = "clubBoard") // mappedBy 에는 변수명 그대로 사용
+    private List<ClubBoardComment> comments = new ArrayList<>();
 }

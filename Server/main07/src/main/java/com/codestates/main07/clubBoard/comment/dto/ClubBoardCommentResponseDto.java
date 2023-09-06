@@ -1,6 +1,7 @@
 package com.codestates.main07.clubBoard.comment.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -17,6 +18,5 @@ public class ClubBoardCommentResponseDto {
     // 댓글 작성자
     private long memberId;
 
-    // 매핑 예정
     private long clubBoardId;
 }

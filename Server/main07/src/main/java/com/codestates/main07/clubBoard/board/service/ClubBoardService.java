@@ -47,7 +47,7 @@ public class ClubBoardService {
 
     public Page<ClubBoard> findClubBoards(int page, int size) {
         return repository.findAll(PageRequest.of(page, size,
-                Sort.by("memoryBoardId").descending()));
+                Sort.by("clubBoardId").descending()));
     }
 
     public void deleteClubBoard(long clubBoardId) {

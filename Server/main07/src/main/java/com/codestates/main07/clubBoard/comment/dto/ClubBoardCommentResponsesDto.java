@@ -16,6 +16,14 @@ public class ClubBoardCommentResponsesDto {
     // 댓글 작성자
     private long memberId;
 
-    // 매핑 예정
     private long clubBoardId;
+
+    public ClubBoardCommentResponsesDto(long clubBoardCommentId, String content, LocalDateTime createdAt, LocalDateTime modifiedAt, long memberId, long clubBoardId) {
+        this.clubBoardCommentId = clubBoardCommentId;
+        this.content = content;
+        this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
+        this.memberId = memberId;
+        this.clubBoardId = clubBoardId;
+    }
 }

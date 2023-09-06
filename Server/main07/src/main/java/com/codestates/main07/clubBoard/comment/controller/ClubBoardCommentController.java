@@ -1,5 +1,7 @@
 package com.codestates.main07.clubBoard.comment.controller;
 
+import com.codestates.main07.clubBoard.board.entity.ClubBoard;
+import com.codestates.main07.clubBoard.board.service.ClubBoardService;
 import com.codestates.main07.clubBoard.comment.dto.*;
 import com.codestates.main07.clubBoard.comment.entity.ClubBoardComment;
 import com.codestates.main07.clubBoard.comment.mapper.ClubBoardCommentMapper;
@@ -17,18 +19,22 @@ import java.util.List;
 @CrossOrigin
 public class ClubBoardCommentController {
     private final ClubBoardCommentService service;
+    private final ClubBoardService boardService;
     private final ClubBoardCommentMapper mapper;
 
-    public ClubBoardCommentController(ClubBoardCommentService service, ClubBoardCommentMapper mapper) {
+    public ClubBoardCommentController(ClubBoardCommentService service, ClubBoardCommentMapper mapper, ClubBoardService boardService) {
         this.service = service;
         this.mapper = mapper;
+        this.boardService = boardService;
     }
 
-    @PostMapping("/{clubBoards-id}/clubBoards")
+    @PostMapping("/{clubBoards-id}/comments")
     public ResponseEntity createComment(@PathVariable ("clubBoards-id") long clubBoardId,
                                         @RequestBody ClubBoardCommentCreateDto createDto) {
 
         ClubBoardComment comment = mapper.createDtoToComment(createDto);
+        comment.setClubBoard(boardService.findClubBoard(clubBoardId));
+
         ClubBoardComment createdComment = service.createComment(comment);
         ClubBoardCommentResponseDto response = mapper.commentToResponseDTo(createdComment);
 
@@ -66,7 +72,7 @@ public class ClubBoardCommentController {
                                        @RequestParam int page,
                                        @RequestParam int size) {
 
-        Page<ClubBoardComment> pageComments = service.findComments(page, size);
+        Page<ClubBoardComment> pageComments = service.findComments(page - 1, size);
         List<ClubBoardComment> comments = pageComments.getContent();
         List<ClubBoardCommentResponsesDto> responses = mapper.commentsToResponsesDto(comments);
 

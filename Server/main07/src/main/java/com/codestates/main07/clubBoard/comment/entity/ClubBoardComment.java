@@ -1,5 +1,6 @@
 package com.codestates.main07.clubBoard.comment.entity;
 
+import com.codestates.main07.clubBoard.board.entity.ClubBoard;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,6 +25,7 @@ public class ClubBoardComment {
     // 댓글 작성자
     private long memberId;
 
-    // 매핑
-    private long clubBoardId;
+    @ManyToOne // many = comment, one = board
+    @JoinColumn(columnDefinition = "club_board_id")
+    private ClubBoard clubBoard;
 }
