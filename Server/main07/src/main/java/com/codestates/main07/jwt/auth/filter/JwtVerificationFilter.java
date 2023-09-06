@@ -1,4 +1,4 @@
-package com.codestates.main07.security.jwt.auth.filter;
+package com.codestates.main07.jwt.auth.filter;
 
 import com.preproject_35.security.auth.jwt.JwtTokenizer;
 import com.preproject_35.security.utils.CustomAuthorityUtils;

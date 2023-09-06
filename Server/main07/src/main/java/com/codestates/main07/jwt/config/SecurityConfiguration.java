@@ -1,4 +1,4 @@
-package com.codestates.main07.security.jwt.config;
+package com.codestates.main07.jwt.config;
 
 
 import com.codestates.main07.security.jwt.auth.filter.JwtAuthenticationFilter;

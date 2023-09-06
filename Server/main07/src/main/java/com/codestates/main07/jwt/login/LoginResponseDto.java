@@ -1,4 +1,4 @@
-package com.codestates.main07.security.jwt.login;
+package com.codestates.main07.jwt.login;
 
 import lombok.Getter;
 import lombok.Setter;

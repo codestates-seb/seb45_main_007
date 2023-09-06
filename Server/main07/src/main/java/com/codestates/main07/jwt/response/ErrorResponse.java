@@ -1,4 +1,4 @@
-package com.codestates.main07.security.jwt.response;
+package com.codestates.main07.jwt.response;
 
 import org.springframework.http.HttpStatus;
 import lombok.Getter;

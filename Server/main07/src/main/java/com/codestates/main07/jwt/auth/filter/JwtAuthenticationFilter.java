@@ -1,8 +1,8 @@
-package com.codestates.main07.security.jwt.auth.filter;
+package com.codestates.main07.jwt.auth.filter;
 
 import com.codestates.main07.security.jwt.auth.jwt.JwtTokenizer;
-import com.codestates.main07.security.jwt.login.LoginDto;
-import com.codestates.main07.security.jwt.login.LoginResponseDto;
+import com.codestates.main07.jwt.login.LoginDto;
+import com.codestates.main07.jwt.login.LoginResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;

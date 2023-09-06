@@ -1,8 +1,8 @@
-package com.codestates.main07.security.jwt.auth.userdetails;
+package com.codestates.main07.jwt.auth.userdetails;
 
 
 
-import com.codestates.main07.security.jwt.utils.CustomAuthorityUtils;
+import com.codestates.main07.jwt.utils.CustomAuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
