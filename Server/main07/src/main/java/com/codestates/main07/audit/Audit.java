@@ -36,7 +36,7 @@ public class Audit {
   }
 ----------------------------------------------------
   그리고 메인 클래스(Main07Application)에
-  @SpringBootApplication 아래에
-  @EnableJpaAuditing 어노테이션을 추가합니다.
+  @SpringBootApplication 위에
+  @EnableJpaAuditing 어노테이션을 추가했습니다.
  ---------------------------------------------------*/
 
