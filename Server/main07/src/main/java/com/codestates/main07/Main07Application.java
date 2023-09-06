@@ -13,7 +13,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
  * @사용법: 이러한 auditing 기능을 사용하기 위해서는: 메인 애플리케이션 클래스에 @EnableJpaAuditing 애너테이션을 추가하여 auditing 기능을 활성화해야 합니다.
  */
 
-@EnableJpaAuditing
 @SpringBootApplication
 public class Main07Application {
 
