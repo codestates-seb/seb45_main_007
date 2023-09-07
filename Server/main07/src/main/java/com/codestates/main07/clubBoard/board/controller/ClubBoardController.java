@@ -71,12 +71,27 @@ public class ClubBoardController {
         List<ClubBoardResponsesDto> responses = mapper.clubBoardsToResponsesDto(clubBoards);
 
         return new ResponseEntity<>(
-                new ClubBoardMultiResponseDto<>(responses, pageClubBoards, true), HttpStatus.OK);
+                new ClubBoardMultiResponseDto<>(responses, pageClubBoards, true), HttpStatus.OK
+        );
     }
 
     @DeleteMapping("/{clubBoard-id}")
     public ResponseEntity deleteClubBoard(@PathVariable ("clubBoard-id") long clubBoardId) {
         service.deleteClubBoard(clubBoardId);
         return new ResponseEntity<>(new SuccessDto(true), HttpStatus.OK);
+    }
+
+    // 검색 기능
+    @GetMapping("/searches")
+    public ResponseEntity searchClubBoardsByTitle(@Positive @RequestParam int page,
+                                                  @Positive @RequestParam int size,
+                                                  @Positive @RequestParam String keyword) {
+
+        Page<ClubBoard> pageClubBoards = service.searchClubBoardsByTitle(page - 1, size, keyword);
+        List<ClubBoard> clubBoards = pageClubBoards.getContent();
+        List<ClubBoardResponsesDto> responses = mapper.clubBoardsToResponsesDto(clubBoards);
+
+        return new ResponseEntity<>(
+                new ClubBoardMultiResponseDto<>(responses, pageClubBoards, true), HttpStatus.OK);
     }
 }

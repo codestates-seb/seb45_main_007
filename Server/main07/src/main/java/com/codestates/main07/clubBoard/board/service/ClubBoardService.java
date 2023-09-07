@@ -5,6 +5,7 @@ import com.codestates.main07.clubBoard.board.repository.ClubBoardRepository;
 import com.codestates.main07.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,6 +54,12 @@ public class ClubBoardService {
     public void deleteClubBoard(long clubBoardId) {
         ClubBoard clubBoard = findCorrectClubBoard(clubBoardId);
         repository.delete(clubBoard);
+    }
+
+    public Page<ClubBoard> searchClubBoardsByTitle(int page, int size, String keyword) {
+        Pageable pageable = PageRequest.of(page, size,
+                Sort.by("clubBoardId").descending());
+        return repository.findByTitleContaining(pageable, keyword);
     }
 
     private ClubBoard findCorrectClubBoard(long clubBoardId) {
