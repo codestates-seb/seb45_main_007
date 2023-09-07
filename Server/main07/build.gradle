@@ -43,10 +43,12 @@ dependencies {
 	runtimeOnly	'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
 	implementation 'com.google.code.gson:gson:2.8.9'
-	// 예외처리 사용 위한 라이브러리
+	// 예외처리
 	implementation 'javax.validation:validation-api:2.0.1.Final'
 	implementation 'org.hibernate.validator:hibernate-validator:6.0.21.Final'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	// 테스트 케이스 작성
+	testImplementation 'junit:junit:4.12'
 }
 
 tasks.named('test') {

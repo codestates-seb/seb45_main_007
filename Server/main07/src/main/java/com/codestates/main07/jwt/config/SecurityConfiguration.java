@@ -79,7 +79,7 @@ public class SecurityConfiguration {
 
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "PATCH", "DELETE"));
         configuration.setAllowedOrigins(Arrays.asList(
-                "http://munjaenow.s3-website.ap-northeast-2.amazonaws.com/",
+                // "http://munjaenow.s3-website.ap-northeast-2.amazonaws.com/", (이번 메인 프로젝트 s3 아마존 주소 입력)
                 "http://localhost:3000"
         ));
         configuration.setAllowedHeaders(Arrays.asList("*"));
