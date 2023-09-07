@@ -56,7 +56,7 @@ public class SecurityConfiguration {
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-                        .antMatchers(HttpMethod.POST, "/*/members/signup").permitAll()         // 회원등록 누구나 가능
+                        .antMatchers(HttpMethod.POST, "/*/members").permitAll()         // 회원등록 누구나 가능
                         .antMatchers(HttpMethod.PATCH, "/*/members/**").hasRole("USER")  // 회원 정보 수정 회원만 가능
                         .antMatchers(HttpMethod.GET, "/*/members").hasRole("ADMIN")     // 모든 회원 정보는 관리자만 접근 가능
                         .antMatchers(HttpMethod.GET, "/*/members/**").hasAnyRole("USER", "ADMIN")  // 특정 회원 조회 누구나
