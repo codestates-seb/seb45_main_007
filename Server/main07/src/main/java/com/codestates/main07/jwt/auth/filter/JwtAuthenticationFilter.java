@@ -97,8 +97,20 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             claims.put("username", username);
         }
 
+
+        /*
+        *회원 등록 시 List<String> authorities 메서드의 멤버 권한 Null 예외가 발생하였다.
+        *원인 파악: 왜 member.getRoles()가 null을 반환하는지 확인해야 합니다.
+                 member 객체를 DB나 다른 데이터 소스에서 가져오는 로직을 확인하여 roles 필드가 제대로 설정되어 있는지,
+                 또는 roles 필드에 기본 값이 제대로 할당되어 있는지 확인해야 합니다.
+
+        *예외 처리 강화: 더 강력한 예외 처리를 통해 이와 같은 문제가 발생했을 때
+                     명확한 에러 메시지를 반환하도록 코드를 개선할 수 있습니다.
+         */
+
         // "authorities" 클레임 추가
-        List<String> authorities = member.getRoles().stream()
+        List<String> authorities = (member.getRoles() != null ? member.getRoles() : Collections.emptyList())
+                .stream()
                 .map(role -> "ROLE_" + role)
                 .collect(Collectors.toList());
         claims.put("authorities", authorities);

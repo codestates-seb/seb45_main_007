@@ -10,6 +10,7 @@ import com.codestates.main07.jwt.auth.handler.MemberAuthenticationFailureHandler
 import com.codestates.main07.jwt.auth.handler.MemberAuthenticationSuccessHandler;
 import com.codestates.main07.jwt.auth.jwt.JwtTokenizer;
 import com.codestates.main07.jwt.utils.CustomAuthorityUtils;
+import com.codestates.main07.jwt.utils.SHA256PasswordEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -69,8 +70,9 @@ public class SecurityConfiguration {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        return new SHA256PasswordEncoder();
     }
+
 
 
     @Bean
@@ -79,7 +81,6 @@ public class SecurityConfiguration {
 
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "PATCH", "DELETE"));
         configuration.setAllowedOrigins(Arrays.asList(
-                // "http://munjaenow.s3-website.ap-northeast-2.amazonaws.com/", (이번 메인 프로젝트 s3 아마존 주소 입력)
                 "http://localhost:3000"
         ));
         configuration.setAllowedHeaders(Arrays.asList("*"));

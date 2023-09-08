@@ -40,9 +40,9 @@ public class Member extends Audit {
     @Pattern(regexp = "^[가-힣a-zA-Z]*$", message = "한글 및 영어만 가능합니다.")
     private String nickname;
 
-    @Column(length = 16)
-    @Size(min = 8, max = 16, message = "8자 이상 16자 이하로 입력해주세요.")
-    @Pattern(regexp = "^(?=.*[a-zA-Z0-9\\W]).*$", message = "영문, 숫자, 특수문자 중 하나 이상을 포함해야 합니다.")
+//    해싱된 비밀번호가 저장되기 때문에 유효성 검사에 실패하여 조건을 삭제하였음.
+//    대신 PostDto에 비밀번호에 대한 조건을 추가하여 회원등록 시 올바른 비밀번호 형식을 유지하게끔 하였음.
+    @Column(length = 64) // SHA-256 해싱 방법을 사용하기 위한 크기 설정
     private String password;
 
     @ElementCollection(fetch = FetchType.EAGER)
