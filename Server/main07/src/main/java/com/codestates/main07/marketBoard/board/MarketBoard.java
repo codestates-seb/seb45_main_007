@@ -1,31 +1,49 @@
 package com.codestates.main07.marketBoard.board;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class MarketBoard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long marketBoardId;
 
+    @Column(length = 100, nullable = false)
     private String title;
 
+    @Lob
+    @Column (nullable = false)
     private String content;
 
-    private LocalDateTime createdAt;
+    @Lob
+    private byte[] photo;
 
-    private LocalDateTime modifiedAt;
-
-    private LocalDateTime deletedAt;
+    @Column(nullable = false)
+    private int viewCount;
 
 //    @ManyToOne
 //    @JoinColumn(name = "member_id")
 //    private Member member;
+
+//    @Builder
+//    public MarketBoard(String title, String content, byte[] photo, int viewCount) { //Member member 추가예정
+//        this.title = title;
+//        this.content = content;
+//        this.photo = photo;
+//        this.viewCount = viewCount;
+//        this.member = member;
+//    }
+
+//    public void update(String title, String content, byte[] photo) {
+//        this.title = title;
+//        this.content = content;
+//        this.photo = photo;
+//    }
 }
