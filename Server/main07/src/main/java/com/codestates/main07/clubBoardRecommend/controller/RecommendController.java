@@ -1,5 +1,6 @@
 package com.codestates.main07.clubBoardRecommend.controller;
 
+import com.codestates.main07.clubBoard.dto.ClubBoardResponseDto;
 import com.codestates.main07.clubBoardRecommend.dto.RecommendPatchDto;
 import com.codestates.main07.clubBoardRecommend.dto.RecommendPostDto;
 import com.codestates.main07.clubBoardRecommend.dto.RecommendResponseDto;

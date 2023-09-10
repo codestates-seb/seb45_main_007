@@ -20,5 +20,5 @@ public interface RecommendRepository extends JpaRepository<Recommend, Long> {
 
     boolean existsByClubBoard_ClubBoardIdAndMember_MemberId(long clubBoardId, long memberId);
 
-    Page<ClubBoard> findByMember_MemberIdAndIsRecommendedTure(long memberId, Pageable pageable);
+    Page<Recommend> findByMember_MemberIdAndIsRecommendedTure(long memberId, Pageable pageable);
 }

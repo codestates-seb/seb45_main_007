@@ -12,5 +12,6 @@ import org.mapstruct.Mapping;
 public interface RecommendMapper {
     Recommend recommendPostDtoToRecommend(RecommendPostDto recommendPostDto);
     Recommend recommendPatchDtoToRecommend(RecommendPatchDto recommendPatchDto);
+    Recommend recommenResponseDtoToRecommend(RecommendResponseDto recommendResponseDto);
     RecommendResponseDto recommendToRecommendResponseDto(Recommend recommend);
 }

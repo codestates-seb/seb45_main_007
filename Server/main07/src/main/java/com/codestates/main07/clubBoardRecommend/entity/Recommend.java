@@ -24,9 +24,11 @@ public class Recommend {
     private boolean recommended;
     private long recommendCount;
 
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColmn(name = "memberId")
     private MemberId memberId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "clubBoardId")
     private ClubBoardId clubBoardId;
 }
