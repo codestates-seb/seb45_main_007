@@ -27,7 +27,7 @@ public class RecommendController {
 
     @GetMapping("/{clubBoard-id}")
     public ResponseEntity<Long> getRecommendCount(@PathVariable long clubBoardId) {
-        long recommendCount = RecommendService.getRecommendCount(clubBoardId);
+        long recommendCount = recommendService.getRecommendCount(clubBoardId);
         return ResponseEntity.ok(recommendCount);
     }
 
@@ -40,7 +40,7 @@ public class RecommendController {
     @PostMapping("/{clubBoard-id}/{member-id}")
     public ResponseEntity<RecommendResponseDto> createRecommend(@PathVariable long clubBoardId, @PathVariable long memberId,
                                                                 @RequestBody RecommendPostDto recommendPostDto) {
-        boolean recommended = recommendPostDto.recommended();
+        boolean recommended = recommendPostDto.isRecommended();
         recommendService.createRecommend(clubBoardId, memberId, recommended);
         long recommendCount = recommendService.getRecommendCount(clubBoardId);
 
