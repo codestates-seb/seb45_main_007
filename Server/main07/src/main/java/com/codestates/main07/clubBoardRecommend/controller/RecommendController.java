@@ -44,10 +44,10 @@ public class RecommendController {
         recommendService.createRecommend(clubBoardId, memberId, recommended);
         long recommendCount = recommendService.getRecommendCount(clubBoardId);
 
-        boolean updatedRecommended = recommendRepository.existsByClubBoard_ClubBoardIdAndMember_MemberId(clubBoardId, memberId);
+        //boolean updatedRecommended = recommendRepository.existsByClubBoard_ClubBoardIdAndMember_MemberId(clubBoardId, memberId);
 
         RecommendResponseDto responseDto = new RecommendResponseDto(recommendCount, recommended);
-        return ResponseEntity.ok(responseDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
     @DeleteMapping("/{clubBoard-id}/{member-id}")
@@ -57,7 +57,7 @@ public class RecommendController {
         long recommendCount = recommendRepository.countByClubBoard_ClubBoardId(clubBoardId);
         boolean recommended = recommendRepository.existsByClubBoard_ClubBoardIdAndMember_MemberId(clubBoardId, memberId);
 
-        boolean updatedRecommended = recommendRepository.existsByClubBoard_ClubBoardIdAndMember_MemberId(clubBoardId, memberId);
+        //boolean updatedRecommended = recommendRepository.existsByClubBoard_ClubBoardIdAndMember_MemberId(clubBoardId, memberId);
 
         RecommendResponseDto responseDto = new RecommendResponseDto(recommendCount, recommended);
         return ResponseEntity.ok(responseDto);
