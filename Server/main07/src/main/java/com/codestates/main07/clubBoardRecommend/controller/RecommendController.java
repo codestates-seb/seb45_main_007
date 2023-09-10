@@ -47,7 +47,7 @@ public class RecommendController {
         boolean updatedRecommended = recommendRepository.existsByClubBoard_ClubBoardIdAndMember_MemberId(clubBoardId, memberId);
 
         RecommendResponseDto responseDto = new RecommendResponseDto(recommendCount, recommended);
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
+        return ResponseEntity.ok(responseDto);
     }
 
     @DeleteMapping("/{clubBoard-id}/{member-id}")

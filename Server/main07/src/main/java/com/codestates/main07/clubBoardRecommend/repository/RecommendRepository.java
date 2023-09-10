@@ -5,7 +5,7 @@ import com.codestates.main07.clubBoardRecommend.entity.Recommend;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRespository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,5 +20,5 @@ public interface RecommendRepository extends JpaRepository<Recommend, Long> {
 
     boolean existsByClubBoard_ClubBoardIdAndMember_MemberId(long clubBoardId, long memberId);
 
-    Page<Recommend> findByMember_MemberIdAndIsRecommendedTure(long memberId, Pageable pageable);
+    Page<Recommend> findByMember_MemberIdAndIsRecommendedTrue(long memberId, Pageable pageable);
 }

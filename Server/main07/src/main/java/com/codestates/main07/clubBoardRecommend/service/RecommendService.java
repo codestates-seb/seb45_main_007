@@ -80,6 +80,6 @@ public class RecommendService {
         long recommendCount = recommendRepository.countByClubBoard_ClubBoardId(clubBoardId);
         ClubBoard clubBoard = clubBoardRepository.getById(clubBoardId);
         clubBoard.setClubBoardRecommendCount(recommendCount);
-        clubBoardRepository.save(clubBoardId); //업데이트 된 추천 수를 저장
+        clubBoardRepository.save(clubBoard); //업데이트 된 추천 수를 저장
     }
 }
