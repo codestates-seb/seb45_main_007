@@ -25,19 +25,19 @@ public class RecommendController {
         this.recommendRepository = recommendRepository;
     }
 
-    @GetMapping("/{clubBoardId}")
+    @GetMapping("/{clubBoard-id}")
     public ResponseEntity<Long> getRecommendCount(@PathVariable long clubBoardId) {
         long recommendCount = RecommendService.getRecommendCount(clubBoardId);
         return ResponseEntity.ok(recommendCount);
     }
 
-    @GetMapping("/{clubBoardId}/{memberId}")
+    @GetMapping("/{clubBoard-id}/{member-id}")
     public ResponseEntity<Boolean> isRecommendedByMember(@PathVariable long clubBoardId, @PathVariable long memberId) {
         boolean recommended = recommendService.isRecommendedByMember(clubBoardId, memberId);
         return ResponseEntity.ok(recommended);
     }
 
-    @PostMapping("/{clubBoardId}/{memberId}")
+    @PostMapping("/{clubBoard-id}/{member-id}")
     public ResponseEntity<RecommendResponseDto> createRecommend(@PathVariable long clubBoardId, @PathVariable long memberId,
                                                                 @RequestBody RecommendPostDto recommendPostDto) {
         boolean recommended = recommendPostDto.recommended();
@@ -50,7 +50,7 @@ public class RecommendController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
-    @DeleteMapping("/{clubBoardId}/{memberId}")
+    @DeleteMapping("/{clubBoard-id}/{member-id}")
     public ResponseEntity<RecommendResponseDto> removeRecommend(@PathVariable long clubBoardId, @PathVariable long memberId) {
         recommendService.deleteRecommend(clubBoardId, memberId);
 
