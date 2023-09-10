@@ -1,6 +1,6 @@
 package com.codestates.main07.clubBoardRecommend.repository;
 
-import com.codestates.main07.member.entity.Member;
+import com.codestates.main07.clubBoard.board.entity.ClubBoard;
 import com.codestates.main07.clubBoardRecommend.entity.Recommend;
 
 import org.springframework.data.domain.Page;
@@ -13,4 +13,12 @@ import java.util.Optional;
 
 @Repository
 public interface RecommendRepository extends JpaRepository<Recommend, Long> {
+    List<Recommend> findByClubBoard_ClubBoardIdAndMember_MemberId(long clubBoardId, long memberId);
+    long countByClubBoard_ClubBoardId(long clubBoardId);
+
+    long countByClubBoard(ClubBoard clubBoard);
+
+    boolean existsByClubBoard_ClubBoardIdAndMember_MemberId(long clubBoardId, long memberId);
+
+    Page<ClubBoard> findByMember_MemberIdAndIsRecommendedTure(long memberId, Pageable pageable);
 }

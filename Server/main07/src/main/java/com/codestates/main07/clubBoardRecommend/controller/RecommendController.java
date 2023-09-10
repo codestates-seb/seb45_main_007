@@ -36,4 +36,15 @@ public class RecommendController {
         boolean recommended = recommendService.isRecommendedByMember(clubBoardId, memberId);
         return ResponseEntity.ok(recommended);
     }
+
+    @PostMapping("/{clubBoardId}/{memberId}")
+    public ResponseEntity<RecommendResponseDto> createRecommend(@PathVariable long clubBoardId, @PathVariable long memberId,
+                                                                @RequestBody RecommendPostDto recommendPostDto) {
+        boolean recommended = recommendPostDto.recommended();
+        recommendService.createRecommend(clubBoardId, memberId, recommended);
+        long recommendCount = recommendService.getRecommendCount(clubBoardId);
+        //
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
+    }
+
 }
