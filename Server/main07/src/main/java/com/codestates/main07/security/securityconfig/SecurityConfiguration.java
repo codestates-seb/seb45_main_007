@@ -1,16 +1,16 @@
-package com.codestates.main07.jwt.config;
+package com.codestates.main07.security.securityconfig;
 
 
 
-import com.codestates.main07.jwt.auth.filter.JwtAuthenticationFilter;
-import com.codestates.main07.jwt.auth.filter.JwtVerificationFilter;
-import com.codestates.main07.jwt.auth.handler.MemberAccessDeniedHandler;
-import com.codestates.main07.jwt.auth.handler.MemberAuthenticationEntryPoint;
-import com.codestates.main07.jwt.auth.handler.MemberAuthenticationFailureHandler;
-import com.codestates.main07.jwt.auth.handler.MemberAuthenticationSuccessHandler;
-import com.codestates.main07.jwt.auth.jwt.JwtTokenizer;
-import com.codestates.main07.jwt.utils.CustomAuthorityUtils;
-import com.codestates.main07.jwt.utils.SHA256PasswordEncoder;
+import com.codestates.main07.security.jwt.auth.filter.JwtAuthenticationFilter;
+import com.codestates.main07.security.jwt.auth.filter.JwtVerificationFilter;
+import com.codestates.main07.security.jwt.auth.handler.MemberAccessDeniedHandler;
+import com.codestates.main07.security.jwt.auth.handler.MemberAuthenticationEntryPoint;
+import com.codestates.main07.security.jwt.auth.handler.MemberAuthenticationFailureHandler;
+import com.codestates.main07.security.jwt.auth.handler.MemberAuthenticationSuccessHandler;
+import com.codestates.main07.security.jwt.auth.jwt.JwtTokenizer;
+import com.codestates.main07.security.jwt.utils.CustomAuthorityUtils;
+import com.codestates.main07.security.jwt.utils.SHA256PasswordEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,7 +18,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
@@ -62,8 +61,14 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.GET, "/*/members").hasRole("ADMIN")     // 모든 회원 정보는 관리자만 접근 가능
                         .antMatchers(HttpMethod.GET, "/*/members/**").hasAnyRole("USER", "ADMIN")  // 특정 회원 조회 누구나
                         .antMatchers(HttpMethod.DELETE, "/*/members/**").hasRole("USER") // 탈퇴 회원만
-                        .anyRequest().permitAll()
-                );
+                        .antMatchers("/").permitAll()  // root URL은 모든 사용자에게 허용
+                        .anyRequest().authenticated()  // 그 외 URL은 인증된 사용자만 접근 가능
+                )
+                .oauth2Login();  // OAuth2 로그인 기능 활성화
+//                .defaultSuccessURL("/success", true)  // 로그인 성공 시 리다이렉션 URL
+//                .failureURL("/loginFailure");  // 로그인 실패 시 리다이렉션 URL
+
+
         return http.build();
     }
 

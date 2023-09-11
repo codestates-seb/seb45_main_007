@@ -1,4 +1,4 @@
-package com.codestates.main07.jwt.utils;
+package com.codestates.main07.security.jwt.utils;
 
 import com.codestates.main07.member.entity.Member;
 import org.springframework.beans.factory.annotation.Value;

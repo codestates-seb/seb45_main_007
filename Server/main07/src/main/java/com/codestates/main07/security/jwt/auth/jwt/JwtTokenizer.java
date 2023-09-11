@@ -1,4 +1,4 @@
-package com.codestates.main07.jwt.auth.jwt;
+package com.codestates.main07.security.jwt.auth.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
