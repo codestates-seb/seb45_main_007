@@ -13,11 +13,11 @@ public class MarketBoardUpdateDto {
     private long marketBoardId;
     private String title;
     private String content;
-    private byte[] photo;
+    private String photo;
     private int viewCount;
 
     @Builder
-    public MarketBoardUpdateDto(String title, String content, byte[] photo, int viewCount) {
+    public MarketBoardUpdateDto(String title, String content, String photo, int viewCount) {
         this.title = title;
         this.content = content;
         this.photo = photo;

@@ -10,16 +10,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MarketBoardSaveDto {
-    private BoardSaveInfo boardSaveInfo;
     private long marketBoardId;
+    private long memberId;
+    private String title;
+    private String content;
+    private String photo;
+    private int viewCount;
 
-    @Getter
-    @Setter
-    public static class BoardSaveInfo {
-//        private long memberId;
-        private String title;
-        private String content;
-//        private byte[] photo;
-        private int viewCount;
-    }
 }

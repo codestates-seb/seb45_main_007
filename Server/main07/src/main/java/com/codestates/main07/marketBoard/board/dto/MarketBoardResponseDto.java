@@ -9,21 +9,13 @@ import java.util.List;
 
 @Getter
 public class MarketBoardResponseDto {
-    private BoardResponseInfo boardResponseInfo;
+    private long memberId;
+    private long marketBoardId;
     private String title;
     private String content;
+    private String photo;
+    private int viewCount;
 
-    @Getter
-    @Setter
-    public static class BoardResponseInfo {
-        private long memberId;
-        private long marketBoardId;
-        private String title;
-        private String content;
-        private byte[] photo;
-        private int viewCount;
-//        private List<MarketBoardCommentResponseDto> marketBoardCommentList;
-    }
 
 //    public MarketBoardResponseDto(MarketBoard marketBoard) {
 //        this.marketBoardId = marketBoard.getMarketBoardId();
