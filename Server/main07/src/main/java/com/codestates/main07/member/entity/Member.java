@@ -1,6 +1,8 @@
 package com.codestates.main07.member.entity;
 
 import com.codestates.main07.audit.Audit;
+import com.codestates.main07.clubBoard.board.entity.ClubBoard;
+import com.codestates.main07.clubBoard.comment.entity.ClubBoardComment;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +15,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 
@@ -58,17 +61,11 @@ public class Member extends Audit {
 //    @LastModifiedDate
 //    private LocalDateTime modifiedAt;
 
-//    @OneToMany(mappedBy = "member")
-//    private List<MemoryBoard> memoryBoards;
-//
-//    @OneToMany(mappedBy = "member")
-//    private List<MemoryBoardAnswer> memoryBoardAnswers;
-//
-//    @OneToMany(mappedBy = "member")
-//    private List<MemoryBoardAnswerComment> memoryBoardAnswerComments;
-//
-//    @OneToMany(mappedBy = "member")
-//    private List<MemoryBoardAnswerAdopt> memoryBoardAnswerAdopts;
+    @OneToMany(mappedBy = "member")
+    private List<ClubBoard> clubBoards;
+
+    @OneToMany(mappedBy = "member")
+    private List<ClubBoardComment> clubBoardComments;
 //
 //    @OneToMany(mappedBy = "member")
 //    private List<BuySellBoard> buySellBoards;
