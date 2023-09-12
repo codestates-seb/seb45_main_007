@@ -40,6 +40,7 @@ public class ClubBoardCommentController {
 
         ClubBoardComment comment = mapper.createDtoToComment(createDto);
         comment.setClubBoard(boardService.findClubBoard(clubBoardId));
+        comment.setMember(memberService.viewMember(createDto.getMemberId()));
 
         ClubBoardComment createdComment = service.createComment(comment);
         ClubBoardCommentResponseDto response = mapper.commentToResponseDTo(createdComment);
@@ -78,7 +79,7 @@ public class ClubBoardCommentController {
                                        @RequestParam int page,
                                        @RequestParam int size) {
 
-        Page<ClubBoardComment> pageComments = service.findComments(page - 1, size);
+        Page<ClubBoardComment> pageComments = service.findComments(page - 1, size, clubBoardId);
         List<ClubBoardComment> comments = pageComments.getContent();
         List<ClubBoardCommentResponsesDto> responses = mapper.commentsToResponsesDto(comments);
 
