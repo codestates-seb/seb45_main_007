@@ -45,4 +45,7 @@ public class ClubBoard extends Audit {
 
     @OneToMany(mappedBy = "clubBoard") // mappedBy 에는 변수명 그대로 사용
     private List<ClubBoardComment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "clubBoard") 
+    private List<ClubBoardRecommend> recommends = new ArrayList<>();
 }
