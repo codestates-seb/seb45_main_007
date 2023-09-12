@@ -38,6 +38,8 @@ public class ClubBoardController {
     public ResponseEntity createClubBoard(@RequestBody ClubBoardCreateDto createDto) {
 
         ClubBoard clubBoard = mapper.createDtoToClubBoard(createDto);
+        clubBoard.setMember(memberService.viewMember(clubBoard.getMember().getMemberId()));
+
         ClubBoard createdClubBoard = service.createClubBoard(clubBoard);
         ClubBoardResponseDto response = mapper.clubBoardToResponseDto(createdClubBoard);
 

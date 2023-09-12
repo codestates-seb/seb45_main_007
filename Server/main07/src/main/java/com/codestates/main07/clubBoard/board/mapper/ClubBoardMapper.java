@@ -12,6 +12,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ClubBoardMapper {
+    @Mapping(source = "memberId", target = "member.memberId")
     ClubBoard createDtoToClubBoard(ClubBoardCreateDto createDto);
     ClubBoard updateDtoToClubBoard(ClubBoardUpdateDto updateDto);
 
