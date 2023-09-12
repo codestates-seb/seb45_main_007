@@ -53,7 +53,7 @@ public class ClubBoardController {
 
     @PutMapping("/{clubBoard-id}")
     public ResponseEntity updateClubBoard(@PathVariable ("clubBoard-id") long clubBoardId,
-                                            @RequestBody ClubBoardUpdateDto updateDto) {
+                                          @RequestBody ClubBoardUpdateDto updateDto) {
 
         ClubBoard clubBoard = mapper.updateDtoToClubBoard(updateDto);
         clubBoard.setClubBoardId(clubBoardId);
