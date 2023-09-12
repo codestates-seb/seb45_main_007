@@ -38,7 +38,7 @@ public class RecommendService {
     }
 
     public ResponseEntity<RecommendResponseDto> createRecommend(long clubBoardId, long memberId, boolean recommended) {
-        boolean isAleadyRecommended = recommendRepository.existsByClubBoard_ClubBoardIdAndMember_MemberId(clubBoardId,memberId);
+        boolean isAlreadyRecommended = recommendRepository.existsByClubBoard_ClubBoardIdAndMember_MemberId(clubBoardId,memberId);
         if (isAlreadyRecommended) {
             throw new IllegalStateException("해당 멤버는 이미 추천했습니다.");
         }
