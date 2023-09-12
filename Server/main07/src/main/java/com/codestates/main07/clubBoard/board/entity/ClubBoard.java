@@ -2,6 +2,7 @@ package com.codestates.main07.clubBoard.board.entity;
 
 import com.codestates.main07.audit.Audit;
 import com.codestates.main07.clubBoard.comment.entity.ClubBoardComment;
+import com.codestates.main07.clubBoard.recommend.entity.Recommend;
 import com.codestates.main07.member.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,5 +48,5 @@ public class ClubBoard extends Audit {
     private List<ClubBoardComment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "clubBoard") 
-    private List<ClubBoardRecommend> recommends = new ArrayList<>();
+    private List<Recommend> recommends = new ArrayList<>();
 }
