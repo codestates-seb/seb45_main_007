@@ -2,6 +2,7 @@ import { styled } from "styled-components";
 import chulsuImg from "../images/theme/chulsu.jpg";
 import harryporter from "../images/theme/harryporter.jpeg";
 import naruto from "../images/theme/naruto.jpeg";
+import React from "react";
 
 const BoardOneSect = styled.section`
   width: 100%;

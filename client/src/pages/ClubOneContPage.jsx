@@ -1,5 +1,6 @@
 import { styled } from "styled-components";
 import { NewHeader } from "../components/NewHeader.jsx";
+import React from "react";
 
 const BoardOneContContainer = styled.section`
   width: 100%;

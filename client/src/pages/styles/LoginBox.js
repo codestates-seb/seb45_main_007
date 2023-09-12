@@ -41,7 +41,7 @@ export const LoginBox = styled.div`
   }
   .input-content {
     display: flex;
-    width: 410px;
+    width: 420px;
     height: 44px;
     align-items: center;
     flex-shrink: 0;

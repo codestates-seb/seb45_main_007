@@ -2,8 +2,10 @@ import { styled } from "styled-components";
 import arrowIcon from "../icon/arrow-right.png";
 import nextIcon from "../icon/next.png";
 import preIcon from "../icon/pre.png";
-import { HotContent } from "../components/HotContent";
-export default function BuySellContent() {
+import { HotContent } from "../components/HotContent.jsx";
+import React from "react";
+
+export default function MarketOneContPage() {
   return (
     <TotalContainer>
       <BoardNoteContainer>

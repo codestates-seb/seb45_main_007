@@ -1,5 +1,6 @@
 import { styled } from "styled-components";
 import toy1 from "../images/theme/toy1.png";
+import React from "react";
 // import toy2 from "../images/theme/car.png";
 // import toy3 from "../images/theme/doll.png";
 // import toy4 from "../images/theme/game-console.png";

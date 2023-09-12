@@ -1,5 +1,5 @@
 import { SignUpBox } from "./styles/SignUpBox";
-import { useState } from "react";
+import { useState, React } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
