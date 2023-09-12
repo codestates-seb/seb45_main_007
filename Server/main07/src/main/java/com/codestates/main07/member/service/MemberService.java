@@ -68,4 +68,9 @@ public class MemberService {
         }
         memberRepository.deleteById(memberId);
     }
+
+    @Transactional(readOnly = true)
+    public Optional<Member> findByEmail(String email) {
+        return memberRepository.findByEmail(email);
+    }
 }

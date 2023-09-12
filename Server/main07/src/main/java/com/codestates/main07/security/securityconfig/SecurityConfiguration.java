@@ -11,6 +11,9 @@ import com.codestates.main07.security.jwt.auth.handler.MemberAuthenticationSucce
 import com.codestates.main07.security.jwt.auth.jwt.JwtTokenizer;
 import com.codestates.main07.security.jwt.utils.CustomAuthorityUtils;
 import com.codestates.main07.security.jwt.utils.SHA256PasswordEncoder;
+import com.codestates.main07.security.oauth.CustomOAuth2UserService;
+import com.codestates.main07.security.oauth.OAuth2FailureHandler;
+import com.codestates.main07.security.oauth.OAuth2SuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -32,11 +35,21 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    private final OAuth2FailureHandler oAuth2FailureHandler;
+
 
     public SecurityConfiguration(JwtTokenizer jwtTokenizer,
-                                   CustomAuthorityUtils authorityUtils) {
+                                   CustomAuthorityUtils authorityUtils,
+                                 CustomOAuth2UserService customOAuth2UserService,
+                                 OAuth2SuccessHandler oAuth2SuccessHandler,
+                                 OAuth2FailureHandler oAuth2FailureHandler) {
         this.jwtTokenizer = jwtTokenizer;
         this.authorityUtils = authorityUtils;
+        this.customOAuth2UserService = customOAuth2UserService;
+        this.oAuth2SuccessHandler = oAuth2SuccessHandler;
+        this.oAuth2FailureHandler = oAuth2FailureHandler;
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -64,9 +77,12 @@ public class SecurityConfiguration {
                         .antMatchers("/").permitAll()  // root URL은 모든 사용자에게 허용
                         .anyRequest().authenticated()  // 그 외 URL은 인증된 사용자만 접근 가능
                 )
-                .oauth2Login();  // OAuth2 로그인 기능 활성화
-//                .defaultSuccessURL("/success", true)  // 로그인 성공 시 리다이렉션 URL
-//                .failureURL("/loginFailure");  // 로그인 실패 시 리다이렉션 URL
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService)  // 여기서 CustomOAuth2UserService를 연결해야 합니다.
+                .and()
+                .successHandler(oAuth2SuccessHandler)  // 로그인 성공 시 처리 핸들러
+                .failureHandler(oAuth2FailureHandler); // 로그인 실패 시 처리 핸들러
 
 
         return http.build();
