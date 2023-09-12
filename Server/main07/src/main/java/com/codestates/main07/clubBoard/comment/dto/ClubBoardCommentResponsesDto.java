@@ -10,20 +10,20 @@ import java.time.LocalDateTime;
 public class ClubBoardCommentResponsesDto {
     private long clubBoardCommentId;
     private String content;
-    LocalDateTime createdAt = LocalDateTime.now();
-    LocalDateTime modifiedAt = LocalDateTime.now();
+    LocalDateTime createdAt;
+    LocalDateTime modifiedAt;
 
     // 댓글 작성자
-    private long memberId;
+    private String nickname;
 
     private long clubBoardId;
 
-    public ClubBoardCommentResponsesDto(long clubBoardCommentId, String content, LocalDateTime createdAt, LocalDateTime modifiedAt, long memberId, long clubBoardId) {
+    public ClubBoardCommentResponsesDto(long clubBoardCommentId, String content, LocalDateTime createdAt, LocalDateTime modifiedAt, String nickname, long clubBoardId) {
         this.clubBoardCommentId = clubBoardCommentId;
         this.content = content;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
-        this.memberId = memberId;
+        this.nickname = nickname;
         this.clubBoardId = clubBoardId;
     }
 }

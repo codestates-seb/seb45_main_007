@@ -1,6 +1,8 @@
 package com.codestates.main07.clubBoard.board.entity;
 
+import com.codestates.main07.audit.Audit;
 import com.codestates.main07.clubBoard.comment.entity.ClubBoardComment;
+import com.codestates.main07.member.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class ClubBoard {
+public class ClubBoard extends Audit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long clubBoardId;
@@ -35,19 +37,11 @@ public class ClubBoard {
     @Column
     private String category;
 
-    @Column
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @Column
-    private LocalDateTime modifiedAt = LocalDateTime.now();
-
-    @Column
-    private LocalDateTime deletedAt;
-
-    // 찾아줘 글 작성자
-    private long memberId;
-
     private int viewCount = 0;
+
+    @ManyToOne // many = board, one = member
+    @JoinColumn(columnDefinition = "member_id")
+    private Member member; // 게시글 작성자
 
     @OneToMany(mappedBy = "clubBoard") // mappedBy 에는 변수명 그대로 사용
     private List<ClubBoardComment> comments = new ArrayList<>();
