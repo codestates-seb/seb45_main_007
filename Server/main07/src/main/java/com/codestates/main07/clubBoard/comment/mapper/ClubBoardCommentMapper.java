@@ -17,6 +17,7 @@ public interface ClubBoardCommentMapper {
     ClubBoardComment updateDtoToComment(ClubBoardCommentUpdateDto updateDto);
 
     @Mapping(source = "clubBoard.clubBoardId", target = "clubBoardId")
+    @Mapping(source = "member.nickname", target = "nickname")
     ClubBoardCommentResponseDto commentToResponseDTo(ClubBoardComment comment);
 
     default List<ClubBoardCommentResponsesDto> commentsToResponsesDto(List<ClubBoardComment> comments) {
@@ -26,7 +27,7 @@ public interface ClubBoardCommentMapper {
                     comment.getContent(),
                     comment.getCreatedAt(),
                     comment.getModifiedAt(),
-                    comment.getMemberId(),
+                    comment.getMember().getNickname(),
                     comment.getClubBoard().getClubBoardId()));
         }
         return responsesDto;

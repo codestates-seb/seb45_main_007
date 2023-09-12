@@ -15,9 +15,8 @@ public class ClubBoardResponsesDto {
     private byte[] voice;
     private String category;
 
-    // member 구현 후엔 memberId 대신 nickname 사용
-    private long memberId;
-//        private String nickname;
+    // 게시글 작성자
+    private String nickname;
 
     private int viewCount;
     private LocalDateTime createdAt;

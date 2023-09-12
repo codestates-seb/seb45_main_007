@@ -16,7 +16,7 @@ public class ClubBoardCommentResponseDto {
     LocalDateTime modifiedAt = LocalDateTime.now();
 
     // 댓글 작성자
-    private long memberId;
+    private String nickname;
 
     private long clubBoardId;
 }
