@@ -1,4 +1,4 @@
-package com.codestates.main07.marketBoard.board.photo;
+package com.codestates.main07.marketBoard.photo;
 
 import lombok.Builder;
 import lombok.Getter;

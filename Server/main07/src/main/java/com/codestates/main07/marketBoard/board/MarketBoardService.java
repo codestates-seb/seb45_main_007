@@ -21,18 +21,14 @@ public class MarketBoardService {
         this.marketBoardRepository = marketBoardRepository;
     }
 
-    public MarketBoard saveBoard(MarketBoard marketBoard) {
+    public MarketBoard createBoard(MarketBoard marketBoard) {
         return marketBoardRepository.save(marketBoard);
     }
 
     public MarketBoard updateBoard(MarketBoard marketBoard) {
         MarketBoard findMarketBoard = findCorrectMarketBoard(marketBoard.getMarketBoardId());
 
-        Optional.ofNullable(marketBoard.getTitle())
-                .ifPresent(findMarketBoard::setTitle);
-
-        Optional.ofNullable(marketBoard.getContent())
-                .ifPresent(findMarketBoard::setContent);
+        findMarketBoard.update(marketBoard.getTitle(), marketBoard.getContent());
 
 //        findMarketBoard.setModifiedAt(LocalDateTime.now());
 

@@ -2,10 +2,11 @@ package com.codestates.main07.marketBoard.board;
 
 import com.codestates.main07.exception.BusinessLogicException;
 import com.codestates.main07.exception.ExceptionCode;
-import com.codestates.main07.marketBoard.board.dto.MarketBoardResponseDto;
-import com.codestates.main07.marketBoard.board.dto.MarketBoardSaveDto;
-import com.codestates.main07.marketBoard.board.dto.MarketBoardUpdateDto;
-import com.codestates.main07.marketBoard.board.photo.PhotoService;
+import com.codestates.main07.marketBoard.board.dto.MarketBoardCreate;
+import com.codestates.main07.marketBoard.board.dto.MarketBoardResponse;
+import com.codestates.main07.marketBoard.board.dto.MarketBoardUpdate;
+import com.codestates.main07.marketBoard.board.dto.SuccessDto;
+import com.codestates.main07.marketBoard.photo.PhotoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -30,14 +31,19 @@ public class MarketBoardController {
     private final MarketBoardMapper mapper;
     private final PhotoService photoService;
 
-    //게시글 목록 조회
-    @GetMapping("/")
-    public ResponseEntity selectMarketBoardList(@Positive @RequestParam int page,
-                                                @Positive @RequestParam int size) {
+    /**
+     * 게시글 목록 조회
+     * @param page
+     * @param size
+     * @return
+     */
+    @GetMapping
+    public ResponseEntity marketBoardList(@Positive @RequestParam int page,
+                                          @Positive @RequestParam int size) {
         Page<MarketBoard> marketBoardPage = marketBoardService.boardList(page - 1, size);
         List<MarketBoard> marketBoards = marketBoardPage.getContent();
 
-        List<MarketBoardResponseDto> response =
+        List<MarketBoardResponse> response =
                 marketBoards.stream()
                         .map(mapper::marketBoardToMarketBoardResponseDto)
                         .collect(Collectors.toList());
@@ -45,59 +51,84 @@ public class MarketBoardController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    //게시글 내용 조회
-    @GetMapping("/{market-board-id}")
-    public ResponseEntity viewBoard (@PathVariable ("market-board-id") long marketBoardId) {
+    /**
+     * 게시글 내용 조회
+     * @param marketBoardId
+     * @return
+     */
+    @GetMapping("/{marketBoardId}")
+    public ResponseEntity viewBoard (@PathVariable ("marketBoardId") long marketBoardId) {
+
         MarketBoard marketBoard = marketBoardService.viewBoard(marketBoardId);
-        MarketBoardResponseDto response = mapper.marketBoardToMarketBoardResponseDto(marketBoard);
+        MarketBoardResponse response = mapper.marketBoardToMarketBoardResponseDto(marketBoard);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    //게시글 추가
+    /**
+     * 게시글 추가
+     * @param createDto
+     * @return
+     */
     @PostMapping
-    public ResponseEntity addMarketBoard (@RequestBody MarketBoardSaveDto saveDto) {
-        MarketBoard marketBoard = mapper.saveMarketBoardSaveDtoToMarketBoard(saveDto);
-//        marketBoard.setMember(memberService.findMember(saveDto.getPostInfo().getUserId()));
-        marketBoardService.saveBoard(marketBoard);
+    public ResponseEntity addMarketBoard (@RequestBody MarketBoardCreate createDto) {
 
-        log.info("# 게시글이 등록되었습니다.");
-        String message = "게시글이 등록되었습니다.";
+        MarketBoard marketBoard = mapper.createDtoToMarketBoard(createDto);
+//        marketBoard.setMember(memberService.findMember(saveDto.getMemberId()));
 
-        return new ResponseEntity<>(message, HttpStatus.CREATED);
+        MarketBoard createdMarketBoard = marketBoardService.createBoard(marketBoard);
+        MarketBoardResponse response = mapper.marketBoardToMarketBoardResponseDto(createdMarketBoard);
+
+        response.setSuccess(true);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    //게시글 수정
-    @PatchMapping("/{market-board-id}")
-    public ResponseEntity editMarketBoard (@PathVariable ("market-board-id") Long marketBoardId,
-                                 @RequestBody MarketBoardUpdateDto updateDto) {
+    /**
+     * 게시글 수정
+     * @param marketBoardId
+     * @param updateDto
+     * @return
+     */
+    @PutMapping("/{marketBoardId}")
+    public ResponseEntity editMarketBoard (@PathVariable ("marketBoardId") long marketBoardId,
+                                 @RequestBody MarketBoardUpdate updateDto) {
+
         updateDto.setMarketBoardId(marketBoardId);
-        MarketBoard marketBoard = mapper.updateMarketBoardUpdateDtoToMarketBoard(updateDto);
-        marketBoardService.updateBoard(marketBoard);
+        MarketBoard marketBoard = mapper.updateDtoToMarketBoard(updateDto);
 
-        log.info("# 게시글이 수정되었습니다.");
-        String message = "게시글이 수정되었습니다.";
 
-        return new ResponseEntity<>(message, HttpStatus.OK);
+        MarketBoard updatedMarketBoard = marketBoardService.updateBoard(marketBoard);
+        MarketBoardResponse response = mapper.marketBoardToMarketBoardResponseDto(updatedMarketBoard);
+
+        response.setSuccess(true);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    //게시글 삭제
-    @DeleteMapping("/{market-board-id}")
-    public ResponseEntity deleteMarketBoard (@PathVariable ("market-board-id") Long marketBoardId) {
+    /**
+     * 게시글 삭제
+     * @param marketBoardId
+     * @return
+     */
+    @DeleteMapping("/{marketBoardId}")
+    public ResponseEntity deleteMarketBoard (@PathVariable ("marketBoardId") long marketBoardId) {
+
         marketBoardService.deleteBoard(marketBoardId);
 
-        log.info("# 게시글이 삭제되었습니다.");
-        String message = "게시글이 삭제되었습니다.";
-
-        return new ResponseEntity<>(message, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(new SuccessDto(true), HttpStatus.OK);
     }
 
-    //이미지 파일 업로드
+    /**
+     * 이미지 파일 업로드
+     * @param photo
+     * @param model
+     * @return
+     */
     @PostMapping("/photos")
     public String uploadPhoto(@RequestParam("photo") MultipartFile photo, Model model) {
+
         try {
             photoService.insertPhoto(photo);
-            model.addAttribute("message", "Upload successful!");
+            model.addAttribute("message", "사진이 등록되었습니다");
             return "upload";  // upload.html 이라는 이름의 템플릿을 사용한다고 가정
         } catch (Exception e) {
 //            throw new BusinessLogicException(ExceptionCode.PHOTO_UPLOAD_FAILED);

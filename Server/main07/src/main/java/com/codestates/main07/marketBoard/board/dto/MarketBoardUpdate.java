@@ -9,18 +9,18 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class MarketBoardUpdateDto {
+public class MarketBoardUpdate {
     private long marketBoardId;
     private String title;
     private String content;
-    private String photo;
+//    private String photo;
     private int viewCount;
 
     @Builder
-    public MarketBoardUpdateDto(String title, String content, String photo, int viewCount) {
+    public MarketBoardUpdate(String title, String content, String photo) {  //int viewCount
         this.title = title;
         this.content = content;
-        this.photo = photo;
+//        this.photo = photo;
         this.viewCount = viewCount;
     }
 }
