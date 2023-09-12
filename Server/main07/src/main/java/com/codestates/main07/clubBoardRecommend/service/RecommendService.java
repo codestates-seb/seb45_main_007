@@ -52,8 +52,8 @@ public class RecommendService {
 
         updateRecommendCount(clubBoardId); //게시글의 추천 수 갱신
 
-        long recommendCount = clubBoardRepository.countByClubBoard_ClubBoardId(clubBoardId);
-        boolean updateIsRecommended = clubBoardRepository.existsByClubBoard_ClubBoardIdAndMember_MemberId(clubBoardId, memberId);
+        long recommendCount = recommendRepository.countByClubBoard_ClubBoardId(clubBoardId);
+        boolean updateIsRecommended = recommendRepository.existsByClubBoard_ClubBoardIdAndMember_MemberId(clubBoardId, memberId);
         RecommendResponseDto responseDto = new RecommendResponseDto(recommendCount, updateIsRecommended);
 
         return ResponseEntity.ok(responseDto);
@@ -79,7 +79,7 @@ public class RecommendService {
     private void updateRecommendCount(long clubBoardId) {
         long recommendCount = recommendRepository.countByClubBoard_ClubBoardId(clubBoardId);
         ClubBoard clubBoard = clubBoardRepository.getById(clubBoardId);
-        clubBoard.setClubBoardRecommendCount(recommendCount);
+        clubBoard.setRecommendCount(recommendCount);
         clubBoardRepository.save(clubBoard); //업데이트 된 추천 수를 저장
     }
 }
