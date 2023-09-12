@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+
 const BoardOneSect = styled.section`
   width: 100%;
   height: 55vh;
@@ -113,7 +114,9 @@ export const HotContent = () => {
             <BoardNoteTitle>포켓몬 스티커 팔아요</BoardNoteTitle>
 
             <BoardNoteCircle>
+
               <BoardCircleImg style={{ objectPosition: "bottom center" }} />
+
             </BoardNoteCircle>
           </BoardNote>
 
