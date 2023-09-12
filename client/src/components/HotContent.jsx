@@ -1,7 +1,4 @@
 import { styled } from "styled-components";
-import digiImg from "../images/theme/digimon.jpeg";
-import pokeImg from "../images/theme/pokeimg1.jpeg";
-import onepieceImg from "../images/theme/luppy.jpeg";
 
 const BoardOneSect = styled.section`
   width: 100%;
@@ -13,21 +10,30 @@ const BoardOneSect = styled.section`
 `;
 
 const BoardOneTitle = styled.div`
-  width: 18%;
+  width: 75%;
   height: 10%;
-  border-bottom: 3px solid #fccacaff;
   font-size: 22px;
+  font-weight: bold;
   margin-top: 2%;
-  text-align: center;
   color: white;
+  font-family: "HakgyoansimBunpilR";
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .more {
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
 `;
 
 const BoardNoteSect = styled.div`
-  width: 100%;
+  width: 75%;
   height: 85%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 `;
 
 const BoardNote = styled.div`
@@ -45,11 +51,9 @@ const BoardNote = styled.div`
   color: white;
   font-size: 50px;
   text-align: center;
-  margin-left: 3%;
   overflow: hidden;
   position: relative;
   margin-bottom: 1%;
-
   &:hover {
     border: 10px solid #9bfff5;
   }
@@ -93,13 +97,16 @@ export const HotContent = () => {
   return (
     <>
       <BoardOneSect>
-        <BoardOneTitle>우리반 인기글</BoardOneTitle>
+        <BoardOneTitle>
+          <div>최근에 올라온 글</div>
+          <div className="more">더 보러가기</div>
+        </BoardOneTitle>
         <BoardNoteSect>
           <BoardNote>
             <BoardNoteTitle>디지몬 어드벤처 비디오 팔아요</BoardNoteTitle>
 
             <BoardNoteCircle>
-              <BoardCircleImg src={digiImg} />
+              <BoardCircleImg />
             </BoardNoteCircle>
           </BoardNote>
 
@@ -107,10 +114,9 @@ export const HotContent = () => {
             <BoardNoteTitle>포켓몬 스티커 팔아요</BoardNoteTitle>
 
             <BoardNoteCircle>
-              <BoardCircleImg
-                src={pokeImg}
-                style={{ objectPosition: "bottom center" }}
-              />
+
+              <BoardCircleImg style={{ objectPosition: "bottom center" }} />
+
             </BoardNoteCircle>
           </BoardNote>
 
@@ -118,7 +124,7 @@ export const HotContent = () => {
             <BoardNoteTitle>원피스 피규어 팔아요</BoardNoteTitle>
 
             <BoardNoteCircle>
-              <BoardCircleImg src={onepieceImg} />
+              <BoardCircleImg />
             </BoardNoteCircle>
           </BoardNote>
         </BoardNoteSect>
