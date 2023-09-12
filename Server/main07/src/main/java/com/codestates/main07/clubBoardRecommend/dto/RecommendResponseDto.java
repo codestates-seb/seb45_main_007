@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Setter
 @NoArgsConstructor
 public class RecommendResponseDto {
-    private long clubBoardId;
+    private long clubBoardRecommendId;
     private boolean recommended;
     private long recommendCount;
     private Member member;
