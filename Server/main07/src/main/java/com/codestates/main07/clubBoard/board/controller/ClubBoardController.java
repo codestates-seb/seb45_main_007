@@ -26,24 +26,18 @@ import java.util.List;
 public class ClubBoardController {
     private final ClubBoardService service;
     private final ClubBoardMapper mapper;
-    private final JwtTokenizer jwtTokenizer;
     private final MemberService memberService;
 
-    public ClubBoardController(ClubBoardService service, ClubBoardMapper mapper, JwtTokenizer jwtTokenizer, MemberService memberService) {
+    public ClubBoardController(ClubBoardService service, ClubBoardMapper mapper, MemberService memberService) {
         this.service = service;
         this.mapper = mapper;
-        this.jwtTokenizer = jwtTokenizer;
         this.memberService = memberService;
     }
 
     @PostMapping
-    public ResponseEntity createClubBoard(@RequestHeader("Authorization") String authorization,
-                                          @RequestBody ClubBoardCreateDto createDto) {
+    public ResponseEntity createClubBoard(@RequestBody ClubBoardCreateDto createDto) {
 
         ClubBoard clubBoard = mapper.createDtoToClubBoard(createDto);
-        long memberId = getMemberIdFromClaims(authorization);
-        clubBoard.setMember(memberService.viewMember(memberId));
-
         ClubBoard createdClubBoard = service.createClubBoard(clubBoard);
         ClubBoardResponseDto response = mapper.clubBoardToResponseDto(createdClubBoard);
 
@@ -108,11 +102,5 @@ public class ClubBoardController {
 
         return new ResponseEntity<>(
                 new ClubBoardMultiResponseDto<>(responses, pageClubBoards, true), HttpStatus.OK);
-    }
-
-    private long getMemberIdFromClaims(String authorization) {
-        String jwtToken = authorization.substring(7);
-        Jws<Claims> claims = jwtTokenizer.getClaims(jwtToken, jwtTokenizer.getSecretKey());
-        return claims.getBody().get("memberId", Long.class);
     }
 }

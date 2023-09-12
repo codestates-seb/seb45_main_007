@@ -25,25 +25,20 @@ public class ClubBoardCommentController {
     private final ClubBoardCommentService service;
     private final ClubBoardService boardService;
     private final ClubBoardCommentMapper mapper;
-    private final JwtTokenizer jwtTokenizer;
     private final MemberService memberService;
 
-    public ClubBoardCommentController(ClubBoardCommentService service, ClubBoardService boardService, ClubBoardCommentMapper mapper, JwtTokenizer jwtTokenizer, MemberService memberService) {
+    public ClubBoardCommentController(ClubBoardCommentService service, ClubBoardService boardService, ClubBoardCommentMapper mapper, MemberService memberService) {
         this.service = service;
         this.boardService = boardService;
         this.mapper = mapper;
-        this.jwtTokenizer = jwtTokenizer;
         this.memberService = memberService;
     }
 
     @PostMapping("/{clubBoards-id}/comments")
-    public ResponseEntity createComment(@RequestHeader("Authorization") String authorization,
-                                        @PathVariable ("clubBoards-id") long clubBoardId,
+    public ResponseEntity createComment(@PathVariable ("clubBoards-id") long clubBoardId,
                                         @RequestBody ClubBoardCommentCreateDto createDto) {
 
         ClubBoardComment comment = mapper.createDtoToComment(createDto);
-        long memberId = getMemberIdFromClaims(authorization);
-        comment.setMember(memberService.viewMember(memberId));
         comment.setClubBoard(boardService.findClubBoard(clubBoardId));
 
         ClubBoardComment createdComment = service.createComment(comment);
@@ -98,11 +93,5 @@ public class ClubBoardCommentController {
                                         @PathVariable ("clubBoardComment-id") long clubBoardCommentId) {
         service.deleteComment(clubBoardCommentId);
         return new ResponseEntity<>(new SuccessDto(true), HttpStatus.OK);
-    }
-
-    private long getMemberIdFromClaims(String authorization) {
-        String jwtToken = authorization.substring(7);
-        Jws<Claims> claims = jwtTokenizer.getClaims(jwtToken, jwtTokenizer.getSecretKey());
-        return claims.getBody().get("memberId", Long.class);
     }
 }
