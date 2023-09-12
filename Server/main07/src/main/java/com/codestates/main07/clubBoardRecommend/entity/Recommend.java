@@ -25,10 +25,10 @@ public class Recommend {
     private long recommendCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memberId")
-    private MemberId memberId;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "clubBoardId")
-    private ClubBoardId clubBoardId;
+    @JoinColumn(name = "clubBoard_id")
+    private ClubBoard clubBoard;
 }
