@@ -8,7 +8,7 @@ import com.codestates.main07.clubBoardRecommend.entity.Recommend;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", unmappedTargetPolich = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface RecommendMapper {
     Recommend recommendPostDtoToRecommend(RecommendPostDto recommendPostDto);
     Recommend recommendPatchDtoToRecommend(RecommendPatchDto recommendPatchDto);
