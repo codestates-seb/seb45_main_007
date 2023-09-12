@@ -2,7 +2,6 @@ import { styled } from "styled-components";
 export const LoginBox = styled.div`
   box-sizing: border-box;
   width: 420px;
-  height: 600px;
   flex-shrink: 0;
   display: flex;
   justify-content: center;
@@ -24,7 +23,7 @@ export const LoginBox = styled.div`
   .input {
     display: flex;
     width: 100%;
-    height: 151px;
+    height: 250px;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
@@ -34,7 +33,7 @@ export const LoginBox = styled.div`
   .input-container {
     display: flex;
     width: 100%;
-    height: 88px;
+    height: 160px;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
@@ -42,7 +41,7 @@ export const LoginBox = styled.div`
   }
   .input-content {
     display: flex;
-    width: 100%;
+    width: 410px;
     height: 44px;
     align-items: center;
     flex-shrink: 0;
@@ -52,6 +51,8 @@ export const LoginBox = styled.div`
     font-weight: 400;
     font-size: 16px;
     color: #d9d9d9;
+    gap: 10px;
+    padding-left: 10px;
   }
   input {
     width: 355px;
@@ -113,9 +114,12 @@ export const LoginBox = styled.div`
     background-color: white;
     color: black;
     font-size: 18px;
-    margin-top: 5px;
+    margin-top: 10px;
     border: 1px solid gray;
     border-radius: 6px;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
   }
   .signup-box {
     width: 100%;
@@ -141,5 +145,12 @@ export const LoginBox = styled.div`
     height: 100%;
     background: #fff;
     border-radius: 6px;
+  }
+  .social {
+    width: 30;
+    height: 30;
+    border-radius: 100%;
+    border: 0.1px solid gray;
+    margin-left: 2.8px;
   }
 `;

@@ -1,14 +1,22 @@
 import "./App.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./Pages/Login";
-import { BrowserRouter as Router } from "react-router-dom";
+import SignUp from "./Pages/SignUp";
+import Club from "./Pages/Club";
+import Header from "./Components/Header";
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
+      <Header />
       <div className="App">
-        <Login />
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/club" element={<Club />} />
+        </Routes>
       </div>
-    </Router>
+    </BrowserRouter>
   );
 }
 
