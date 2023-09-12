@@ -1,17 +1,21 @@
-import "./App.css";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { SchoolTheme } from "./pages/SchoolTheme.jsx";
-import { Board } from "./pages/Board.jsx";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Login from "./Pages/Login";
+import SignUp from "./Pages/SignUp";
+import Club from "./Pages/Club";
+import Header from "./Components/Header";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<SchoolTheme />} />
-        <Route path="/SchoolHome" element={<SchoolTheme />} />
-        <Route path="/board" element={<Board />} />
-      </Routes>
-    </Router>
+    <BrowserRouter>
+      <Header />
+      <div className="App">
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/club" element={<Club />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 export default App;
