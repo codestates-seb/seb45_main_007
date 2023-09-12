@@ -15,10 +15,5 @@ import java.util.Optional;
 public interface RecommendRepository extends JpaRepository<Recommend, Long> {
     List<Recommend> findByClubBoard_ClubBoardIdAndMember_MemberId(long clubBoardId, long memberId);
     long countByClubBoard_ClubBoardId(long clubBoardId);
-
-    long countByClubBoard(ClubBoard clubBoard);
-
     boolean existsByClubBoard_ClubBoardIdAndMember_MemberId(long clubBoardId, long memberId);
-
-    Page<Recommend> findByMember_MemberIdAndIsRecommendedTrue(long memberId, Pageable pageable);
 }
