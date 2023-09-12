@@ -13,14 +13,12 @@ public class MarketBoardUpdate {
     private long marketBoardId;
     private String title;
     private String content;
-//    private String photo;
     private int viewCount;
 
     @Builder
-    public MarketBoardUpdate(String title, String content, String photo) {  //int viewCount
+    public MarketBoardUpdate(String title, String content, int viewCount) {
         this.title = title;
         this.content = content;
-//        this.photo = photo;
         this.viewCount = viewCount;
     }
 }

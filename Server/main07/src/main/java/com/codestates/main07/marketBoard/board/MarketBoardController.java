@@ -10,6 +10,9 @@ import com.codestates.main07.marketBoard.photo.PhotoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -33,26 +36,22 @@ public class MarketBoardController {
 
     /**
      * 게시글 목록 조회
-     * @param page
-     * @param size
+     * @param pageable
      * @return
      */
     @GetMapping
-    public ResponseEntity marketBoardList(@Positive @RequestParam int page,
-                                          @Positive @RequestParam int size) {
-        Page<MarketBoard> marketBoardPage = marketBoardService.boardList(page - 1, size);
-        List<MarketBoard> marketBoards = marketBoardPage.getContent();
-
-        List<MarketBoardResponse> response =
-                marketBoards.stream()
-                        .map(mapper::marketBoardToMarketBoardResponseDto)
-                        .collect(Collectors.toList());
+    public ResponseEntity<List<MarketBoardResponse>> marketBoardList(Pageable pageable) {
+        Page<MarketBoard> marketBoardPage = marketBoardService.boardList(pageable);
+        List<MarketBoardResponse> response = marketBoardPage.getContent()
+                .stream()
+                .map(mapper::marketBoardToMarketBoardResponseDto)
+                .collect(Collectors.toList());
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
-     * 게시글 내용 조회
+     * 게시글 내용 조회 및 조회수 증가
      * @param marketBoardId
      * @return
      */
@@ -60,6 +59,10 @@ public class MarketBoardController {
     public ResponseEntity viewBoard (@PathVariable ("marketBoardId") long marketBoardId) {
 
         MarketBoard marketBoard = marketBoardService.viewBoard(marketBoardId);
+
+        int updatedViewCount = marketBoard.getViewCount() + 1;
+        marketBoard.updateView(updatedViewCount);
+
         MarketBoardResponse response = mapper.marketBoardToMarketBoardResponseDto(marketBoard);
 
         return new ResponseEntity<>(response, HttpStatus.OK);

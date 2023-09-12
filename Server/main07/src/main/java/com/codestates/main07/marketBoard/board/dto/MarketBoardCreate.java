@@ -10,7 +10,6 @@ public class MarketBoardCreate {
     private long memberId;
     private String title;
     private String content;
-//    private String photo;
     private int viewCount;
 
 }

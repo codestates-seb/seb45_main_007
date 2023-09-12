@@ -1,10 +1,7 @@
 package com.codestates.main07.marketBoard.comment;
 
 import com.codestates.main07.marketBoard.board.MarketBoard;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -30,6 +27,7 @@ public class MarketBoardComment {
 //    private Member member;
 
 
+    @Builder
     public MarketBoardComment(String content) {
         this.content = content;
     }

@@ -2,9 +2,11 @@ package com.codestates.main07.marketBoard.board;
 
 import com.codestates.main07.exception.BusinessLogicException;
 import com.codestates.main07.exception.ExceptionCode;
+import com.codestates.main07.marketBoard.board.dto.MarketBoardUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +18,6 @@ import java.util.Optional;
 public class MarketBoardService {
     private final MarketBoardRepository marketBoardRepository;
 
-    @Autowired
     public MarketBoardService(MarketBoardRepository marketBoardRepository) {
         this.marketBoardRepository = marketBoardRepository;
     }
@@ -45,9 +46,13 @@ public class MarketBoardService {
         return findCorrectMarketBoard(marketBoardId);
     }
 
-    public Page<MarketBoard> boardList(int page, int size) {
-        return marketBoardRepository.findAll(PageRequest.of(
-                page, size, Sort.by("createdAt").descending()));
+    public Page<MarketBoard> boardList(Pageable pageable) {
+        return marketBoardRepository.findAll(pageable);
+    }
+
+    public void updateViewCount (long marketBoardId, MarketBoardUpdate updateDto) {
+        MarketBoard marketBoard = findCorrectMarketBoard(marketBoardId);
+        marketBoard.updateView(updateDto.getViewCount());
     }
 
     private MarketBoard findCorrectMarketBoard(long marketBoardId) {

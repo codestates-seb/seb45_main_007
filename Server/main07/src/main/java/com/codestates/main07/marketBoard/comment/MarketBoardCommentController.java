@@ -8,6 +8,7 @@ import com.codestates.main07.marketBoard.comment.dto.MarketBoardCommentUpdate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -27,15 +28,12 @@ public class MarketBoardCommentController {
     private final MarketBoardCommentMapper mapper;
 
     @GetMapping
-    public ResponseEntity marketBoardCommentList (@Positive @RequestParam int page,
-                                                  @Positive @RequestParam int size) {
-        Page<MarketBoardComment> marketBoardCommentPage = marketBoardCommentService.commentList(page -1, size);
-        List<MarketBoardComment> marketBoardComments = marketBoardCommentPage.getContent();
-
-        List<MarketBoardCommentResponse> response =
-                marketBoardComments.stream()
-                        .map(mapper::marketBoardCommentToMarketBoardCommentResponseDto)
-                        .collect(Collectors.toList());
+    public ResponseEntity <List<MarketBoardCommentResponse>> marketBoardCommentList (Pageable pageable) {
+        Page<MarketBoardComment> marketBoardCommentPage = marketBoardCommentService.commentList(pageable);
+        List<MarketBoardCommentResponse> response = marketBoardCommentPage.getContent()
+                .stream()
+                .map(mapper::marketBoardCommentToMarketBoardCommentResponseDto)
+                .collect(Collectors.toList());
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

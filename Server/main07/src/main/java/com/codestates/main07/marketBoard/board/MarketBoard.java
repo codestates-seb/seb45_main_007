@@ -23,8 +23,8 @@ public class MarketBoard {
     @Column (nullable = false)
     private String content;
 
-    @Column (nullable = false)
-    private int viewCount = 0;
+    @Column (columnDefinition = "integer default 0", nullable = false)
+    private int viewCount;
 
 //    @ManyToOne
 //    @JoinColumn(name = "member_id")
@@ -35,10 +35,9 @@ public class MarketBoard {
     private List<MarketBoardComment> comments;
 
     @Builder
-    public MarketBoard(String title, String content, String photo) { //Member member 추가예정  //int viewCount
+    public MarketBoard(String title, String content, int viewCount) { //Member member 추가예정
         this.title = title;
         this.content = content;
-//        this.photo = photo;
         this.viewCount = viewCount;
 //        this.member = member;
     }
@@ -46,5 +45,9 @@ public class MarketBoard {
     public void update(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    public void updateView(int viewCount) {
+        this.viewCount = viewCount;
     }
 }

@@ -11,7 +11,6 @@ public class MarketBoardResponse {
     private long marketBoardId;
     private String title;
     private String content;
-//    private String photo;
     private int viewCount;
     private boolean success;
 //    private List<>
