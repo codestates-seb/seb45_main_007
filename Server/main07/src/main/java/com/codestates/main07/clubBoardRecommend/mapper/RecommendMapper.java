@@ -11,9 +11,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface RecommendMapper {
-    @Mapping(source = "recommended", target = "recommended")
     Recommend recommendPostDtoToRecommend(RecommendPostDto recommendPostDto);
-    @Mapping(source = "recommended", target = "recommended")
     Recommend recommendPatchDtoToRecommend(RecommendPatchDto recommendPatchDto);
     Recommend recommendResponseDtoToRecommend(RecommendResponseDto recommendResponseDto);
     RecommendResponseDto RecommendToRecommendResponseDto(Recommend recommend);
