@@ -26,19 +26,21 @@ public class RecommendController {
     }
 
     @GetMapping("/{clubBoard-id}")
-    public ResponseEntity<Long> getRecommendCount(@PathVariable long clubBoardId) {
+    public ResponseEntity<Long> getRecommendCount(@PathVariable("clubBoard-id") long clubBoardId) {
         long recommendCount = recommendService.getRecommendCount(clubBoardId);
         return ResponseEntity.ok(recommendCount);
     }
 
     @GetMapping("/{clubBoard-id}/{member-id}")
-    public ResponseEntity<Boolean> isRecommendedByMember(@PathVariable long clubBoardId, @PathVariable long memberId) {
+    public ResponseEntity<Boolean> isRecommendedByMember(@PathVariable("clubBoard-id") long clubBoardId,
+                                                         @PathVariable("member-id") long memberId) {
         boolean recommended = recommendService.isRecommendedByMember(clubBoardId, memberId);
         return ResponseEntity.ok(recommended);
     }
 
     @PostMapping("/{clubBoard-id}/{member-id}")
-    public ResponseEntity<RecommendResponseDto> createRecommend(@PathVariable long clubBoardId, @PathVariable long memberId,
+    public ResponseEntity<RecommendResponseDto> createRecommend(@PathVariable("clubBoard-id") long clubBoardId,
+                                                                @PathVariable("member-id") long memberId,
                                                                 @RequestBody RecommendPostDto recommendPostDto) {
         boolean recommended = recommendPostDto.isRecommended();
         recommendService.createRecommend(clubBoardId, memberId, recommended);
@@ -51,7 +53,8 @@ public class RecommendController {
     }
 
     @DeleteMapping("/{clubBoard-id}/{member-id}")
-    public ResponseEntity<RecommendResponseDto> removeRecommend(@PathVariable long clubBoardId, @PathVariable long memberId) {
+    public ResponseEntity<RecommendResponseDto> removeRecommend(@PathVariable("clubBoard-id") long clubBoardId,
+                                                                @PathVariable("member-id") long memberId) {
         recommendService.deleteRecommend(clubBoardId, memberId);
 
         long recommendCount = recommendRepository.countByClubBoard_ClubBoardId(clubBoardId);
