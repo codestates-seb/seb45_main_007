@@ -2,15 +2,13 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { MarketTContPage } from "./pages/MarketTContPage.jsx";
 import { ClubTContPage } from "./pages/ClubTContPage.jsx";
 import { ClubOneContPage } from "./pages/ClubOneContPage.jsx";
-import Login from "./Pages/Login";
-import SignUp from "./Pages/SignUp";
-import Club from "./Pages/Club";
-import Header from "./Components/Header";
-import Mypage from "./pages/Mypage";
-import UserModify from "./pages/UserModify";
-import BuySellContent from "./pages/BuySellContent";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-
+import Login from "./pages/Login.jsx";
+import SignUp from "./pages/SignUp.jsx";
+import ClubMainPage from "./pages/ClubMainPage.jsx";
+import Mypage from "./pages/Mypage.jsx";
+import UserModify from "./pages/UserModify.jsx";
+import MarketOneContPage from "./pages/MarketOneContPage.jsx";
+import React from "react";
 
 function App() {
   return (
@@ -22,9 +20,9 @@ function App() {
         <Route path="/club/onecontent" element={<ClubOneContPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/club" element={<Club />} />
+        <Route path="/club" element={<ClubMainPage />} />
         <Route path="/mypage" element={<Mypage />} />
-        <Route path="/marketOne" element={<BuySellContent />} />
+        <Route path="/market/onecontent" element={<MarketOneContPage />} />
         <Route path="/usermodify" element={<UserModify />} />
       </Routes>
     </Router>

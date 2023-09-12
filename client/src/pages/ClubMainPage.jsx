@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import { React } from "react";
 
 const categories = [
   { name: "만화", path: "/comics" },
@@ -73,7 +74,7 @@ const Post = styled.div`
   margin-bottom: 10px;
 `;
 
-function Club() {
+function ClubMainPage() {
   return (
     <ClubPage>
       <PageContent>
@@ -117,4 +118,4 @@ function Club() {
   );
 }
 
-export default Club;
+export default ClubMainPage;

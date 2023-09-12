@@ -1,5 +1,6 @@
 import { styled } from "styled-components";
 import { NavLink } from "react-router-dom/dist";
+import React from "react";
 
 const BoardHeaderSect = styled.section`
   width: 100vw;

@@ -3,7 +3,7 @@ import { ClubContents } from "../components/ClubContents.jsx";
 import { NewHeader } from "../components/NewHeader.jsx";
 import boardmarker from "../images/theme/white board marker.jpg";
 import { ClubBasicData } from "../data/ClubBasicData.js";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const BoardTotalContainer = styled.section`
   width: 100vw;

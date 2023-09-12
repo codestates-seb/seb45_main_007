@@ -3,6 +3,7 @@ import { NewHeader } from "../components/NewHeader.jsx";
 import { HotContent } from "../components/HotContent.jsx";
 import { NormalContent } from "../components/NormalContent.jsx";
 import { AnaLogClock } from "../components/Clock.jsx";
+import React from "react";
 
 const TotalContainer = styled.div`
   width: 100vw;
