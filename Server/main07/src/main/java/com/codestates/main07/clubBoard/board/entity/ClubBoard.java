@@ -2,7 +2,7 @@ package com.codestates.main07.clubBoard.board.entity;
 
 import com.codestates.main07.audit.Audit;
 import com.codestates.main07.clubBoard.comment.entity.ClubBoardComment;
-import com.codestates.main07.clubBoard.recommend.entity.Recommend;
+import com.codestates.main07.recommend.entity.Recommend;
 import com.codestates.main07.member.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
