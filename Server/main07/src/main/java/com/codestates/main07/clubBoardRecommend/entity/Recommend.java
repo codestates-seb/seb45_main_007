@@ -29,6 +29,6 @@ public class Recommend {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "clubBoard_id")
+    @JoinColumn(name = "club_board_id")
     private ClubBoard clubBoard;
 }
