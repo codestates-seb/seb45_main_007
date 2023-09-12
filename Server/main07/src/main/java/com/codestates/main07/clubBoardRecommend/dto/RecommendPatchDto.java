@@ -5,8 +5,9 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@Setter
 @NoArgsConstructor
 public class RecommendPatchDto {
+    private long clubBoardId;
     private boolean recommended;
+    private long recommendCount;
 }
