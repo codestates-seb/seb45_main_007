@@ -1,10 +1,8 @@
-import React from "react";
-import { styled, } from "styled-components";
-import { NewHeader } from "../components/NewHeader";
-import { HotContent } from "../components/HotContent";
-import { NormalContent } from "../components/NormalContent";
-import { AnaLogClock } from "../components/Clock";
-
+import { styled } from "styled-components";
+import { NewHeader } from "../components/NewHeader.jsx";
+import { HotContent } from "../components/HotContent.jsx";
+import { NormalContent } from "../components/NormalContent.jsx";
+import { AnaLogClock } from "../components/Clock.jsx";
 
 const TotalContainer = styled.div`
   width: 100vw;
@@ -14,7 +12,7 @@ const TotalContainer = styled.div`
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-`
+`;
 
 const BoardNoteContainer = styled.div`
   width: 100%;
@@ -96,8 +94,6 @@ const TeachBoardFilterSect = styled.div`
   font-size: 32px;
 `;
 
-
-
 const BoardNoteSection = styled.div`
   width: 75%;
   height: auto;
@@ -107,11 +103,7 @@ const BoardNoteSection = styled.div`
   justify-content: center;
 `;
 
-
-
-
-
-const BoardLetterSect= styled.div`
+const BoardLetterSect = styled.div`
   width: 4vw;
   height: 30vh;
   position: absolute;
@@ -152,43 +144,20 @@ const LetterContLi = styled.li`
   border-radius: 5px;
 `;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-export const SchoolTheme = () => {
-  const FilterBtnArr = ['카테1', '카테2', '카테3', '카테4', '카테5', '카테6'];
-
-  return(
+export const MarketTContPage = () => {
+  return (
     <TotalContainer>
       <NewHeader />
 
       <BoardFilterBtnSect>
-          <ClassTeachingBoard>
-            <TeachTitle>우리반 카테고리</TeachTitle>
-            <TeachBoardFilterSect>만화영화</TeachBoardFilterSect>
-            <AnaLogClock />
-          </ClassTeachingBoard>
-        </BoardFilterBtnSect>
+        <ClassTeachingBoard>
+          <TeachTitle>우리반 카테고리</TeachTitle>
+          <TeachBoardFilterSect>만화영화</TeachBoardFilterSect>
+          <AnaLogClock />
+        </ClassTeachingBoard>
+      </BoardFilterBtnSect>
 
       <BoardNoteContainer>
-       
-
         <BoardNoteSection>
           <BoardLetterSect>
             <LetterTitleSect>오늘 시간표</LetterTitleSect>
@@ -201,24 +170,13 @@ export const SchoolTheme = () => {
               <LetterContLi>만화영화</LetterContLi>
             </LetterContUl>
           </BoardLetterSect>
-          
-          
+
           <HotContent />
           <HotContent />
           <NormalContent />
           <NormalContent />
-
-
-
-
         </BoardNoteSection>
       </BoardNoteContainer>
-
-
-  </TotalContainer>
-  )
-  
+    </TotalContainer>
+  );
 };
-
-
-
