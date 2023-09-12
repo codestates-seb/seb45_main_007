@@ -45,8 +45,8 @@ public class RecommendService {
 
         Recommend recommend = new Recommend();
         ClubBoard clubBoard = clubBoardRepository.getById(clubBoardId);
-        recommend.setClubBoardId(clubBoardId);
-        recommend.setMemberId(memberRepository.getById(memberId));
+        recommend.setClubBoard(clubBoard);
+        recommend.setMember(memberRepository.getById(memberId));
         recommend.setRecommended(true); //좋아요를 누를 때 recommended를 true로 설정
         recommendRepository.save(recommend);
 
