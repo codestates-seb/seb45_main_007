@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const ClockContainer = styled.div`
-  width: 150px;
-  height: 150px;
-  border: 10px solid brown;
+  width: 100px;
+  height: 100px;
+  border: 5px solid black;
   border-radius: 50%;
   background-color: white;
   position: absolute;
   top: 30%;
-  left: 10%;
+  right: 20%;
 `;
 
 const Hand = styled.div`
@@ -19,16 +19,16 @@ const Hand = styled.div`
 `;
 
 const HourHand = styled(Hand)`
-  width: 2%;
-  height: 50px;
+  width: 1%;
+  height: 15px;
   transform: ${(props) => `rotate(${props.deg}deg)`};
   top: 50%;
   left: 50%;
 `;
 
 const MinuteHand = styled(Hand)`
-  width: 1%;
-  height: 70px;
+  width: 0.5%;
+  height: 30px;
   transform: ${(props) => `rotate(${props.deg}deg)`};
   top: 50%;
   left: 50%;

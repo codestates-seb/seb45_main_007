@@ -41,32 +41,6 @@ const BoardFilterBtnSect = styled.div`
   background-color: #d7d7fe;
 `;
 
-// const BoardFilterUl = styled.ul`
-//   width: 99%;
-//   height: 100%;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   margin-top: 3%;
-// `;
-
-// const BoardFilterLi = styled.li`
-//   width: 13%;
-//   margin-left: 3.7%;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   font-size: 22px;
-//   cursor:pointer;
-//   border-bottom: 10px solid black;
-//   border-top: 10px solid black;
-//   background-color: #ba8862;
-//   height: 100%;
-//   color: white;
-//   letter-spacing: 3px;
-//   border-radius: 10px;
-// `;
-
 const ClassTeachingBoard = styled.div`
   width: 23%;
   background-color: white;
@@ -105,21 +79,21 @@ const BoardNoteSection = styled.div`
 `;
 
 const BoardLetterSect = styled.div`
-  width: 4vw;
+  width: 6vw;
   height: 30vh;
   position: absolute;
   top: 5%;
-  left: 4%;
+  left: 3%;
   display: flex;
   flex-direction: column;
 `;
 
 const LetterTitleSect = styled.div`
   width: 100%;
-  height: 15%;
+  height: 30%;
   border-radius: 5px;
+  font-size: 22px;
   background-color: #ffe9e9;
-  font-size: 13px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -133,7 +107,7 @@ const LetterContUl = styled.ul`
 `;
 
 const LetterContLi = styled.li`
-  height: 15%;
+  height: 30%;
   width: 100%;
   display: flex;
   align-items: center;
@@ -141,8 +115,9 @@ const LetterContLi = styled.li`
   cursor: pointer;
   border: 0.5px solid black;
   background-color: white;
-  margin-top: 5%;
+  margin-top: 7%;
   border-radius: 5px;
+  font-size: 18px;
 `;
 
 export const MarketTContPage = () => {
@@ -152,8 +127,8 @@ export const MarketTContPage = () => {
 
       <BoardFilterBtnSect>
         <ClassTeachingBoard>
-          <TeachTitle>우리반 카테고리</TeachTitle>
-          <TeachBoardFilterSect>만화영화</TeachBoardFilterSect>
+          <TeachTitle>급훈</TeachTitle>
+          <TeachBoardFilterSect>추억은 일종의 만남이다.</TeachBoardFilterSect>
           <AnaLogClock />
         </ClassTeachingBoard>
       </BoardFilterBtnSect>
@@ -161,14 +136,10 @@ export const MarketTContPage = () => {
       <BoardNoteContainer>
         <BoardNoteSection>
           <BoardLetterSect>
-            <LetterTitleSect>오늘 시간표</LetterTitleSect>
+            <LetterTitleSect>카테고리</LetterTitleSect>
             <LetterContUl>
-              <LetterContLi>만화영화</LetterContLi>
-              <LetterContLi>만화영화</LetterContLi>
-              <LetterContLi>만화영화</LetterContLi>
-              <LetterContLi>만화영화</LetterContLi>
-              <LetterContLi>만화영화</LetterContLi>
-              <LetterContLi>만화영화</LetterContLi>
+              <LetterContLi>판매중인 물건</LetterContLi>
+              <LetterContLi>판매된 물건</LetterContLi>
             </LetterContUl>
           </BoardLetterSect>
 
