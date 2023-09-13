@@ -15,3 +15,16 @@ spring:
     database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
     hibernate:
       ddl-auto: update
+
+jwt:
+  key: ${JWT_SECRET_KEY}
+  access-token-expiration-minutes: 30
+  refresh-token-expiration-minutes: 420
+
+mail:
+  address:
+    admin: rjf654@gmail.com
+
+#logging:
+ # level:
+  #  org.hibernate.SQL: debug
