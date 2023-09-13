@@ -1,4 +1,4 @@
-package com.codestates.main07.security.oauth;
+package com.codestates.main07.security.oauth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

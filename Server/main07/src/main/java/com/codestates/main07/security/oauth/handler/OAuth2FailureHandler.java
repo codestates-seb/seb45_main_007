@@ -1,4 +1,4 @@
-package com.codestates.main07.security.oauth;
+package com.codestates.main07.security.oauth.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

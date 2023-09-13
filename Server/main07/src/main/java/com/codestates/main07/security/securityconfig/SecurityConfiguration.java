@@ -11,9 +11,11 @@ import com.codestates.main07.security.jwt.auth.handler.MemberAuthenticationSucce
 import com.codestates.main07.security.jwt.auth.jwt.JwtTokenizer;
 import com.codestates.main07.security.jwt.utils.CustomAuthorityUtils;
 import com.codestates.main07.security.jwt.utils.SHA256PasswordEncoder;
-import com.codestates.main07.security.oauth.CustomOAuth2UserService;
-import com.codestates.main07.security.oauth.OAuth2FailureHandler;
-import com.codestates.main07.security.oauth.OAuth2SuccessHandler;
+import com.codestates.main07.security.oauth.handler.GoogleOAuth2SuccessHandler;
+import com.codestates.main07.security.oauth.handler.KakaoOAuth2SuccessHandler;
+import com.codestates.main07.security.oauth.handler.OAuth2SuccessHandler;
+import com.codestates.main07.security.oauth.sevice.CustomOAuth2UserService;
+import com.codestates.main07.security.oauth.handler.OAuth2FailureHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -36,19 +38,20 @@ public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
     private final CustomOAuth2UserService customOAuth2UserService;
-    private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final OAuth2FailureHandler oAuth2FailureHandler;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
 
     public SecurityConfiguration(JwtTokenizer jwtTokenizer,
                                    CustomAuthorityUtils authorityUtils,
                                  CustomOAuth2UserService customOAuth2UserService,
-                                 OAuth2SuccessHandler oAuth2SuccessHandler,
+                                 GoogleOAuth2SuccessHandler googleOAuth2SuccessHandler,
+                                 KakaoOAuth2SuccessHandler kakaoOAuth2SuccessHandler,
                                  OAuth2FailureHandler oAuth2FailureHandler) {
         this.jwtTokenizer = jwtTokenizer;
         this.authorityUtils = authorityUtils;
         this.customOAuth2UserService = customOAuth2UserService;
-        this.oAuth2SuccessHandler = oAuth2SuccessHandler;
+        this.oAuth2SuccessHandler = new OAuth2SuccessHandler(googleOAuth2SuccessHandler, kakaoOAuth2SuccessHandler);
         this.oAuth2FailureHandler = oAuth2FailureHandler;
     }
     @Bean
@@ -75,16 +78,16 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.GET, "/*/members").hasRole("ADMIN")     // 모든 회원 정보는 관리자만 접근 가능
                         .antMatchers(HttpMethod.GET, "/*/members/**").hasAnyRole("USER", "ADMIN")  // 특정 회원 조회 누구나
                         .antMatchers(HttpMethod.DELETE, "/*/members/**").hasRole("USER") // 탈퇴 회원만
-                        .antMatchers("/auth/google/login").permitAll() //  OAuth2 로그인 프로세스를 시작하므로 모든 사용자가 접근할 수 있도록 설정
+                        .antMatchers("/auth/**/login").permitAll() // OAuth2 로그인 프로세스 시작
                         .antMatchers("/").permitAll()  // root URL은 모든 사용자에게 허용
                         .anyRequest().authenticated()  // 그 외 URL은 인증된 사용자만 접근 가능
                 )
                 .oauth2Login()
-                .loginPage("/auth/google/signin") // 해당 엔드포인트로 요청이 들어왔을 때 OAuth2 로그인 프로세스가 시작
+                .loginPage("/auth/login")
                 .userInfoEndpoint()
                 .userService(customOAuth2UserService)
                 .and()
-                .successHandler(oAuth2SuccessHandler)  // 로그인 성공 시 처리 핸들러
+                .successHandler(oAuth2SuccessHandler)  // 로그인 성공 시 처리 핸들러 (구글, 카카오 등 통합)
                 .failureHandler(oAuth2FailureHandler); // 로그인 실패 시 처리 핸들러
 
 

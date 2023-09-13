@@ -1,4 +1,4 @@
-package com.codestates.main07.security.oauth;
+package com.codestates.main07.security.oauth.sevice;
 
 import com.codestates.main07.member.entity.Member;
 import com.codestates.main07.member.repository.MemberRepository;

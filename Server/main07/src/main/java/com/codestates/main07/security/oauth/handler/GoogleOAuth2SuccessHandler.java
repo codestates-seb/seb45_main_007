@@ -1,4 +1,4 @@
-package com.codestates.main07.security.oauth;
+package com.codestates.main07.security.oauth.handler;
 
 import com.codestates.main07.member.entity.Member;
 import com.codestates.main07.member.service.MemberService;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Component
-public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+public class GoogleOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     @Autowired
     @Lazy
     private MemberService memberService;

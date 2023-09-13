@@ -22,19 +22,19 @@ spring:
             scope:
               - email
               - profile
-#          kakao:
-#            client-id: YOUR_KAKAO_CLIENT_ID
-#            client-name: Kakao
-#            client-secret: YOUR_KAKAO_CLIENT_SECRET
-#            authorization-grant-type: authorization_code
-#            redirect-uri-template: "{baseUrl}/login/oauth2/code/{registrationId}"
-#            scope:
-#              - profile
-#            client-authentication-method: POST
-#            authorization-uri: https://kauth.kakao.com/oauth/authorize
-#            token-uri: https://kauth.kakao.com/oauth/token
-#            user-info-uri: https://kapi.kakao.com/v2/user/me
-#            user-name-attribute: id
+          kakao:
+            client-id: 3713566f240a38a563fdcf1c6fbe54dd
+            client-secret: tgDSN8xQe4wjGpnPUW0FayEO6es3UVer
+            client-name: Kakao
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/auth/kakao/callback"
+            scope:
+              - profile
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
 
 
 jwt:
