@@ -10,10 +10,12 @@ import UserModify from "./pages/UserModify.jsx";
 import MarketOneContPage from "./pages/MarketOneContPage.jsx";
 import React from "react";
 import "./App.css";
+import { NewHeader } from "./components/NewHeader.jsx";
 
 function App() {
   return (
     <Router>
+      <NewHeader />
       <Routes>
         <Route path="/" element={<MarketTContPage />} />
         <Route path="/market/totalcontents" element={<MarketTContPage />} />

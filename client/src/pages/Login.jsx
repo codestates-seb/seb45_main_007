@@ -11,6 +11,7 @@ const PageStyle = styled.div`
   flex-direction: row;
   justify-content: center;
   column-gap: 20px;
+  margin-top: 7vh;
 `;
 
 export default function Login() {

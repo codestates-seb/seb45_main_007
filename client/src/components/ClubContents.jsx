@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 import toy1 from "../images/theme/toy1.png";
 import React from "react";
+import { NavLink } from "react-router-dom";
 /* eslint-disable react/prop-types */
 
 const BoardContentSect = styled.div`
@@ -75,7 +76,9 @@ export const ClubContents = ({ currentPosts }) => {
             </OneContentLabelSect>
 
             <OneContentDiv>
-              <TitleTextSect>{item.title}</TitleTextSect>
+              <TitleTextSect>
+                <NavLink to="/club/onecontent">{item.title}</NavLink>
+              </TitleTextSect>
               <ContentInfoSect>
                 작성자 : {item.writer} &nbsp;&nbsp;&nbsp; | {item.day}{" "}
                 &nbsp;&nbsp;&nbsp; | 조회수 : {item.viewship}

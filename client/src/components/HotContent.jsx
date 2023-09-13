@@ -1,13 +1,15 @@
 import { styled } from "styled-components";
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const BoardOneSect = styled.section`
-  width: 100%;
-  height: 450px;
+  width: 1440px;
+  height: 400px;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 30px;
 `;
 
 const BoardOneTitle = styled.div`
@@ -46,7 +48,7 @@ const BoardNoteSect = styled.div`
 
 const BoardNote = styled.div`
   width: 31.5%;
-  height: 70%;
+  height: 85%;
   border-radius: 10px;
   background-color: ${(props) =>
     props.color === "red" ? "#FFC0CB" : "#ADD8E6"};
@@ -99,7 +101,6 @@ const BoardCircleImg = styled.img`
   height: 100%;
   object-fit: cover;
   object-position: top center;
-  filter: brightness(0.9);
 `;
 // eslint-disable-next-line react/prop-types
 export const HotContent = ({ title, color }) => {
@@ -111,7 +112,9 @@ export const HotContent = ({ title, color }) => {
         </BoardOneTitle>
         <BoardNoteSect>
           <BoardNote color={color}>
-            <BoardNoteTitle>디지몬 어드벤처 비디오 팔아요</BoardNoteTitle>
+            <NavLink to="/market/onecontent" style={{ width: "1px" }}>
+              <BoardNoteTitle>디지몬 어드벤처 비디오 팔아요</BoardNoteTitle>
+            </NavLink>
 
             <BoardNoteCircle>
               <BoardCircleImg />

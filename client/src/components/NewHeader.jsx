@@ -5,7 +5,8 @@ import React from "react";
 const BoardHeaderSect = styled.section`
   width: 100vw;
   height: 72px;
-  background-color: #eeeeee;
+  background-color: white;
+  border-bottom: 0.5px solid gray;
   display: flex;
   position: fixed;
   top: 0;
@@ -45,20 +46,20 @@ const NavLi = styled.li`
   }
 `;
 
-const NavLastLi = styled.li`
-  width: 9%;
-  height: 60%;
-  background-color: #babaff;
-  font-size: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 700px;
-  border: 2px solid white;
-  color: black;
-  box-sizing: border-box;
-  cursor: pointer;
-`;
+// const NavLastLi = styled.li`
+//   width: 9%;
+//   height: 60%;
+//   background-color: #babaff;
+//   font-size: 22px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   margin-left: 700px;
+//   border: 2px solid white;
+//   color: black;
+//   box-sizing: border-box;
+//   cursor: pointer;
+// `;
 export const NewHeader = () => {
   return (
     <>
@@ -76,10 +77,16 @@ export const NewHeader = () => {
             <NavLi>
               <NavLink to="/club">동아리</NavLink>
             </NavLi>
-
+            <NavLi>
+              <NavLink to="/login">로그인</NavLink>
+            </NavLi>
+            <NavLi>
+              <NavLink to="/mypage">마이페이지</NavLink>
+            </NavLi>
+            {/* 
             <NavLastLi>
-              <NavLink to="/mypage">로그인</NavLink>
-            </NavLastLi>
+              <NavLink to="/mypage">마이페이지</NavLink>
+            </NavLastLi> */}
           </NavUl>
         </NavLinkSection>
       </BoardHeaderSect>
