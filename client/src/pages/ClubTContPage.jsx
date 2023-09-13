@@ -19,7 +19,7 @@ const BoardContentSect = styled.section`
 `;
 
 const BoardNameSect = styled.section`
-  margin-top: 6%;
+  margin-top: 7%;
   width: 100%;
   height: 45vh;
   display: flex;
@@ -48,7 +48,7 @@ const BoardFilterBox = styled.div`
 
 const BoardFilterThreeBox = styled.div`
   width: 100%;
-  height: 50%;
+  height: 90%;
   display: flex;
   flex-direction: column;
 `;
@@ -70,9 +70,19 @@ const ThreeBoxContent = styled.div`
   padding: 10px;
   padding-left: 18px;
   align-items: center;
-  font-size: 13px;
+  font-size: 18px;
   border-bottom: 0.001px solid black;
+  background-color: #ededed;
   cursor: pointer;
+  text-align: center;
+`;
+
+const ThreeBoxCircle = styled.div`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-left: 5px;
+  background-color: ${(props) => props.color};
 `;
 
 const TitleSect = styled.div`
@@ -85,13 +95,13 @@ const TitleSect = styled.div`
 
 const TitleLabel = styled.div`
   height: 7%;
-  width: 45%;
+  width: 40%;
   background-color: #c40505;
-  margin-bottom: 0.5%;
+  margin-bottom: 0.7%;
 `;
 
 const TitleText = styled.div`
-  height: 90%;
+  height: 80%;
   width: 100%;
   font-size: 32px;
   letter-spacing: 20px;
@@ -113,7 +123,8 @@ const HotBoard = styled.div`
 
 const HotBoardHelp = styled.div`
   width: 20%;
-  height: 30%;
+  height: 20%;
+  margin-top: 50px;
   text-align: center;
   font-size: 22px;
 `;
@@ -124,18 +135,17 @@ const HotBtnSect = styled.div`
   display: flex;
   margin-top: 1%;
   justify-content: center;
-  align-items: center;
 `;
 
 const HotBtn = styled.div`
   cursor: pointer;
-  width: 12%;
+  width: 10%;
   margin-left: 1%;
-  height: 90%;
+  height: 60%;
   border-radius: 15px;
-  background-color: white;
+  background-color: #718be8;
   border: 1px solid blue;
-  color: #718be8;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -176,7 +186,14 @@ const NameInputSect = styled.div`
 `;
 
 const SortFilterSect = styled.div`
-  width: 7%;
+  width: 30%;
+  height: 90%;
+  display: flex;
+  margin-left: 350px;
+`;
+
+const SortFilterBtn = styled.div`
+  width: 100px;
   height: 90%;
   border: 1px solid gray;
   border-radius: 5px;
@@ -185,7 +202,7 @@ const SortFilterSect = styled.div`
   justify-content: center;
   font-size: 18px;
   padding: 15px;
-  margin-left: 43%;
+  margin-left: 10px;
   cursor: pointer;
 `;
 
@@ -297,20 +314,31 @@ export const ClubTContPage = () => {
         <BoardFilterSect>
           <BoardFilterBox>
             <BoardFilterThreeBox>
-              <ThreeBoxTitle>물건 카테고리</ThreeBoxTitle>
-              <ThreeBoxContent>만화영화</ThreeBoxContent>
-              <ThreeBoxContent>음악</ThreeBoxContent>
-              <ThreeBoxContent>물건</ThreeBoxContent>
-              <ThreeBoxContent>노래</ThreeBoxContent>
-              <ThreeBoxContent>노래</ThreeBoxContent>
-            </BoardFilterThreeBox>
-            <BoardFilterThreeBox>
-              <ThreeBoxTitle>물건 카테고리</ThreeBoxTitle>
-              <ThreeBoxContent>만화영화</ThreeBoxContent>
-              <ThreeBoxContent>음악</ThreeBoxContent>
-              <ThreeBoxContent>물건</ThreeBoxContent>
-              <ThreeBoxContent>노래</ThreeBoxContent>
-              <ThreeBoxContent>노래</ThreeBoxContent>
+              <ThreeBoxTitle>게시판 이동하기</ThreeBoxTitle>
+              <ThreeBoxContent>
+                만화
+                <ThreeBoxCircle color="red" />
+              </ThreeBoxContent>
+              <ThreeBoxContent>
+                영화
+                <ThreeBoxCircle color="blue" />
+              </ThreeBoxContent>
+              <ThreeBoxContent>
+                TV 프로그램
+                <ThreeBoxCircle color="green" />
+              </ThreeBoxContent>
+              <ThreeBoxContent>
+                추억 아이템
+                <ThreeBoxCircle color="yellow" />
+              </ThreeBoxContent>
+              <ThreeBoxContent>
+                노래
+                <ThreeBoxCircle color="purple" />
+              </ThreeBoxContent>
+              <ThreeBoxContent>
+                게임
+                <ThreeBoxCircle color="white" />
+              </ThreeBoxContent>
             </BoardFilterThreeBox>
           </BoardFilterBox>
         </BoardFilterSect>
@@ -341,7 +369,11 @@ export const ClubTContPage = () => {
             <SearchBarSect>
               <SearchBarNameFilter>제목</SearchBarNameFilter>
               <NameInputSect>검색어를 입력하세요</NameInputSect>
-              <SortFilterSect>조회순</SortFilterSect>
+              <SortFilterSect>
+                <SortFilterBtn>조회순</SortFilterBtn>
+                <SortFilterBtn>작성일순</SortFilterBtn>
+                <SortFilterBtn>추천순</SortFilterBtn>
+              </SortFilterSect>
             </SearchBarSect>
           </BoardNameSect>
 
@@ -376,10 +408,9 @@ export const ClubTContPage = () => {
               </PaginationBtnBox>
             </PaginationBtnSect>
           </BoardContentCont>
-
-          <BoardFooterSect />
         </BoardContentSect>
       </BoardTotalContainer>
+      <BoardFooterSect />
     </>
   );
 };

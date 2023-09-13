@@ -21,7 +21,7 @@ const BoardNoteContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  background: #083d03;
+  background-color: #083d03;
   margin-top: 0.2%;
   box-sizing: border-box;
   border-top: 20px solid brown;
@@ -32,7 +32,7 @@ const BoardNoteContainer = styled.div`
 
 const BoardFilterBtnSect = styled.div`
   width: 100%;
-  height: 28vh;
+  height: 320px;
   margin-top: 3.5%;
   display: flex;
   justify-content: center;
@@ -120,6 +120,27 @@ const LetterContLi = styled.li`
   font-size: 18px;
 `;
 
+const MarketMoreReadBtn = styled.div`
+  width: 150px;
+  height: 50px;
+  border-radius: 30px;
+  background-color: #083d03;
+  border: 3px solid white;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin-top: 30px;
+  margin-bottom: 50px;
+`;
+
+const BoardFooterSect = styled.div`
+  width: 100%;
+  height: 10vh;
+  background-color: #fffff0;
+`;
+
 export const MarketTContPage = () => {
   return (
     <TotalContainer>
@@ -143,12 +164,17 @@ export const MarketTContPage = () => {
             </LetterContUl>
           </BoardLetterSect>
 
-          <HotContent />
-          <HotContent />
+          <HotContent title="최신 판매" color="red" />
+          <HotContent title="오래된 판매" color="blue" />
           <NormalContent />
           <NormalContent />
+          <NormalContent />
+          <NormalContent />
+          <NormalContent />
+          <MarketMoreReadBtn>더 보기</MarketMoreReadBtn>
         </BoardNoteSection>
       </BoardNoteContainer>
+      <BoardFooterSect />
     </TotalContainer>
   );
 };

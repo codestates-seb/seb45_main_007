@@ -9,6 +9,7 @@ import Mypage from "./pages/Mypage.jsx";
 import UserModify from "./pages/UserModify.jsx";
 import MarketOneContPage from "./pages/MarketOneContPage.jsx";
 import React from "react";
+import "./App.css";
 
 function App() {
   return (

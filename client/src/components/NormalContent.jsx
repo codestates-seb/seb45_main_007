@@ -1,39 +1,47 @@
 import { styled } from "styled-components";
 import chulsuImg from "../images/theme/chulsu.jpg";
-import harryporter from "../images/theme/harryporter.jpeg";
-import naruto from "../images/theme/naruto.jpeg";
 import React from "react";
 
 const BoardOneSect = styled.section`
   width: 100%;
-  height: 55vh;
+  height: 350px;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
 `;
 
-const BoardOneTitle = styled.div`
-  width: 18%;
-  height: 10%;
-  border-bottom: 3px solid #a7cfff;
-  font-size: 22px;
-  margin-top: 2%;
-  text-align: center;
-  color: white;
-`;
+// const BoardOneTitle = styled.div`
+//   width: 18%;
+//   height: 10%;
+//   border-bottom: 3px solid #a7cfff;
+//   font-size: 22px;
+//   margin-top: 2%;
+//   text-align: center;
+//   color: white;
+// `;
 
 const BoardNoteSect = styled.div`
   width: 100%;
-  height: 85%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
+const OneBoard = styled.article`
+  width: 375px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+`;
+
 const BoardNote = styled.div`
-  width: 23%;
-  height: 55%;
+  width: 90%;
+  height: 75%;
   border-radius: 10px;
   background-color: #f8f8cd;
   border-bottom: 5px solid black;
@@ -46,7 +54,7 @@ const BoardNote = styled.div`
   color: white;
   font-size: 50px;
   text-align: center;
-  margin-left: 3%;
+  margin-left: 30px;
   overflow: hidden;
   position: relative;
   margin-bottom: 1%;
@@ -58,20 +66,32 @@ const BoardNote = styled.div`
 
 const BoardNoteTitle = styled.h3`
   font-size: 18px;
-  width: 100%;
-  height: 20%;
+  width: 300px;
+  height: 50px;
   color: black;
   display: flex;
-  align-items: flex-end;
   justify-content: center;
+  color: white;
+  margin-top: 10px;
+`;
+
+const BoardTitleCircle = styled.div`
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 1.5%;
+  z-index: 999;
+  left: 6%;
+  background-color: #7272f8;
+  border-radius: 50%;
 `;
 
 const BoardNoteCircle = styled.div`
   border-radius: 50%;
-  background-color: white;
+  background-color: #f8f8cd;
   width: 110%;
   height: 100%;
-  top: 30%;
+  top: 0%;
   position: absolute;
   z-index: 1001;
   color: black;
@@ -83,8 +103,8 @@ const BoardNoteCircle = styled.div`
 `;
 
 const BoardCircleImg = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 70%;
+  height: 70%;
   object-fit: cover;
   object-position: top center;
   filter: brightness(0.9);
@@ -94,51 +114,55 @@ export const NormalContent = () => {
   return (
     <>
       <BoardOneSect>
-        <BoardOneTitle>절찬리 판매중</BoardOneTitle>
         <BoardNoteSect>
-          <BoardNote>
-            <BoardNoteTitle>디지몬 어드벤처 비디오 팔아요</BoardNoteTitle>
-
-            <BoardNoteCircle>
-              <BoardCircleImg
-                src={chulsuImg}
-                style={{ objectPosition: "bottom center" }}
-              />
-            </BoardNoteCircle>
-          </BoardNote>
-
-          <BoardNote>
-            <BoardNoteTitle>포켓몬 스티커 팔아요</BoardNoteTitle>
-
-            <BoardNoteCircle>
-              <BoardCircleImg
-                src={chulsuImg}
-                style={{ objectPosition: "bottom center" }}
-              />
-            </BoardNoteCircle>
-          </BoardNote>
-
-          <BoardNote>
+          <OneBoard>
+            <BoardTitleCircle />
+            <BoardNote>
+              <BoardNoteCircle>
+                <BoardCircleImg
+                  src={chulsuImg}
+                  style={{ objectPosition: "bottom center" }}
+                />
+              </BoardNoteCircle>
+            </BoardNote>
             <BoardNoteTitle>원피스 피규어 팔아요</BoardNoteTitle>
-
-            <BoardNoteCircle>
-              <BoardCircleImg
-                src={harryporter}
-                style={{ objectPosition: "bottom center" }}
-              />
-            </BoardNoteCircle>
-          </BoardNote>
-
-          <BoardNote>
+          </OneBoard>
+          <OneBoard>
+            <BoardTitleCircle />
+            <BoardNote>
+              <BoardNoteCircle>
+                <BoardCircleImg
+                  src={chulsuImg}
+                  style={{ objectPosition: "bottom center" }}
+                />
+              </BoardNoteCircle>
+            </BoardNote>
             <BoardNoteTitle>원피스 피규어 팔아요</BoardNoteTitle>
-
-            <BoardNoteCircle>
-              <BoardCircleImg
-                src={naruto}
-                style={{ objectPosition: "center" }}
-              />
-            </BoardNoteCircle>
-          </BoardNote>
+          </OneBoard>
+          <OneBoard>
+            <BoardTitleCircle />
+            <BoardNote>
+              <BoardNoteCircle>
+                <BoardCircleImg
+                  src={chulsuImg}
+                  style={{ objectPosition: "bottom center" }}
+                />
+              </BoardNoteCircle>
+            </BoardNote>
+            <BoardNoteTitle>원피스 피규어 팔아요</BoardNoteTitle>
+          </OneBoard>
+          <OneBoard>
+            <BoardTitleCircle />
+            <BoardNote>
+              <BoardNoteCircle>
+                <BoardCircleImg
+                  src={chulsuImg}
+                  style={{ objectPosition: "bottom center" }}
+                />
+              </BoardNoteCircle>
+            </BoardNote>
+            <BoardNoteTitle>원피스 피규어 팔아요</BoardNoteTitle>
+          </OneBoard>
         </BoardNoteSect>
       </BoardOneSect>
     </>

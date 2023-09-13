@@ -57,10 +57,12 @@
   padding: 0px;
   box-sizing: border-box;
   font-family: "HakgyoansimBunpilR", 'intelone-mono-font-family-regular', 'NanumSquareNeo-Variable', 'Giants-Bold','Single Day', 'Ramche', 'DOSPilgiMedium', 'HakgyoansimGaeulsopungB',  sans-serif;
+
 }
 
 html {
   font-size: 10px;
+  overflow-x: hidden;
 }
 
 ul, ol {

@@ -5,7 +5,7 @@ import React from "react";
 const BoardHeaderSect = styled.section`
   width: 100vw;
   height: 72px;
-  background-color: white;
+  background-color: #eeeeee;
   display: flex;
   position: fixed;
   top: 0;
@@ -22,7 +22,7 @@ const NavLinkSection = styled.div`
 `;
 
 const NavUl = styled.ul`
-  margin-left: 150px;
+  margin-left: 75px;
   width: 100%;
   height: 100%;
   display: flex;
@@ -48,13 +48,13 @@ const NavLi = styled.li`
 const NavLastLi = styled.li`
   width: 9%;
   height: 60%;
-  background-color: blue;
+  background-color: #babaff;
   font-size: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-left: 700px;
-  border: 5px solid blue;
+  border: 2px solid white;
   color: black;
   box-sizing: border-box;
   cursor: pointer;

@@ -3,7 +3,7 @@ import React from "react";
 
 const BoardOneSect = styled.section`
   width: 100%;
-  height: 55vh;
+  height: 450px;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -12,7 +12,6 @@ const BoardOneSect = styled.section`
 
 const BoardOneTitle = styled.div`
   width: 75%;
-  height: 10%;
   font-size: 22px;
   font-weight: bold;
   margin-top: 2%;
@@ -29,19 +28,28 @@ const BoardOneTitle = styled.div`
   }
 `;
 
+const BoardTitleDiv = styled.div`
+  width: 100px;
+  height: 50px;
+  font-size: 22px;
+  position: relative;
+  text-decoration: underline;
+  text-underline-offset: 10px;
+`;
+
 const BoardNoteSect = styled.div`
   width: 75%;
-  height: 85%;
+  height: 400px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
 `;
 
 const BoardNote = styled.div`
-  width: 30%;
+  width: 31.5%;
   height: 70%;
   border-radius: 10px;
-  background-color: #f8f8cd;
+  background-color: ${(props) =>
+    props.color === "red" ? "#FFC0CB" : "#ADD8E6"};
   border-bottom: 5px solid black;
   margin-top: 1%;
   cursor: pointer;
@@ -93,17 +101,16 @@ const BoardCircleImg = styled.img`
   object-position: top center;
   filter: brightness(0.9);
 `;
-
-export const HotContent = () => {
+// eslint-disable-next-line react/prop-types
+export const HotContent = ({ title, color }) => {
   return (
     <>
       <BoardOneSect>
         <BoardOneTitle>
-          <div>최근에 올라온 글</div>
-          <div className="more">더 보러가기</div>
+          <BoardTitleDiv>{title}</BoardTitleDiv>
         </BoardOneTitle>
         <BoardNoteSect>
-          <BoardNote>
+          <BoardNote color={color}>
             <BoardNoteTitle>디지몬 어드벤처 비디오 팔아요</BoardNoteTitle>
 
             <BoardNoteCircle>
@@ -111,7 +118,7 @@ export const HotContent = () => {
             </BoardNoteCircle>
           </BoardNote>
 
-          <BoardNote>
+          <BoardNote color={color}>
             <BoardNoteTitle>포켓몬 스티커 팔아요</BoardNoteTitle>
 
             <BoardNoteCircle>
@@ -119,7 +126,7 @@ export const HotContent = () => {
             </BoardNoteCircle>
           </BoardNote>
 
-          <BoardNote>
+          <BoardNote color={color}>
             <BoardNoteTitle>원피스 피규어 팔아요</BoardNoteTitle>
 
             <BoardNoteCircle>
