@@ -1,5 +1,7 @@
 import { styled } from "styled-components";
 import { React } from "react";
+import { NewHeader } from "../components/NewHeader.jsx";
+import { BoardFilter } from "../components/BoardFilter.jsx";
 
 const categories = [
   { name: "만화", path: "/comics" },
@@ -17,66 +19,70 @@ const posts = [
   // ... (다른 게시글들)
 ];
 
-const ClubPage = styled.div`
-  box-sizing: border-box;
+const ClubTotalContainer = styled.section`
+  width: 100vw;
+  height: auto;
   display: flex;
-  justify-content: center;
-  border: 1px solid black;
-  align-items: center;
-  flex-direction: column;
-  row-gap: 100px;
+  margin-top: 10vh;
 `;
 
-const HeaderBox = styled.div`
-  width: 100%;
-  height: 92px;
-  border: 3px solid black;
-`;
+// const HeaderBox = styled.div`
+//   width: 100%;
+//   height: 92px;
+//   border: 3px solid black;
+// `;
 
 const PageContent = styled.div`
   width: 1440px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   background: #587c55;
   border: 20px solid #a52a2a9d;
+  position: relative;
 `;
 
-const CategorySelection = styled.div`
-  width: 10%;
+const SchoolBoardTitle = styled.section`
+  width: 100%;
+  height: 75px;
   display: flex;
-  flex-direction: column;
-  margin-right: 20px;
-  border: 1px solid black;
-`;
-const CategoryDiv = styled.div`
-  height: 50px;
-  display: flex;
-  justify-content: center;
   align-items: center;
-  font-size: 20px;
-  border: 1px solid black;
+  justify-content: center;
+  top: 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
-const CategoryButton = styled.button`
-  height: 25px;
-  margin-bottom: 10px;
-  font-size: 13px;
+const SchoolBCircle = styled.div`
+  width: 70px;
+  height: 70px;
+  background-color: white;
+  margin-left: 50px;
+  border-radius: 50%;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 5px solid pink;
 `;
 
 const CategoryBoxes = styled.div`
-  width: 90%;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 50px;
   justify-content: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
 `;
 
 const CategoryBox = styled.div`
-  width: 400px;
-  height: 200px;
-  border: 1px solid #000;
+  width: 500px;
+  height: 250px;
+  border: 1px solid #fabcbc;
   padding: 10px;
-  background: #dfdfdf;
+  background: #ffffff;
+  border-radius: 8px;
 `;
 
 const CategoryHeader = styled.div`
@@ -84,13 +90,23 @@ const CategoryHeader = styled.div`
   font-size: 20px;
   justify-content: space-between;
   margin-bottom: 10px;
-  border: 1px solid black;
+  border-bottom: 3px solid black;
+  height: 30px;
+  align-items: center;
 `;
 const PlusButton = styled.button`
   width: 30px;
+  height: 100%;
+  margin-bottom: 10px;
+  border: none;
+  font-size: 32px;
+  background-color: white;
+  cursor: pointer;
 `;
 
-const CategoryContent = styled.div``;
+const CategoryContent = styled.div`
+  margin-top: 20px;
+`;
 
 const Post = styled.div`
   font-size: 13px;
@@ -98,14 +114,67 @@ const Post = styled.div`
   justify-content: space-between;
   margin-bottom: 10px;
   align-items: center;
+  height: 35px;
+  line-height: 1.2;
+  border-bottom: 1px solid gray;
+`;
+
+const ClubMainFooterSect = styled.div`
+  width: 100%;
+  height: 10vh;
+  background-color: #fffff0;
 `;
 
 function ClubMainPage() {
   return (
-    <ClubPage>
-      <HeaderBox></HeaderBox>
-      <PageContent>
-        <CategorySelection>
+    <>
+      <NewHeader />
+      <ClubTotalContainer>
+        <BoardFilter />
+        <PageContent>
+          <SchoolBoardTitle>
+            <SchoolBCircle>학</SchoolBCircle>
+            <SchoolBCircle>급</SchoolBCircle>
+            <SchoolBCircle>게</SchoolBCircle>
+            <SchoolBCircle>시</SchoolBCircle>
+            <SchoolBCircle>판</SchoolBCircle>
+          </SchoolBoardTitle>
+          <CategoryBoxes>
+            {categories.map((category) => (
+              <CategoryBox key={category.name}>
+                <CategoryHeader>
+                  <span>{category.name}</span>
+                  <PlusButton
+                    onClick={() => (window.location.href = category.path)}
+                  >
+                    +
+                  </PlusButton>
+                </CategoryHeader>
+                <CategoryContent>
+                  {posts.map((post, index) => (
+                    <Post key={index}>
+                      <div>{post.title}</div>
+                      <div>
+                        <div>추천수: {post.likes}</div>
+                        <div>{post.date}</div>
+                      </div>
+                    </Post>
+                  ))}
+                </CategoryContent>
+              </CategoryBox>
+            ))}
+          </CategoryBoxes>
+        </PageContent>
+      </ClubTotalContainer>
+      <ClubMainFooterSect />
+    </>
+  );
+}
+
+export default ClubMainPage;
+
+{
+  /* <CategorySelection>
           <CategoryDiv>카테고리</CategoryDiv>
           {categories.map((category) => (
             <CategoryButton
@@ -115,36 +184,5 @@ function ClubMainPage() {
               {category.name}
             </CategoryButton>
           ))}
-        </CategorySelection>
-
-        <CategoryBoxes>
-          {categories.map((category) => (
-            <CategoryBox key={category.name}>
-              <CategoryHeader>
-                <span>{category.name}</span>
-                <PlusButton
-                  onClick={() => (window.location.href = category.path)}
-                >
-                  +
-                </PlusButton>
-              </CategoryHeader>
-              <CategoryContent>
-                {posts.map((post, index) => (
-                  <Post key={index}>
-                    <div>{post.title}</div>
-                    <div>
-                      <div>추천수: {post.likes}</div>
-                      <div>{post.date}</div>
-                    </div>
-                  </Post>
-                ))}
-              </CategoryContent>
-            </CategoryBox>
-          ))}
-        </CategoryBoxes>
-      </PageContent>
-    </ClubPage>
-  );
+        </CategorySelection> */
 }
-
-export default ClubMainPage;
