@@ -394,3 +394,102 @@
 // };
 
 // export default PostDetail;
+
+// 타입스크립트 관련 정리
+
+// 1. 변수 및 타입 지정:
+let name: string = "John";
+let age: number = 30;
+let isStudent: boolean = false;
+
+// 함수의 인자와 반환값의 타입 지정
+function greet(person: string): string {
+  return `Hello, ${person}!`;
+}
+
+// 배열과 배열 요소의 타입 지정
+let fruits: string[] = ["apple", "banana", "cherry"];
+
+// 객체와 객체 속성의 타입 지정
+let person: {name: String; age: number} = {name: "Alice", age: 25};
+
+// 2. 인터페이스와 클래스
+
+interface Point {
+  x: Number;
+  y: Number;
+}
+
+class PointClass implements Point {
+  constructor(public x: Number, public y: number) {}
+}
+
+let point = new PointClass(10, 20);
+
+// 3. 제네릭
+
+function identity<T>(arg: T): T {
+  return arg;
+}
+
+let result = identity<string>("Hello, TypeScript!");
+
+class Box<T> {
+  constructor(private value: T) {}
+  getValue(): T {
+    return this.value;
+  }
+}
+
+let numberBox = new Box<number>(42);
+
+// 4. 타입 별칭
+
+type User = {
+  id: number;
+  username: string;
+};
+
+let user: User = {id: 1, username: "jsmith"};
+
+// 5. 열거형
+
+enum Color {
+  Red,
+  Green,
+  Blue,
+}
+
+let chosenColor: Color = Color.Green;
+
+// 6. 모듈화
+
+export function add(a: number, b: number): number {
+  return a + b;
+}
+
+import {add} from "./math";
+
+
+
+
+import React, { useState } from 'react';
+
+function LikeButton() {
+  const [liked, setLiked] = useState(false);
+
+  const toggleLike = () => {
+    setLiked(!liked);
+  };
+
+  return (
+    <div>
+      <button onClick={toggleLike}>
+        {liked ? '좋아요 취소' : '좋아요'}
+      </button>
+      {liked && <p>좋아요를 눌렀습니다.</p>}
+    </div>
+  );
+}
+
+export default LikeButton;

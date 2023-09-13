@@ -1,14 +1,6 @@
 import { styled } from "styled-components";
 import toy1 from "../images/theme/toy1.png";
 import React from "react";
-// import toy2 from "../images/theme/car.png";
-// import toy3 from "../images/theme/doll.png";
-// import toy4 from "../images/theme/game-console.png";
-// import textbook from "../images/theme/textbook.jpeg";
-// import stich from "../images/theme/sticihimg.png";
-// import sil from "../images/theme/cats.png";
-// import { useState } from "react";
-// import { BoardDialData } from "../data/BoardDialData";
 /* eslint-disable react/prop-types */
 
 const BoardContentSect = styled.div`
@@ -57,7 +49,7 @@ const OneContentDiv = styled.div`
 const TitleTextSect = styled.div`
   width: 90%;
   height: 50%;
-  font-size: 18px;
+  font-size: 22px;
   display: flex;
   align-items: flex-end;
   margin-left: 2%;
@@ -67,7 +59,7 @@ const ContentInfoSect = styled.div`
   width: 90%;
   height: 50%;
   display: flex;
-  font-size: 13px;
+  font-size: 18px;
   align-items: center;
   margin-left: 2%;
 `;
