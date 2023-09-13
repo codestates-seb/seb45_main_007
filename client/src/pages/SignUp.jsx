@@ -2,16 +2,27 @@ import { SignUpBox } from "./styles/SignUpBox";
 import { useState, React } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { styled } from "styled-components";
+
+const PageStyle = styled.div`
+  padding: 65px 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  column-gap: 20px;
+`;
 
 export default function SignUp() {
-  const [id, setId] = useState("");
+  const [email, setId] = useState("");
   const [idIsValid, setIdIsValid] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordIsValid, setPasswordIsValid] = useState(false);
   const [password2, setPassword2] = useState("");
   const [password2IsValid, setPassword2IsValid] = useState(false);
-  const [name, setName] = useState("");
+  const [username, setName] = useState("");
   const [nameIsValid, setNameIsValid] = useState(false);
+  const [nickname, setNickname] = useState("");
+  const [nicknameIsValid, setNicknameIsValid] = useState(false);
 
   const navigate = useNavigate();
 
@@ -33,9 +44,7 @@ export default function SignUp() {
   };
   const onChangeHandlerPassword = (e) => {
     setPassword(e.target.value);
-    if (
-      e.target.value.match(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$/)
-    ) {
+    if (e.target.value.length >= 8 && e.target.value.length <= 16) {
       setPasswordIsValid(true);
     } else {
       setPasswordIsValid(false);
@@ -50,10 +59,28 @@ export default function SignUp() {
     }
   };
 
+  const checkNickname = async () => {
+    try {
+      const response = await axios.post("/", { nickname });
+      if (response.data.duplicate) {
+        setNicknameIsValid(false);
+      } else {
+        setNicknameIsValid(true);
+      }
+    } catch (error) {
+      console.error("Nickname check error:", error);
+    }
+  };
+
   const signUp = async () => {
     if (idIsValid && passwordIsValid && password2IsValid && nameIsValid) {
       try {
-        const response = await axios.post("/signin", { id, password });
+        const response = await axios.post("/members/signup", {
+          email,
+          password,
+          username,
+          nickname,
+        });
         console.log(response.data.message);
         if (response.data.success) {
           alert("회원가입에 성공하셨습니다.");
@@ -68,64 +95,98 @@ export default function SignUp() {
   };
 
   return (
-    <div>
+    <PageStyle>
       <SignUpBox>
-        <div className="title">회원가입</div>
-        <div className="input-container">
-          <div className="input-content">
-            <img src="/images/ic-outline-email.png" alt=""></img>
-            <input
-              type="text"
-              onChange={onChangeHandlerId}
-              value={id}
-              placeholder="example@email.com"
-            ></input>
+        <div className="top">
+          <div className="title">회원가입</div>
+          <div className="input-container">
+            <div className="input-content">
+              <img src="/images/ic-outline-email.png" alt=""></img>
+              <input
+                type="text"
+                onChange={onChangeHandlerId}
+                value={email}
+                placeholder="example@email.com"
+              ></input>
+            </div>
+            <div className="error-box">
+              {!idIsValid ? (
+                <div className="error-message">
+                  유효한 이메일을 입력 해주세요.
+                </div>
+              ) : null}
+            </div>
+            <div className="input-content">
+              <img src="/images/ph-user.png" alt=""></img>
+              <input
+                type="text"
+                onChange={onChangeHandlerName}
+                value={username}
+                placeholder="김코딩"
+              ></input>
+            </div>
+            <div className="error-box">
+              {!nameIsValid ? (
+                <div className="error-message">이름을 입력 해주세요</div>
+              ) : null}
+            </div>
+            <div className="input-content">
+              <img src="/images/ph-user.png" alt=""></img>
+              <input
+                type="text"
+                onChange={(e) => setNickname(e.target.value)}
+                value={nickname}
+                placeholder="닉네임을 입력해주세요"
+              ></input>
+              <button className="duplicate" onClick={checkNickname}>
+                중복확인
+              </button>
+            </div>
+            <div className="error-box">
+              {!nicknameIsValid ? (
+                <div className="error-message">중복된 닉네임입니다.</div>
+              ) : null}
+            </div>
+            <div className="input-content">
+              <img src="/images/mdi-password-outline.png" alt=""></img>
+              <input
+                type="password"
+                onChange={onChangeHandlerPassword}
+                value={password}
+                placeholder="비밀번호를 입력해주세요"
+              ></input>
+            </div>
+            <div className="error-box">
+              {!passwordIsValid ? (
+                <div className="error-message">
+                  8 ~ 16글자의 비밀번호를 입력해주세요.
+                </div>
+              ) : null}
+            </div>
+            <div className="input-content">
+              <img src="/images/mdi-password-outline.png" alt=""></img>
+              <input
+                type="password"
+                onChange={onChangeHandlerPassword2}
+                value={password2}
+                placeholder="비밀번호와 동일하게 입력해주세요"
+              ></input>
+            </div>
+            <div className="error-box">
+              {!password2IsValid ? (
+                <div className="error-message">
+                  비밀번호가 일치하지 않습니다.
+                </div>
+              ) : null}
+            </div>
           </div>
-          {!idIsValid ? (
-            <div className="error-message">유효한 이메일을 입력 해주세요.</div>
-          ) : null}
           <div>
-            <input
-              type="text"
-              onChange={onChangeHandlerName}
-              value={name}
-              placeholder="김코딩"
-            ></input>
+            <button className="signup-button" onClick={signUp}>
+              SignUp
+            </button>
           </div>
-          {!nameIsValid ? (
-            <div className="error-message">이름을 입력 해주세요</div>
-          ) : null}
-          <div>
-            <input
-              type="password"
-              onChange={onChangeHandlerPassword}
-              value={password}
-              placeholder="password"
-            ></input>
-            {!passwordIsValid ? (
-              <div className="error-message">
-                최소 8글자 이상, 영문, 숫자, 특수문자 포함
-              </div>
-            ) : null}
-          </div>
-          <div>
-            <input
-              type="password"
-              onChange={onChangeHandlerPassword2}
-              value={password2}
-              placeholder="password"
-            ></input>
-          </div>
-          {!password2IsValid ? (
-            <div className="error-message">비밀번호가 일치하지 않습니다.</div>
-          ) : null}
-        </div>
-        <div>
-          <button className="signup-button" onClick={signUp}>
-            SignUp
-          </button>
         </div>
       </SignUpBox>
-    </div>
+    </PageStyle>
   );
 }
