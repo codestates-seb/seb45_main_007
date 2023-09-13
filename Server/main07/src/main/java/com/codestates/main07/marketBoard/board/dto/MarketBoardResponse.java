@@ -4,6 +4,8 @@ package com.codestates.main07.marketBoard.board.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 public class MarketBoardResponse {
@@ -12,15 +14,7 @@ public class MarketBoardResponse {
     private String title;
     private String content;
     private int viewCount;
+    private String nickname;
     private boolean success;
-//    private List<>
-
-
-//    public MarketBoardResponseDto(MarketBoard marketBoard) {
-//        this.marketBoardId = marketBoard.getMarketBoardId();
-//        this.title = marketBoard.getTitle();
-//        this.content = marketBoard.getContent();
-//        this.photo = marketBoard.getPhoto();
-//        this.viewCount = marketBoard.getViewCount();
-//    }
+    private LocalDateTime createdAt;
 }

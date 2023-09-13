@@ -60,8 +60,10 @@ public class MarketBoardController {
 
         MarketBoard marketBoard = marketBoardService.viewBoard(marketBoardId);
 
-        int updatedViewCount = marketBoard.getViewCount() + 1;
-        marketBoard.updateView(updatedViewCount);
+        marketBoard.incrementViewCount();
+
+//        int updatedViewCount = marketBoard.getViewCount() + 1;
+//        marketBoard.updateView(updatedViewCount);
 
         MarketBoardResponse response = mapper.marketBoardToMarketBoardResponseDto(marketBoard);
 

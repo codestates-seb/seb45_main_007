@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Transactional
@@ -31,7 +32,7 @@ public class MarketBoardService {
 
         findMarketBoard.update(marketBoard.getTitle(), marketBoard.getContent());
 
-//        findMarketBoard.setModifiedAt(LocalDateTime.now());
+        findMarketBoard.setModifiedAt(LocalDateTime.now());
 
         return marketBoardRepository.save(findMarketBoard);
     }
@@ -47,12 +48,10 @@ public class MarketBoardService {
     }
 
     public Page<MarketBoard> boardList(Pageable pageable) {
-        return marketBoardRepository.findAll(pageable);
-    }
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),sort);
 
-    public void updateViewCount (long marketBoardId, MarketBoardUpdate updateDto) {
-        MarketBoard marketBoard = findCorrectMarketBoard(marketBoardId);
-        marketBoard.updateView(updateDto.getViewCount());
+        return marketBoardRepository.findAll(pageable);
     }
 
     private MarketBoard findCorrectMarketBoard(long marketBoardId) {

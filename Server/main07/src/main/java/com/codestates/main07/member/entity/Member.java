@@ -3,6 +3,8 @@ package com.codestates.main07.member.entity;
 import com.codestates.main07.audit.Audit;
 import com.codestates.main07.clubBoard.board.entity.ClubBoard;
 import com.codestates.main07.clubBoard.comment.entity.ClubBoardComment;
+import com.codestates.main07.marketBoard.board.MarketBoard;
+import com.codestates.main07.marketBoard.comment.MarketBoardComment;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -66,13 +68,13 @@ public class Member extends Audit {
 
     @OneToMany(mappedBy = "member")
     private List<ClubBoardComment> clubBoardComments;
-//
-//    @OneToMany(mappedBy = "member")
-//    private List<BuySellBoard> buySellBoards;
-//
-//    @OneToMany(mappedBy = "member")
-//    private List<BuySellBoardComment> buySellBoardComments;
-//
+
+    @OneToMany(mappedBy = "member")
+    private List<MarketBoard> marketBoards;
+
+    @OneToMany(mappedBy = "member")
+    private List<MarketBoardComment> marketBoardComments;
+
 //    @OneToMany(mappedBy = "member")
 //    private List<BuySellBoardVote> buySellBoardVotes;
 }

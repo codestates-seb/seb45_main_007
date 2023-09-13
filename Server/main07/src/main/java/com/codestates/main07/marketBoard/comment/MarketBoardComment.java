@@ -1,6 +1,8 @@
 package com.codestates.main07.marketBoard.comment;
 
+import com.codestates.main07.audit.Audit;
 import com.codestates.main07.marketBoard.board.MarketBoard;
+import com.codestates.main07.member.entity.Member;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class MarketBoardComment {
+public class MarketBoardComment extends Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +26,9 @@ public class MarketBoardComment {
     @JoinColumn(name = "market_board_id")
     private MarketBoard marketBoard;
 
-//    @ManyToOne
-//    @JoinColumn(name = "member_id")
-//    private Member member;
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
@@ -35,9 +37,9 @@ public class MarketBoardComment {
     @OneToMany(mappedBy = "parent", orphanRemoval = true)
     private List<MarketBoardComment> children = new ArrayList<>();
 
-//    public void updateMember(Memeber memeber) {
-//        this.member = memeber;
-//    }
+    public void updateMember(Member member) {
+        this.member = member;
+    }
 
     public void updateBoard(MarketBoard marketBoard) {
         this.marketBoard = marketBoard;
