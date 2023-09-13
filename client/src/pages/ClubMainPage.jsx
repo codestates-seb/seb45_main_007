@@ -22,12 +22,23 @@ const ClubPage = styled.div`
   display: flex;
   justify-content: center;
   border: 1px solid black;
+  align-items: center;
+  flex-direction: column;
+  row-gap: 100px;
 `;
+
+const HeaderBox = styled.div`
+  width: 100%;
+  height: 92px;
+  border: 3px solid black;
+`;
+
 const PageContent = styled.div`
   width: 1440px;
   display: flex;
   justify-content: center;
-  border: 1px solid black;
+  background: #587c55;
+  border: 20px solid #a52a2a9d;
 `;
 
 const CategorySelection = styled.div`
@@ -37,9 +48,19 @@ const CategorySelection = styled.div`
   margin-right: 20px;
   border: 1px solid black;
 `;
+const CategoryDiv = styled.div`
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  border: 1px solid black;
+`;
 
 const CategoryButton = styled.button`
+  height: 25px;
   margin-bottom: 10px;
+  font-size: 13px;
 `;
 
 const CategoryBoxes = styled.div`
@@ -47,7 +68,6 @@ const CategoryBoxes = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 50px;
-  border: 1px solid black;
   justify-content: center;
 `;
 
@@ -56,6 +76,7 @@ const CategoryBox = styled.div`
   height: 200px;
   border: 1px solid #000;
   padding: 10px;
+  background: #dfdfdf;
 `;
 
 const CategoryHeader = styled.div`
@@ -65,21 +86,27 @@ const CategoryHeader = styled.div`
   margin-bottom: 10px;
   border: 1px solid black;
 `;
+const PlusButton = styled.button`
+  width: 30px;
+`;
 
 const CategoryContent = styled.div``;
 
 const Post = styled.div`
+  font-size: 13px;
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
+  align-items: center;
 `;
 
 function ClubMainPage() {
   return (
     <ClubPage>
+      <HeaderBox></HeaderBox>
       <PageContent>
         <CategorySelection>
-          <div>카테고리</div>
+          <CategoryDiv>카테고리</CategoryDiv>
           {categories.map((category) => (
             <CategoryButton
               key={category.name}
@@ -95,17 +122,19 @@ function ClubMainPage() {
             <CategoryBox key={category.name}>
               <CategoryHeader>
                 <span>{category.name}</span>
-                <button onClick={() => (window.location.href = category.path)}>
+                <PlusButton
+                  onClick={() => (window.location.href = category.path)}
+                >
                   +
-                </button>
+                </PlusButton>
               </CategoryHeader>
               <CategoryContent>
                 {posts.map((post, index) => (
                   <Post key={index}>
-                    <span>{post.title}</span>
+                    <div>{post.title}</div>
                     <div>
-                      <span>추천수: {post.likes}</span>
-                      <span>{post.date}</span>
+                      <div>추천수: {post.likes}</div>
+                      <div>{post.date}</div>
                     </div>
                   </Post>
                 ))}
