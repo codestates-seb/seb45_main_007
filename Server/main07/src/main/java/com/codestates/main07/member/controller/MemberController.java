@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -27,29 +28,24 @@ public class MemberController {
         this.mapper = mapper;
     }
 
+    /**
+    반환 타입을 ResponseEntity<?>로 변경하였는데,
+    ?는 와일드카드 타입이며, 여러 타입이 가능하다는 것을 나타냅니다.
+    이렇게 하면 나중에 다른 타입의 객체를 반환하고 싶을 때도 유연하게 대응할 수 있습니다.
+     */
     @PostMapping("/signup")
-    public ResponseEntity postMember(@Valid @RequestBody MemberPostDto memberDto) {
-
+    public ResponseEntity<?> postMember(@Valid @RequestBody MemberPostDto memberDto) {
         Member member = mapper.memberPostDtoToMember(memberDto);
-
-        Member response = memberService.createMember(member);
-
-
-        return new ResponseEntity<>(mapper.memberToMemberResponseDto(response),
-                HttpStatus.CREATED);
+        Map<String, Boolean> result = memberService.createMember(member);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     @PutMapping("/{member-id}")
-    public ResponseEntity updateMember(@PathVariable("member-id") long memberId,
+    public ResponseEntity<?> updateMember(@PathVariable("member-id") long memberId,
                                       @Valid @RequestBody MemberUpdateDto memberUpdateDto) {
         memberUpdateDto.setMemberId(memberId);
-
-        Member response =
-                memberService.updateMember(mapper.memberUpdateDtoToMember(memberUpdateDto));
-
-
-        return new ResponseEntity<>(mapper.memberToMemberResponseDto(response),
-                HttpStatus.OK);
+        Map<String, Boolean> result = memberService.updateMember(mapper.memberUpdateDtoToMember(memberUpdateDto));
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/{member-id}")
@@ -73,12 +69,9 @@ public class MemberController {
     }
 
     @DeleteMapping("/{member-id}")
-    public ResponseEntity deleteMember(
+    public ResponseEntity<?> deleteMember(
             @PathVariable("member-id") @Positive long memberId) {
-        System.out.println("# delete member");
-
-        memberService.deleteMember(memberId);
-
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        Map<String, Boolean> result = memberService.deleteMember(memberId);
+        return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
     }
 }

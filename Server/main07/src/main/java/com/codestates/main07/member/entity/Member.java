@@ -35,7 +35,7 @@ public class Member extends Audit {
     @Pattern(regexp = "^[가-힣a-zA-Z]*$", message = "한글 및 영어만 가능합니다.")
     private String username;
 
-    @Column(length = 16)
+    @Column(length = 16, unique = true)
     @Size(min = 1, max = 16, message = "1자 이상 16자 이하로 입력해주세요.")
     @Pattern(regexp = "^[가-힣a-zA-Z]*$", message = "한글 및 영어만 가능합니다.")
     private String nickname;

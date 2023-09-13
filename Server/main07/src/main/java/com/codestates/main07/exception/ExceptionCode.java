@@ -9,6 +9,7 @@ public enum ExceptionCode {
 
     // 회원 가입과 관련된 예외
     EMAIL_ALREADY_EXISTS(409, "이미 존재하는 이메일입니다"),
+    NICKNAME_ALREADY_EXISTS(409, "이미 존재하는 닉네임입니다"),
     SIGNUP_FAILED(500, "회원 가입에 실패하였습니다. 나중에 다시 시도해주세요"),
 
     // 회원 정보 업데이트와 관련된 예외

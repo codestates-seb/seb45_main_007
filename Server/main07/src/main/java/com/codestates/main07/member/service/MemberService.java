@@ -9,7 +9,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -23,24 +26,36 @@ public class MemberService {
         private PasswordEncoder passwordEncoder;
 
         @Transactional
-        public Member createMember(Member member) {
-            if (memberRepository.existsById(member.getMemberId())) {
+        public Map<String, Boolean> createMember(Member member) {
+            if (memberRepository.existsByEmail(member.getEmail())) {
                 throw new BusinessLogicException(ExceptionCode.EMAIL_ALREADY_EXISTS);
+            }
+
+            // 닉네임 중복 검사
+            if (memberRepository.findByNickname(member.getNickname()).isPresent()) {
+                throw new BusinessLogicException(ExceptionCode.NICKNAME_ALREADY_EXISTS);
             }
 
             // 비밀번호 해싱
             String hashedPassword = passwordEncoder.encode(member.getPassword());
             member.setPassword(hashedPassword);
+            memberRepository.save(member);
 
-            return memberRepository.save(member);
+            Map<String, Boolean> response = new HashMap<>();
+            response.put("success", true);
+            return response;
         }
 
     @Transactional
-    public Member updateMember(Member member) {
+    public Map<String, Boolean> updateMember(Member member) {
         if (!memberRepository.existsById(member.getMemberId())) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
         }
-        return memberRepository.save(member);
+        memberRepository.save(member);
+
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("success", true);
+        return response;
     }
 
     @Transactional(readOnly = true)
@@ -62,15 +77,20 @@ public class MemberService {
     }
 
     @Transactional
-    public void deleteMember(long memberId) {
+    public Map<String, Boolean> deleteMember(long memberId) {
         if (!memberRepository.existsById(memberId)) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
         }
         memberRepository.deleteById(memberId);
+
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("success", true);
+        return response;
     }
 
     @Transactional(readOnly = true)
-    public Optional<Member> findByEmail(String email) {
-        return memberRepository.findByEmail(email);
+    public Member findByEmail(String email) {
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 }
