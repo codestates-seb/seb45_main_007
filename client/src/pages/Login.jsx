@@ -14,7 +14,7 @@ const PageStyle = styled.div`
 `;
 
 export default function Login() {
-  const [id, setId] = useState("");
+  const [email, setId] = useState("");
   const [idIsValid, setIdIsValid] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordIsValid, setPasswordIsValid] = useState(false);
@@ -52,7 +52,7 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("/signin", { id, password });
+      const response = await axios.post("/signin", { email, password });
       if (response.data.success) {
         setLoggedIn(true);
       } else {
@@ -85,7 +85,7 @@ export default function Login() {
                 <input
                   type="text"
                   onChange={onChangeHandlerId}
-                  value={id}
+                  value={email}
                   placeholder="example@email.com"
                   style={{ fontSize: "16px" }}
                 ></input>
