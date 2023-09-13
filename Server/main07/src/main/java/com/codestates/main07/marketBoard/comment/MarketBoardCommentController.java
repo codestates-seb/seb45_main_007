@@ -1,6 +1,5 @@
 package com.codestates.main07.marketBoard.comment;
 
-import com.codestates.main07.marketBoard.board.MarketBoard;
 import com.codestates.main07.marketBoard.board.dto.SuccessDto;
 import com.codestates.main07.marketBoard.comment.dto.MarketBoardCommentCreate;
 import com.codestates.main07.marketBoard.comment.dto.MarketBoardCommentResponse;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.Positive;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,12 +46,12 @@ public class MarketBoardCommentController {
     }
 
     @PostMapping
-    public ResponseEntity addComment (@RequestBody MarketBoardCommentCreate createDto) {
+    public ResponseEntity createCommentOrReply(@RequestBody MarketBoardCommentCreate createDto) {
 
         MarketBoardComment marketBoardComment = mapper.createDtoToMarketBoardComment(createDto);
 
-        MarketBoardComment createdMarketBoardComment = marketBoardCommentService.createComment(marketBoardComment);
-        MarketBoardCommentResponse response = mapper.marketBoardCommentToMarketBoardCommentResponseDto(createdMarketBoardComment);
+        MarketBoardComment createdCommentOrReply = marketBoardCommentService.createCommentOrReply(marketBoardComment, createDto);
+        MarketBoardCommentResponse response = mapper.marketBoardCommentToMarketBoardCommentResponseDto(createdCommentOrReply);
 
         response.setSuccess(true);
         return new ResponseEntity<>(response, HttpStatus.CREATED);

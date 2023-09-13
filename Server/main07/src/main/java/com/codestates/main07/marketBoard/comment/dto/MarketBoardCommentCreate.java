@@ -8,6 +8,11 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MarketBoardCommentCreate {
     private long memberId;
-    private long marketBoardCommentId;
+    private Long marketBoardId;
+    private Long parentId;
     private String content;
+
+    public MarketBoardCommentCreate(String content) {
+        this.content = content;
+    }
 }

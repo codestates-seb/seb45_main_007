@@ -10,5 +10,6 @@ import lombok.Setter;
 public class MarketBoardCommentUpdate {
     private long memberId;
     private long marketBoardCommentId;
+    private Long parentId;
     private String content;
 }

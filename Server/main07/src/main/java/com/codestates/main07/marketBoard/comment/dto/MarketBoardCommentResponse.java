@@ -8,6 +8,7 @@ import lombok.Setter;
 public class MarketBoardCommentResponse {
     private long memberId;
     private long marketBoardCommentId;
+    private Long parentId;
     private String content;
     private boolean success;
 }

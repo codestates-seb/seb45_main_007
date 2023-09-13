@@ -4,6 +4,8 @@ import com.codestates.main07.marketBoard.board.MarketBoard;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -15,7 +17,7 @@ public class MarketBoardComment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long marketBoardCommentId;
 
-    @Column (nullable = false)
+    @Column (columnDefinition = "TEXT", nullable = false)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,6 +28,24 @@ public class MarketBoardComment {
 //    @JoinColumn(name = "member_id")
 //    private Member member;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    private MarketBoardComment parent;
+
+    @OneToMany(mappedBy = "parent", orphanRemoval = true)
+    private List<MarketBoardComment> children = new ArrayList<>();
+
+//    public void updateMember(Memeber memeber) {
+//        this.member = memeber;
+//    }
+
+    public void updateBoard(MarketBoard marketBoard) {
+        this.marketBoard = marketBoard;
+    }
+
+    public void updateParent(MarketBoardComment marketBoardComment) {
+        this.parent = marketBoardComment;
+    }
 
     @Builder
     public MarketBoardComment(String content) {
@@ -33,6 +53,10 @@ public class MarketBoardComment {
     }
 
     public void update(String content) {
+        this.content = content;
+    }
+
+    public void createReply(String content) {
         this.content = content;
     }
 }
