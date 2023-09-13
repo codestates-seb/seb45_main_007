@@ -1,11 +1,20 @@
 import { styled } from "styled-components";
 import { React } from "react";
-
+import preIcon from "../icon/pre.png";
+import { useNavigate } from "react-router-dom";
 export default function UserModify() {
+  const navigate = useNavigate();
   return (
     <>
       <Container>
         <ModifyContainer>
+          <Icon
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            <img src={preIcon} alt="previous" />
+          </Icon>
           <Title>비밀번호 변경</Title>
           <InputContainer>
             <Label>현재 비밀번호 </Label>
@@ -26,7 +35,6 @@ export default function UserModify() {
             </InputContents>
           </InputContainer>
           <ButtonContainer>
-            <Button>뒤로가기</Button>
             <Button>확인</Button>
           </ButtonContainer>
         </ModifyContainer>
@@ -37,6 +45,20 @@ export default function UserModify() {
 const Container = styled.div`
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
+`;
+const Icon = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  img {
+    width: 30px;
+    height: 30px;
+  }
+  &:hover {
+    cursor: pointer;
+  }
 `;
 const ModifyContainer = styled.div`
   box-sizing: border-box;
@@ -54,7 +76,7 @@ const Title = styled.div`
   font-style: normal;
   font-weight: 200;
   line-height: normal;
-  margin-bottom: 50px;
+  margin: 50px 0;
 `;
 const Label = styled.div`
   color: #000;
@@ -118,7 +140,7 @@ const ButtonContainer = styled.div`
 `;
 const Button = styled.button`
   display: flex;
-  width: 30%;
+  width: 420px;
   height: 50px;
   justify-content: center;
   align-items: center;
@@ -126,7 +148,7 @@ const Button = styled.button`
   background: #64c7ff;
   color: #fff;
   font-family: Poppins;
-  font-size: 20px;
+  font-size: 24px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;

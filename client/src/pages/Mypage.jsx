@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import modifyIcon from "../icon/modify.png";
-import { useState } from "react";
+import React, { useState } from "react";
+
 export default function Mypage() {
   const [editing, setEditing] = useState(false);
   const [newNickname, setNewNickname] = useState("");
@@ -68,7 +69,7 @@ export default function Mypage() {
             <StyledLink to="/usermodify" className="modify">
               비밀번호변경
             </StyledLink>
-            <span className="delete">회원탈퇴</span>
+            <StyledLink className="delete">회원탈퇴</StyledLink>
           </UserModify>
           <UserImg>
             <img src="./userExample.png" alt="userimage" />
@@ -343,6 +344,7 @@ const UserTable = styled.table`
   }
   .nickname {
     position: relative;
+    font-family: "Hangeuljaemin4-Regular";
   }
   .icon {
     position: absolute;
@@ -384,6 +386,7 @@ const MiddleTitle = styled.h2`
   display: flex;
   justify-content: space-between;
   flex-direction: row;
+  margin-bottom: 50px;
 `;
 
 const MiddleContents = styled.div`
@@ -443,8 +446,12 @@ const UserModify = styled.div`
 const StyledLink = styled(Link)`
   text-decoration: underline;
   font-family: "ChosunKm";
+  font-size: 16px;
   font-weight: 100;
   color: black;
+  .delete {
+    color: #d32020;
+  }
 `;
 const ButtonContianer = styled.div`
   width: 100%;
@@ -454,6 +461,8 @@ const ButtonContianer = styled.div`
 const FilterButton = styled.button`
   border: none;
   font-family: "ChosunKm";
+  font-size: 16px;
+  border: 1px solid;
   &:hover {
     cursor: pointer;
   }
