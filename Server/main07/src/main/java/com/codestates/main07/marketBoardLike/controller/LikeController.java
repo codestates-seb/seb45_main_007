@@ -48,7 +48,7 @@ public class LikeController {
                                                                 @PathVariable("member-id") long memberId) {
         likeService.deleteLike(marketBoardId, memberId);
 
-        boolean liked = LikeRepository.existsByMarketBoard_MarketBoardIdAndMember_MemberId(marketBoardId, memberId);
+        boolean liked = likeRepository.existsByMarketBoard_MarketBoardIdAndMember_MemberId(marketBoardId, memberId);
 
         LikeResponseDto responseDto = new LikeResponseDto(liked);
         return ResponseEntity.ok(responseDto);
