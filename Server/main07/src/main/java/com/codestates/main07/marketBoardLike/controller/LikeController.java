@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/Likes")
 public class LikeController {
-    private final LikeService likeServiceikeService;
+    private final LikeService likeService;
     private final LikeRepository likeRepository;
 
     public LikeController(LikeService likeService, LikeRepository likeRepository) {
