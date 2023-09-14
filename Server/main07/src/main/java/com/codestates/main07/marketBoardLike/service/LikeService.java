@@ -29,7 +29,7 @@ public class LikeService {
     }
 
     public boolean isLikedByMember(long marketBoardId, long memberId) {
-        List<Like> likeList = likeRepository.findByMarketBoard_MarketBoardIdAndMember_MemberId(marketBoardId, memberId);
+        List<Likes> likeList = likeRepository.findByMarketBoard_MarketBoardIdAndMember_MemberId(marketBoardId, memberId);
         return !likeList.isEmpty();
     }
 
@@ -39,12 +39,12 @@ public class LikeService {
             throw new IllegalStateException("해당 멤버는 이미 추천했습니다.");
         }
 
-        Like like = new Like();
+        Likes likes = new Likes();
         MarketBoard marketBoard = marketBoardRepository.getById(marketBoardId);
-        like.setMarketBoard(marketBoard);
-        like.setMember(memberRepository.getById(memberId));
-        like.setLiked(true); //좋아요를 누를 때 liked를 true로 설정
-        likeRepository.save(like);
+        likes.setMarketBoard(marketBoard);
+        likes.setMember(memberRepository.getById(memberId));
+        likes.setLiked(true); //좋아요를 누를 때 liked를 true로 설정
+        likesRepository.save(likes);
 
         boolean updateIsLiked = likeRepository.existsByMarketBoard_MarketBoardIdAndMember_MemberId(marketBoardId, memberId);
         LikeResponseDto responseDto = new LikeResponseDto(updateIsLiked);
@@ -53,10 +53,10 @@ public class LikeService {
     }
 
     public ResponseEntity<LikeResponseDto> deleteLike(long marketBoardId, long memberId) {
-        List<Like> likeList = likeRepository.findByMarketBoard_MarketBoardIdAndMember_MemberId(marketBoardId, memberId);
+        List<Likes> likeList = likeRepository.findByMarketBoard_MarketBoardIdAndMember_MemberId(marketBoardId, memberId);
         if (!likeList.isEmpty()) {
-            Like like = likeList.get(0);
-            likeRepository.delete(like);
+            Likes likes = likeList.get(0);
+            likeRepository.delete(likes);
 
             boolean liked = likeRepository.existsByMarketBoard_MarketBoardIdAndMember_MemberId(marketBoardId, memberId);
             LikeResponseDto responseDto = new LikeResponseDto(liked);
