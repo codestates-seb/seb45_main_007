@@ -16,6 +16,6 @@ public class LikeResponseDto {
     private MarketBoard marketBoard;
 
     public LikeResponseDto(boolean liked) {
-        this.liked = recommended;
+        this.liked = liked;
     }
 }
