@@ -86,6 +86,19 @@ public class ClubBoardController {
         );
     }
 
+    @GetMapping("/category")
+    public ResponseEntity viewClubBoardsByCategory(@Positive @RequestParam int page,
+                                                   @Positive @RequestParam int size,
+                                                   @RequestParam String category) {
+        Page<ClubBoard> pageClubBoards = service.findClubBoardsByCategory(page - 1, size, category);
+        List<ClubBoard> clubBoards = pageClubBoards.getContent();
+        List<ClubBoardResponsesDto> responses = mapper.clubBoardsToResponsesDto(clubBoards);
+
+        return new ResponseEntity<>(
+                new ClubBoardMultiResponseDto<>(responses, pageClubBoards, true), HttpStatus.OK
+        );
+    }
+
     @DeleteMapping("/{clubBoard-id}")
     public ResponseEntity deleteClubBoard(@PathVariable ("clubBoard-id") long clubBoardId) {
         service.deleteClubBoard(clubBoardId);

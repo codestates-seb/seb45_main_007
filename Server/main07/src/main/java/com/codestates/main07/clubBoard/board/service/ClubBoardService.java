@@ -51,6 +51,12 @@ public class ClubBoardService {
                 Sort.by("clubBoardId").descending()));
     }
 
+    public Page<ClubBoard> findClubBoardsByCategory(int page, int size, String category) {
+        Pageable pageable = PageRequest.of(page, size,
+                Sort.by("clubBoardId").descending());
+        return repository.findByCategoryIs(pageable, category);
+    }
+
     public void deleteClubBoard(long clubBoardId) {
         ClubBoard clubBoard = findCorrectClubBoard(clubBoardId);
         repository.delete(clubBoard);

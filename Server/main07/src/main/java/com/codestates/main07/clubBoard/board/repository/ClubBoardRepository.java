@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClubBoardRepository extends JpaRepository<ClubBoard, Long> {
     Page<ClubBoard> findByTitleContaining(Pageable pageable, String keyword);
+    Page<ClubBoard> findByCategoryIs(Pageable pageable, String category);
 }
