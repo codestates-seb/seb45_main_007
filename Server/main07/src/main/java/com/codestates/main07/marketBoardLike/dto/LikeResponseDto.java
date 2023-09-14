@@ -13,7 +13,7 @@ public class LikeResponseDto {
     private long maketBoardLikeId;
     private boolean liked;
     private Member member;
-    private MaketBoard maketBoard;
+    private MarketBoard marketBoard;
 
     public LikeResponseDto(boolean liked) {
         this.liked = recommended;
