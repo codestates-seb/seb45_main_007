@@ -3,7 +3,7 @@ import { NewHeader } from "../components/NewHeader.jsx";
 import { HotContent } from "../components/HotContent.jsx";
 import { NormalContent } from "../components/NormalContent.jsx";
 import { AnaLogClock } from "../components/Clock.jsx";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const TotalContainer = styled.div`
   width: 100vw;
@@ -142,6 +142,29 @@ const BoardFooterSect = styled.div`
 `;
 
 export const MarketTContPage = () => {
+  const [MarketTData, setMarketTData] = useState([]);
+  const MarketAPI = "market/board";
+
+  useEffect(() => {
+    const fetchedPost = async () => {
+      try {
+        const response = await fetch(MarketAPI);
+
+        if (!response.ok) {
+          throw new Error("게시물 목록을 가져오는 데 실패했습니다.");
+        }
+        const data = await response.json();
+        setMarketTData(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchedPost();
+  }, []);
+
+  const HotContentData = MarketTData.slice(0, 3);
+  const NormalContentData = MarketTData.slice(0, 4);
+
   return (
     <TotalContainer>
       <NewHeader />
@@ -164,13 +187,19 @@ export const MarketTContPage = () => {
             </LetterContUl>
           </BoardLetterSect>
 
-          <HotContent title="최신 판매" color="red" />
-          <HotContent title="오래된 판매" color="blue" />
-          <NormalContent />
-          <NormalContent />
-          <NormalContent />
-          <NormalContent />
-          <NormalContent />
+          <HotContent
+            title="최신 판매"
+            color="red"
+            HotContentData={HotContentData}
+          />
+          <HotContent
+            title="오래된 판매"
+            color="blue"
+            HotContentData={HotContentData}
+          />
+          <NormalContent NormalContentData={NormalContentData} />
+          <NormalContent NormalContentData={NormalContentData} />
+          <NormalContent NormalContentData={NormalContentData} />
           <MarketMoreReadBtn>더 보기</MarketMoreReadBtn>
         </BoardNoteSection>
       </BoardNoteContainer>

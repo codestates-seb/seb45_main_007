@@ -110,60 +110,27 @@ const BoardCircleImg = styled.img`
   object-position: top center;
   filter: brightness(0.9);
 `;
-
-export const NormalContent = () => {
+// eslint-disable-next-line react/prop-types
+export const NormalContent = ({ NormalContentData }) => {
   return (
     <>
       <BoardOneSect>
         <BoardNoteSect>
-          <OneBoard>
-            <BoardTitleCircle />
-            <BoardNote>
-              <BoardNoteCircle>
-                <BoardCircleImg
-                  src={chulsuImg}
-                  style={{ objectPosition: "bottom center" }}
-                />
-              </BoardNoteCircle>
-            </BoardNote>
-            <BoardNoteTitle>원피스 피규어 팔아요</BoardNoteTitle>
-          </OneBoard>
-          <OneBoard>
-            <BoardTitleCircle />
-            <BoardNote>
-              <BoardNoteCircle>
-                <BoardCircleImg
-                  src={chulsuImg}
-                  style={{ objectPosition: "bottom center" }}
-                />
-              </BoardNoteCircle>
-            </BoardNote>
-            <BoardNoteTitle>원피스 피규어 팔아요</BoardNoteTitle>
-          </OneBoard>
-          <OneBoard>
-            <BoardTitleCircle />
-            <BoardNote>
-              <BoardNoteCircle>
-                <BoardCircleImg
-                  src={chulsuImg}
-                  style={{ objectPosition: "bottom center" }}
-                />
-              </BoardNoteCircle>
-            </BoardNote>
-            <BoardNoteTitle>원피스 피규어 팔아요</BoardNoteTitle>
-          </OneBoard>
-          <OneBoard>
-            <BoardTitleCircle />
-            <BoardNote>
-              <BoardNoteCircle>
-                <BoardCircleImg
-                  src={chulsuImg}
-                  style={{ objectPosition: "bottom center" }}
-                />
-              </BoardNoteCircle>
-            </BoardNote>
-            <BoardNoteTitle>원피스 피규어 팔아요</BoardNoteTitle>
-          </OneBoard>
+          {/* eslint-disable-next-line react/prop-types */}
+          {NormalContentData.map((data) => (
+            <OneBoard key={data.market_board_id}>
+              <BoardTitleCircle />
+              <BoardNote>
+                <BoardNoteCircle>
+                  <BoardCircleImg
+                    src={chulsuImg}
+                    style={{ objectPosition: "bottom center" }}
+                  />
+                </BoardNoteCircle>
+              </BoardNote>
+              <BoardNoteTitle>{data.title}</BoardNoteTitle>
+            </OneBoard>
+          ))}
         </BoardNoteSect>
       </BoardOneSect>
     </>
