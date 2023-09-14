@@ -61,6 +61,7 @@ const BoardNote = styled.div`
 
   &:hover {
     border: 10px solid #9bfff5;
+    transition: 0.2s ease-in;
   }
 `;
 

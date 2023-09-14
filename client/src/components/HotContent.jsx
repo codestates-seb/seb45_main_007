@@ -67,6 +67,7 @@ const BoardNote = styled.div`
   margin-bottom: 1%;
   &:hover {
     border: 10px solid #9bfff5;
+    transition: 0.2s ease-in;
   }
 `;
 
