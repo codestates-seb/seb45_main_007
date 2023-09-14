@@ -1,7 +1,7 @@
 package com.codestates.main07.maketBoardLike.dto;
 
 import com.codestates.main07.member.entity.Member;
-import com.codestates.main07.maketBoard.board.MaketBoard;
+import com.codestates.main07.maketBoard.board.MarketBoard;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
