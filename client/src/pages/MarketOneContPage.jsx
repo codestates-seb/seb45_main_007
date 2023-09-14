@@ -1,14 +1,38 @@
 import { styled } from "styled-components";
-import arrowIcon from "../icon/arrow-right.png";
+import Reply from "../components/Reply.jsx";
 import nextIcon from "../icon/next.png";
 import preIcon from "../icon/pre.png";
-import { HotContent } from "../components/HotContent.jsx";
-import React from "react";
+// import { HotContent } from "../components/HotContent.jsx";
+import React, { useEffect, useState } from "react";
 import { NewHeader } from "../components/NewHeader.jsx";
 import charImg from "../images/userExample.png";
 import itemImg from "../images/chi021.png";
+import axios from "axios";
 
 export default function MarketOneContPage() {
+  const [data, setData] = useState({});
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://49c9-221-150-55-48.ngrok-free.app/marketBoards/25",
+          {
+            headers: {
+              "Content-Type": `application/json`,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          },
+        );
+        console.log(response);
+        setData(response.data);
+      } catch (error) {
+        console.error("Error fetching the data", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <NewHeader />
@@ -16,11 +40,11 @@ export default function MarketOneContPage() {
         <BoardNoteContainer>
           <ContentContainer>
             <Margnet />
-            <ContentTitle>센과 치히로 비디오 팝니다</ContentTitle>
+            <ContentTitle>{data.title}</ContentTitle>
             <SecondContainer>
-              {/* <CreatedAt>2023.09.10</CreatedAt> */}
+              <CreatedAt>{data.createdAt}</CreatedAt>
               <WriterContainer>
-                작성자
+                {data.nickname}
                 <WriterImage>
                   <img src={charImg} alt="user" />
                 </WriterImage>
@@ -37,54 +61,15 @@ export default function MarketOneContPage() {
             </ContentImage>
             <TextContentContainer>
               <Price>30000원</Price>
-              <TextContent>
-                30000원부터 시작합니다 <br />
-                팝니다
-                <br />팜<br />
-                팔아요
-                <br />
-                사실분
-                <br />
-                유지웅
-                <br />
-                최승연
-              </TextContent>
+              <TextContent>{data.content}</TextContent>
             </TextContentContainer>
             <BottomContainer>
-              <div>조회수 : 300</div> <div>찜 : 20</div> <div>댓글 : 3</div>
+              <div>조회수 : {data.viewCount}</div> <div>찜 : 20</div>{" "}
+              <div>댓글 : 3</div>
             </BottomContainer>
           </ContentContainer>
-          <ReplyContainer>
-            <ReplyIcon>
-              <img src={arrowIcon} alt="icon" />
-            </ReplyIcon>
-            <ReplyWriterConatiner>작성자 : </ReplyWriterConatiner>
-            <ReplyContents>삽니다</ReplyContents>
-            <ReplyCreatedAt>2023.08.23</ReplyCreatedAt>
-          </ReplyContainer>
-          <ReplyContainer>
-            <ReplyIcon>
-              <img src={arrowIcon} alt="icon" />
-            </ReplyIcon>
-            <ReplyWriterConatiner>작성자 : </ReplyWriterConatiner>
-            <ReplyContents>
-              가<br />나<br />다<br />라<br />마<br />바
-            </ReplyContents>
-            <ReplyCreatedAt>2023.08.23</ReplyCreatedAt>
-          </ReplyContainer>
-          <ReplyContainer>
-            <ReplyIcon>
-              <img src={arrowIcon} alt="icon" />
-            </ReplyIcon>
-            <ReplyWriterConatiner>작성자 : </ReplyWriterConatiner>
-            <ReplyContents>마이크테스트</ReplyContents>
-            <ReplyCreatedAt>2023.08.23</ReplyCreatedAt>
-          </ReplyContainer>
-          <ReplyInput type="text" placeholder="댓글입력"></ReplyInput>
-          <ButtonContainer>
-            <Button>확인</Button>
-          </ButtonContainer>
-          <HotContent />
+          <Reply />
+          {/* <HotContent /> */}
         </BoardNoteContainer>
       </TotalContainer>
     </>
@@ -207,12 +192,12 @@ const ContentTitle = styled.h2`
   display: flex;
   align-items: center;
 `;
-// const CreatedAt = styled.div`
-//   width: 100%;
-//   color: #756e6e;
-//   display: flex;
-//   align-items: center;
-// `;
+const CreatedAt = styled.div`
+  width: 100%;
+  color: #756e6e;
+  display: flex;
+  align-items: center;
+`;
 const Price = styled.h3`
   width: 100%;
   margin-top: 10px;
@@ -236,82 +221,4 @@ const BottomContainer = styled.div`
     padding-right: 20px;
     margin-right: 15px;
   }
-`;
-
-const ReplyContainer = styled.div`
-  width: 75%;
-  color: white;
-  font-family: "HakgyoansimBunpilR";
-  font-size: 30px;
-  font-weight: bold;
-  border-bottom: 2px solid white;
-  display: flex;
-  flex-direction: row;
-  margin-top: 30px;
-`;
-const ReplyWriterConatiner = styled.div`
-  display: flex;
-  margin-left: 20px;
-  width: 7%;
-  font-size: 20px;
-  padding-top: 20px;
-`;
-
-const ReplyContents = styled.div`
-  width: 100%;
-  margin: 20px 0;
-  font-size: 20px;
-`;
-const ReplyCreatedAt = styled.div`
-  font-family: "HakgyoansimBunpilR";
-  color: white;
-  font-size: 16px;
-  display: flex;
-  align-items: end;
-  padding-bottom: 20px;
-`;
-const ReplyIcon = styled.div`
-  img {
-    width: 45px;
-    height: 45px;
-  }
-`;
-const ReplyInput = styled.textarea`
-  width: 75%;
-  height: 200px;
-  background: none;
-  font-size: 26px;
-  color: white;
-  font-family: "HakgyoansimBunpilR";
-  border: 2px solid white;
-  margin-top: 30px;
-  overflow-y: auto;
-  border-radius: 8px;
-
-  &:focus {
-    outline: none;
-  }
-`;
-const Button = styled.button`
-  display: flex;
-  width: 155px;
-  height: 48px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 8px;
-  background: none;
-  color: #fff;
-  font-size: 20px;
-  border: 2px solid white;
-  font-family: "HakgyoansimBunpilR";
-  font-weight: bold;
-  &:hover {
-    cursor: pointer;
-  }
-`;
-const ButtonContainer = styled.div`
-  display: flex;
-  width: 75%;
-  justify-content: end;
-  margin: 30px 0;
 `;
