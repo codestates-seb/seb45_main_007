@@ -1,7 +1,7 @@
-package com.codestates.main07.clubBoardRecommend.entity;
+package com.codestates.main07.marketBoardLike.entity;
 
 import com.codestates.main07.member.entity.Member;
-import com.codestates.main07.clubBoard.board.entity.ClubBoard;
+import com.codestates.main07.marketBoard.board.MarketBoard;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,20 +15,19 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-public class Recommend {
+public class Likes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long clubBoardRecommendId;
+    private long marketBoardLikeId;
 
     @Column
-    private boolean recommended;
-    private long recommendCount;
+    private boolean liked;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "club_board_id")
-    private ClubBoard clubBoard;
+    @JoinColumn(name = "market_board_id")
+    private MarketBoard marketBoard;
 }
