@@ -11,8 +11,8 @@ public class ClubBoardResponsesDto {
     private long clubBoardId;
     private String title;
     private String content;
-    private byte[] photo;
-    private byte[] voice;
+    private String photo;
+    private String voice;
     private String category;
 
     // 게시글 작성자

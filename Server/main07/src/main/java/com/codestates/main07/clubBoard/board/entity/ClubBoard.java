@@ -28,11 +28,11 @@ public class ClubBoard extends Audit {
 
     @Lob
     @Column
-    private byte[] photo;
+    private String photo;
 
     @Lob
     @Column
-    private byte[] voice;
+    private String voice;
 
     @Column
     private String category;
