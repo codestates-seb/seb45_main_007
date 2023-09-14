@@ -46,6 +46,20 @@ public class MarketBoardCommentService {
         return marketBoardCommentRepository.save(marketBoardComment);
     }
 
+//    public MarketBoardComment createCommentOrReply(MarketBoardComment marketBoardComment, MarketBoardCommentCreate createDto) {
+//        Long marketBoardId = createDto.getMarketBoardId();
+//        if (marketBoardId == null) {
+//            // marketBoardId가 null인 경우 예외 처리 또는 기본 처리를 수행
+//            throw new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND);
+//        }
+//
+//        MarketBoard marketBoard = marketBoardRepository.findById(marketBoardId)
+//                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
+//
+//        marketBoardComment.update(createDto.getContent());
+//        return marketBoardCommentRepository.save(marketBoardComment);
+//    }
+
     public MarketBoardComment updateComment(MarketBoardComment marketBoardComment) {
         MarketBoardComment findMarketBoardComment = findCorrectMarketBoardComment(marketBoardComment.getMarketBoardCommentId());
 

@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 @Validated
-@RequestMapping("/marketBoards/{marketBoardId}/marketBoardComments")
+@RequestMapping("/marketBoards/{marketBoardId}/comments")
 @RestController
 public class MarketBoardCommentController {
     private final MarketBoardCommentService marketBoardCommentService;

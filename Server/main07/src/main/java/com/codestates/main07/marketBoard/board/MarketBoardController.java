@@ -2,11 +2,16 @@ package com.codestates.main07.marketBoard.board;
 
 import com.codestates.main07.exception.BusinessLogicException;
 import com.codestates.main07.exception.ExceptionCode;
+import com.codestates.main07.jwt.auth.jwt.JwtTokenizer;
 import com.codestates.main07.marketBoard.board.dto.MarketBoardCreate;
 import com.codestates.main07.marketBoard.board.dto.MarketBoardResponse;
 import com.codestates.main07.marketBoard.board.dto.MarketBoardUpdate;
 import com.codestates.main07.marketBoard.board.dto.SuccessDto;
 import com.codestates.main07.marketBoard.photo.PhotoService;
+import com.codestates.main07.member.entity.Member;
+import com.codestates.main07.member.service.MemberService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -33,6 +38,7 @@ public class MarketBoardController {
     private final MarketBoardService marketBoardService;
     private final MarketBoardMapper mapper;
     private final PhotoService photoService;
+    private final MemberService memberService;
 
     /**
      * 게시글 목록 조회
@@ -79,7 +85,12 @@ public class MarketBoardController {
     public ResponseEntity addMarketBoard (@RequestBody MarketBoardCreate createDto) {
 
         MarketBoard marketBoard = mapper.createDtoToMarketBoard(createDto);
-//        marketBoard.setMember(memberService.findMember(saveDto.getMemberId()));
+
+        marketBoard.setMember(memberService.viewMember(createDto.getMemberId()));
+
+//        MarketBoard board = MarketBoard.builder()
+//                .member(memberService.viewMember(createDto.getMemberId()))
+//                .build();
 
         MarketBoard createdMarketBoard = marketBoardService.createBoard(marketBoard);
         MarketBoardResponse response = mapper.marketBoardToMarketBoardResponseDto(createdMarketBoard);

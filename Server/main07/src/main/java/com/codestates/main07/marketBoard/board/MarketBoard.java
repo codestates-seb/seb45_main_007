@@ -25,6 +25,9 @@ public class MarketBoard extends Audit {
     @Column (nullable = false)
     private String content;
 
+    @Column (nullable = false)
+    private int priceContent;
+
     @Column (columnDefinition = "integer default 0", nullable = false)
     private int viewCount;
 
@@ -40,10 +43,11 @@ public class MarketBoard extends Audit {
 //    private List<Likes> likes;
 
     @Builder
-    public MarketBoard(String title, String content, int viewCount) {
+    public MarketBoard(String title, String content, int viewCount, Member member) {
         this.title = title;
         this.content = content;
         this.viewCount = viewCount;
+        this.member = member;
     }
 
     public void update(String title, String content) {
@@ -57,4 +61,8 @@ public class MarketBoard extends Audit {
 //    public void updateView(int viewCount) {
 //        this.viewCount = viewCount;
 //    }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
 }
