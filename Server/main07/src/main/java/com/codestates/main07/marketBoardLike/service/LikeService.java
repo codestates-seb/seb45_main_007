@@ -44,7 +44,7 @@ public class LikeService {
         likes.setMarketBoard(marketBoard);
         likes.setMember(memberRepository.getById(memberId));
         likes.setLiked(true); //좋아요를 누를 때 liked를 true로 설정
-        likesRepository.save(likes);
+        likeRepository.save(likes);
 
         boolean updateIsLiked = likeRepository.existsByMarketBoard_MarketBoardIdAndMember_MemberId(marketBoardId, memberId);
         LikeResponseDto responseDto = new LikeResponseDto(updateIsLiked);
