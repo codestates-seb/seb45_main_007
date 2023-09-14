@@ -19,14 +19,15 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 @Validated
-@RequestMapping("/marketBoardComments")
+@RequestMapping("/marketBoards/{marketBoardId}/marketBoardComments")
 @RestController
 public class MarketBoardCommentController {
     private final MarketBoardCommentService marketBoardCommentService;
     private final MarketBoardCommentMapper mapper;
 
     @GetMapping
-    public ResponseEntity <List<MarketBoardCommentResponse>> marketBoardCommentList (Pageable pageable) {
+    public ResponseEntity <List<MarketBoardCommentResponse>> marketBoardCommentList (Pageable pageable,
+                                                                                     @PathVariable String marketBoardId) {
         Page<MarketBoardComment> marketBoardCommentPage = marketBoardCommentService.commentList(pageable);
         List<MarketBoardCommentResponse> response = marketBoardCommentPage.getContent()
                 .stream()
@@ -37,7 +38,8 @@ public class MarketBoardCommentController {
     }
 
     @GetMapping("/{marketBoardCommentId}")
-    public ResponseEntity viewComment (@PathVariable ("marketBoardCommentId") long marketBoardCommentId) {
+    public ResponseEntity viewComment (@PathVariable ("marketBoardCommentId") long marketBoardCommentId,
+                                       @PathVariable String marketBoardId) {
 
         MarketBoardComment marketBoardComment = marketBoardCommentService.viewComment(marketBoardCommentId);
         MarketBoardCommentResponse response = mapper.marketBoardCommentToMarketBoardCommentResponseDto(marketBoardComment);
@@ -59,7 +61,8 @@ public class MarketBoardCommentController {
 
     @PutMapping("/{marketBoardCommentId}")
     public ResponseEntity editComment (@PathVariable ("marketBoardCommentId") long marketBoardCommentId,
-                                       @RequestBody MarketBoardCommentUpdate updateDto) {
+                                       @RequestBody MarketBoardCommentUpdate updateDto,
+                                       @PathVariable String marketBoardId) {
 
         updateDto.setMarketBoardCommentId(marketBoardCommentId);
         MarketBoardComment marketBoardComment = mapper.updateDtoToMarketBoardComment(updateDto);
@@ -72,7 +75,8 @@ public class MarketBoardCommentController {
     }
 
     @DeleteMapping("/{marketBoardCommentId}")
-    public ResponseEntity deleteComment (@PathVariable ("marketBoardCommentId") long marketBoardCommentId) {
+    public ResponseEntity deleteComment (@PathVariable ("marketBoardCommentId") long marketBoardCommentId,
+                                         @PathVariable String marketBoardId) {
 
         marketBoardCommentService.deleteComment(marketBoardCommentId);
 
