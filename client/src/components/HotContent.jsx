@@ -67,6 +67,7 @@ const BoardNote = styled.div`
   margin-bottom: 1%;
   &:hover {
     border: 10px solid #9bfff5;
+    transition: 0.2s ease-in;
   }
 `;
 
@@ -103,7 +104,7 @@ const BoardCircleImg = styled.img`
   object-position: top center;
 `;
 // eslint-disable-next-line react/prop-types
-export const HotContent = ({ title, color }) => {
+export const HotContent = ({ title, color, HotContentData }) => {
   return (
     <>
       <BoardOneSect>
@@ -111,31 +112,17 @@ export const HotContent = ({ title, color }) => {
           <BoardTitleDiv>{title}</BoardTitleDiv>
         </BoardOneTitle>
         <BoardNoteSect>
-          <BoardNote color={color}>
-            <NavLink to="/market/onecontent" style={{ width: "1px" }}>
-              <BoardNoteTitle>디지몬 어드벤처 비디오 팔아요</BoardNoteTitle>
-            </NavLink>
-
-            <BoardNoteCircle>
-              <BoardCircleImg />
-            </BoardNoteCircle>
-          </BoardNote>
-
-          <BoardNote color={color}>
-            <BoardNoteTitle>포켓몬 스티커 팔아요</BoardNoteTitle>
-
-            <BoardNoteCircle>
-              <BoardCircleImg style={{ objectPosition: "bottom center" }} />
-            </BoardNoteCircle>
-          </BoardNote>
-
-          <BoardNote color={color}>
-            <BoardNoteTitle>원피스 피규어 팔아요</BoardNoteTitle>
-
-            <BoardNoteCircle>
-              <BoardCircleImg />
-            </BoardNoteCircle>
-          </BoardNote>
+          {/* eslint-disable-next-line react/prop-types */}
+          {HotContentData.map((data) => (
+            <BoardNote color={color} key={data.market_board_id}>
+              <NavLink to="/market/onecontent" style={{ width: "1px" }}>
+                <BoardNoteTitle>{data.title}</BoardNoteTitle>
+              </NavLink>
+              <BoardNoteCircle>
+                <BoardCircleImg />
+              </BoardNoteCircle>
+            </BoardNote>
+          ))}
         </BoardNoteSect>
       </BoardOneSect>
     </>
