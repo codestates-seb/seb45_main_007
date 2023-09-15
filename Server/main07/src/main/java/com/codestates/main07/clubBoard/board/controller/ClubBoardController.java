@@ -100,23 +100,14 @@ public class ClubBoardController {
     }
 
     @GetMapping("/myPage/{member-id}")
-    public ResponseEntity viewMyClubBoards(@PathVariable ("member-id") long memberId,
-                                           @Positive @RequestParam int page,
-                                           @Positive @RequestParam int size) {
-        Page<ClubBoard> pageClubBoards = service.findMyClubBoards(page - 1, size, memberId);
-        List<ClubBoard> clubBoards = pageClubBoards.getContent();
-        List<ClubBoardResponsesDto> responses = mapper.clubBoardsToResponsesDto(clubBoards);
-
-        return new ResponseEntity<>(
-                new ClubBoardMultiResponseDto<>(responses, pageClubBoards, true), HttpStatus.OK
-        );
-    }
-
-    @GetMapping("/myPage/{member-id}/category")
     public ResponseEntity viewMyClubBoardsByCategory(@PathVariable ("member-id") long memberId,
                                                      @Positive @RequestParam int page,
                                                      @Positive @RequestParam int size,
                                                      @RequestParam String category) {
+        if (category.equals("전체")) {
+            return viewMyClubBoards(memberId, page, size);
+        }
+
         Page<ClubBoard> pageClubBoards = service.findMyClubBoardsByCategory(
                 page - 1, size, memberId, category);
         List<ClubBoard> clubBoards = pageClubBoards.getContent();
@@ -145,5 +136,17 @@ public class ClubBoardController {
 
         return new ResponseEntity<>(
                 new ClubBoardMultiResponseDto<>(responses, pageClubBoards, true), HttpStatus.OK);
+    }
+
+    public ResponseEntity viewMyClubBoards(@PathVariable ("member-id") long memberId,
+                                           @Positive @RequestParam int page,
+                                           @Positive @RequestParam int size) {
+        Page<ClubBoard> pageClubBoards = service.findMyClubBoards(page - 1, size, memberId);
+        List<ClubBoard> clubBoards = pageClubBoards.getContent();
+        List<ClubBoardResponsesDto> responses = mapper.clubBoardsToResponsesDto(clubBoards);
+
+        return new ResponseEntity<>(
+                new ClubBoardMultiResponseDto<>(responses, pageClubBoards, true), HttpStatus.OK
+        );
     }
 }
