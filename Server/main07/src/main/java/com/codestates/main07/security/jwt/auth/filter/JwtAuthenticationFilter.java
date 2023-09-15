@@ -1,9 +1,12 @@
 package com.codestates.main07.security.jwt.auth.filter;
 
+import com.codestates.main07.exception.BusinessLogicException;
+import com.codestates.main07.exception.ExceptionCode;
 import com.codestates.main07.security.jwt.auth.jwt.JwtTokenizer;
 import com.codestates.main07.security.jwt.login.LoginDto;
 import com.codestates.main07.security.jwt.login.LoginResponseDto;
 import com.codestates.main07.member.entity.Member;
+import com.codestates.main07.member.repository.MemberRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,12 +26,16 @@ import java.util.stream.Collectors;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenizer jwtTokenizer;
+    private final MemberRepository memberRepository;
 
     // DI 받은 AuthenticationManager는 로그인 인증 정보(Username/Password)를 전달받아 UserDetailsService와 인터랙션 한 뒤 인증 여부를 판단
     // DI 받은 JwtTokenizer는 클라이언트가 인증에 성공할 경우, JWT를 생성 및 발급하는 역할
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenizer jwtTokenizer) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager,
+                                   JwtTokenizer jwtTokenizer,
+                                   MemberRepository memberRepository) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenizer = jwtTokenizer;
+        this.memberRepository = memberRepository;
     }
 
 
@@ -41,6 +48,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         // ServletInputStream을 LoginDto 클래스의 객체로 역직렬화
         LoginDto loginDto = objectMapper.readValue(request.getInputStream(), LoginDto.class);
+
+        Optional<Member> optionalMember = memberRepository.findByEmail(loginDto.getEmail());
+
+        Member findMember = optionalMember.orElseThrow(() ->
+                new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        if (findMember.getStatus() == Member.Status.DELETED) {
+            throw new BusinessLogicException(ExceptionCode.MEMBER_IS_DELETED);
+        }
 
         //  Email과 Password 정보를 포함한 UsernamePasswordAuthenticationToken을 생성
         UsernamePasswordAuthenticationToken authenticationToken =

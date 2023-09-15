@@ -2,6 +2,7 @@ package com.codestates.main07.security.securityconfig;
 
 
 
+import com.codestates.main07.member.repository.MemberRepository;
 import com.codestates.main07.security.jwt.auth.filter.JwtAuthenticationFilter;
 import com.codestates.main07.security.jwt.auth.filter.JwtVerificationFilter;
 import com.codestates.main07.security.jwt.auth.handler.MemberAccessDeniedHandler;
@@ -40,6 +41,7 @@ public class SecurityConfiguration {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2FailureHandler oAuth2FailureHandler;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    private final MemberRepository memberRepository;
 
 
     public SecurityConfiguration(JwtTokenizer jwtTokenizer,
@@ -47,12 +49,14 @@ public class SecurityConfiguration {
                                  CustomOAuth2UserService customOAuth2UserService,
                                  GoogleOAuth2SuccessHandler googleOAuth2SuccessHandler,
                                  KakaoOAuth2SuccessHandler kakaoOAuth2SuccessHandler,
-                                 OAuth2FailureHandler oAuth2FailureHandler) {
+                                 OAuth2FailureHandler oAuth2FailureHandler,
+                                 MemberRepository memberRepository) {
         this.jwtTokenizer = jwtTokenizer;
         this.authorityUtils = authorityUtils;
         this.customOAuth2UserService = customOAuth2UserService;
         this.oAuth2SuccessHandler = new OAuth2SuccessHandler(googleOAuth2SuccessHandler, kakaoOAuth2SuccessHandler);
         this.oAuth2FailureHandler = oAuth2FailureHandler;
+        this.memberRepository = memberRepository;
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -127,7 +131,7 @@ public class SecurityConfiguration {
         public void configure(HttpSecurity builder) throws Exception {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
 
-            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer, memberRepository);
             jwtAuthenticationFilter.setFilterProcessesUrl("/signin");
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());

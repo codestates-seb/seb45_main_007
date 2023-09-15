@@ -20,6 +20,7 @@ public enum ExceptionCode {
     UNAUTHORIZED_ACCESS(401, "권한이 없는 접근입니다"),
 
     // 회원 탈퇴나 정보 삭제와 관련된 예외
+    MEMBER_IS_DELETED(403, "해당 회원은 삭제된 상태입니다"),
     DELETE_FAILED(500, "회원 정보 삭제에 실패하였습니다"),
     UNABLE_TO_WITHDRAW(500, "회원 탈퇴를 진행할 수 없습니다"),
 

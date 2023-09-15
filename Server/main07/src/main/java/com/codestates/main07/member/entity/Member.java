@@ -5,14 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.Pattern;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 
@@ -22,6 +19,16 @@ import java.util.Set;
 @AllArgsConstructor // 멤버 클래스의 모든 멤버 변수를 파라미터로 갖는 멤버 생성자를 자동 생성
 @Entity
 public class Member extends Audit {
+
+    public enum Status {
+        ACTIVE,            // 활성 상태의 회원
+        INACTIVE,          // 비활성 상태의 회원 (일시적으로 사용 중지)
+        PENDING_VERIFICATION, // 이메일 인증 대기 중
+        BANNED,            // 제제 받은 회원
+        DELETED,           // 삭제된 회원 (탈퇴 혹은 관리자에 의한 삭제)
+        SUSPENDED          // 일시 정지된 회원 (예: 위반 행위로 인한 일시 정지)
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long memberId;
@@ -49,6 +56,10 @@ public class Member extends Audit {
     @CollectionTable(name = "member_roles", joinColumns = @JoinColumn(name = "member_id"))
     @Column(name = "role")
     private Set<String> roles;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private Status status = Status.ACTIVE;  // 기본 상태를 ACTIVE로 설정
 
 //    audit 브랜치에서 클래스 생성 예정
 //    @CreatedDate
