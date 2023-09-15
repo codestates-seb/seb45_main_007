@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -42,17 +43,18 @@ public class MarketBoard extends Audit {
 //    @OneToMany(mappedBy = "market_board", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 //    private List<Likes> likes;
 
-    @Builder
-    public MarketBoard(String title, String content, int viewCount, Member member) {
-        this.title = title;
-        this.content = content;
-        this.viewCount = viewCount;
-        this.member = member;
-    }
+//    @Builder
+//    public MarketBoard(String title, String content, int viewCount, Member member) {
+//        this.title = title;
+//        this.content = content;
+//        this.viewCount = viewCount;
+//        this.member = member;
+//    }
 
-    public void update(String title, String content) {
+    public void update(String title, String content, int priceContent) {
         this.title = title;
         this.content = content;
+        this.priceContent = priceContent;
     }
 
     public void incrementViewCount() {

@@ -48,12 +48,12 @@ public class MarketBoardCommentController {
     }
 
     @PostMapping
-    public ResponseEntity createCommentOrReply(@RequestBody MarketBoardCommentCreate createDto) {
+    public ResponseEntity createComment(@RequestBody MarketBoardCommentCreate createDto) {
 
         MarketBoardComment marketBoardComment = mapper.createDtoToMarketBoardComment(createDto);
 
-        MarketBoardComment createdCommentOrReply = marketBoardCommentService.createCommentOrReply(marketBoardComment, createDto);
-        MarketBoardCommentResponse response = mapper.marketBoardCommentToMarketBoardCommentResponseDto(createdCommentOrReply);
+        MarketBoardComment createdComment = marketBoardCommentService.createComment(marketBoardComment, createDto);
+        MarketBoardCommentResponse response = mapper.marketBoardCommentToMarketBoardCommentResponseDto(createdComment);
 
         response.setSuccess(true);
         return new ResponseEntity<>(response, HttpStatus.CREATED);

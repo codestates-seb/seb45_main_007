@@ -14,6 +14,4 @@ public class MarketBoardCommentUpdate {
     private long marketBoardCommentId;
     private Long parentId;
     private String content;
-    private String nickname;
-    private LocalDateTime modifiedAt;
 }

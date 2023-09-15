@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Setter
 public class MarketBoardCommentResponse {
     private long memberId;
+    private long marketBoardId;
     private long marketBoardCommentId;
     private Long parentId;
     private String content;

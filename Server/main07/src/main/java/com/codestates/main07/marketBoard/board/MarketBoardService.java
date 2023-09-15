@@ -30,7 +30,7 @@ public class MarketBoardService {
     public MarketBoard updateBoard(MarketBoard marketBoard) {
         MarketBoard findMarketBoard = findCorrectMarketBoard(marketBoard.getMarketBoardId());
 
-        findMarketBoard.update(marketBoard.getTitle(), marketBoard.getContent());
+        findMarketBoard.update(marketBoard.getTitle(), marketBoard.getContent(), marketBoard.getPriceContent());
 
         findMarketBoard.setModifiedAt(LocalDateTime.now());
 

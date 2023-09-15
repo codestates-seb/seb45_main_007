@@ -15,12 +15,14 @@ public class MarketBoardUpdate {
     private long marketBoardId;
     private String title;
     private String content;
+    private int priceContent;
     private String nickname;
     private LocalDateTime modifiedAt;
 
     @Builder
-    public MarketBoardUpdate(String title, String content) {
+    public MarketBoardUpdate(String title, String content, int priceContent) {
         this.title = title;
         this.content = content;
+        this.priceContent = priceContent;
     }
 }

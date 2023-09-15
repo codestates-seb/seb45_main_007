@@ -11,13 +11,12 @@ import java.time.LocalDateTime;
 public class MarketBoardCommentCreate {
     private long memberId;
     private Long marketBoardId;
-    private long marketBoardCommentId;
+//    private long marketBoardCommentId;
     private Long parentId;
     private String content;
-    private String nickname;
-    private LocalDateTime createdAt;
 
     public MarketBoardCommentCreate(String content) {
         this.content = content;
     }
+
 }

@@ -50,8 +50,9 @@ public class MarketBoardComment extends Audit {
     }
 
     @Builder
-    public MarketBoardComment(String content) {
+    public MarketBoardComment(String content, MarketBoard marketBoard) {
         this.content = content;
+        this.marketBoard = marketBoard;
     }
 
     public void update(String content) {

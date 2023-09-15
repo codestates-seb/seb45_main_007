@@ -13,6 +13,7 @@ public class MarketBoardResponse {
     private long marketBoardId;
     private String title;
     private String content;
+    private int priceContent;
     private int viewCount;
     private String nickname;
     private boolean success;

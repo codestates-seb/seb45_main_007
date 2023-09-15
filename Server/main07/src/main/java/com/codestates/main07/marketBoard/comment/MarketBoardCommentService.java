@@ -26,11 +26,33 @@ public class MarketBoardCommentService {
         this.mapper = mapper;
     }
 
-    public MarketBoardComment createComment(MarketBoardComment marketBoardComment) {
-        return marketBoardCommentRepository.save(marketBoardComment);
-    }
+//    public MarketBoardComment createComment(MarketBoardComment marketBoardComment) {
+//        return marketBoardCommentRepository.save(marketBoardComment);
+//    }
 
-    public MarketBoardComment createCommentOrReply(MarketBoardComment marketBoardComment, MarketBoardCommentCreate createDto) {
+//    public MarketBoardComment createComment(MarketBoardComment marketBoardComment, MarketBoardCommentCreate createDto) {
+//        if (createDto.getParentId() != null) {
+//            // 대댓글 생성
+//            MarketBoardComment parentComment = findCorrectMarketBoardComment(createDto.getParentId());
+//            marketBoardComment.updateParent(parentComment);
+//            parentComment.getChildren().add(marketBoardComment);
+//        } else {
+//            // 댓글 생성
+//            MarketBoard marketBoard = marketBoardRepository.findById(createDto.getMarketBoardId())
+//                    .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
+//            marketBoardComment.updateBoard(marketBoard);
+//        }
+//        marketBoardComment.update(createDto.getContent());
+//        return marketBoardCommentRepository.save(marketBoardComment);
+//    }
+
+    public MarketBoardComment createComment(MarketBoardComment marketBoardComment, MarketBoardCommentCreate createDto) {
+        Long marketBoardId = createDto.getMarketBoardId();
+        if (marketBoardId == null) {
+            // 적절한 오류 처리 또는 로깅을 수행하거나 예외를 던집니다.
+            throw new BusinessLogicException(ExceptionCode.UNKNOWN_ERROR);
+        }
+
         if (createDto.getParentId() != null) {
             // 대댓글 생성
             MarketBoardComment parentComment = findCorrectMarketBoardComment(createDto.getParentId());
@@ -38,27 +60,13 @@ public class MarketBoardCommentService {
             parentComment.getChildren().add(marketBoardComment);
         } else {
             // 댓글 생성
-            MarketBoard marketBoard = marketBoardRepository.findById(createDto.getMarketBoardId())
+            MarketBoard marketBoard = marketBoardRepository.findById(marketBoardId)
                     .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
             marketBoardComment.updateBoard(marketBoard);
         }
         marketBoardComment.update(createDto.getContent());
         return marketBoardCommentRepository.save(marketBoardComment);
     }
-
-//    public MarketBoardComment createCommentOrReply(MarketBoardComment marketBoardComment, MarketBoardCommentCreate createDto) {
-//        Long marketBoardId = createDto.getMarketBoardId();
-//        if (marketBoardId == null) {
-//            // marketBoardId가 null인 경우 예외 처리 또는 기본 처리를 수행
-//            throw new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND);
-//        }
-//
-//        MarketBoard marketBoard = marketBoardRepository.findById(marketBoardId)
-//                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
-//
-//        marketBoardComment.update(createDto.getContent());
-//        return marketBoardCommentRepository.save(marketBoardComment);
-//    }
 
     public MarketBoardComment updateComment(MarketBoardComment marketBoardComment) {
         MarketBoardComment findMarketBoardComment = findCorrectMarketBoardComment(marketBoardComment.getMarketBoardCommentId());

@@ -8,10 +8,8 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 public class MarketBoardCreate {
-    private long marketBoardId;
     private long memberId;
     private String title;
     private String content;
-    private String nickname;
-    private LocalDateTime createdAt;
+    private int priceContent;
 }
