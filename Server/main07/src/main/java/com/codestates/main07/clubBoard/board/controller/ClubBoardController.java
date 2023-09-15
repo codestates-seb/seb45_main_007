@@ -99,6 +99,19 @@ public class ClubBoardController {
         );
     }
 
+    @GetMapping("/myPage/{member-id}")
+    public ResponseEntity viewMyClubBoards(@PathVariable ("member-id") long memberId,
+                                           @Positive @RequestParam int page,
+                                           @Positive @RequestParam int size) {
+        Page<ClubBoard> pageClubBoards = service.findMyClubBoards(page - 1, size, memberId);
+        List<ClubBoard> clubBoards = pageClubBoards.getContent();
+        List<ClubBoardResponsesDto> responses = mapper.clubBoardsToResponsesDto(clubBoards);
+
+        return new ResponseEntity<>(
+                new ClubBoardMultiResponseDto<>(responses, pageClubBoards, true), HttpStatus.OK
+        );
+    }
+
     @DeleteMapping("/{clubBoard-id}")
     public ResponseEntity deleteClubBoard(@PathVariable ("clubBoard-id") long clubBoardId) {
         service.deleteClubBoard(clubBoardId);
