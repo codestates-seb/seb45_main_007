@@ -7,6 +7,7 @@ import com.codestates.main07.security.jwt.auth.jwt.JwtTokenizer;
 import com.codestates.main07.security.jwt.utils.CustomAuthorityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -30,8 +31,11 @@ import java.util.stream.Collectors;
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     @Autowired
     private JwtTokenizer jwtTokenizer; // JWT 토큰을 생성하고 관리하는 컴포넌트
+
+    @Lazy
     @Autowired
     private MemberService memberService;  // 사용자 정보 조회를 위한 서비스
+    
     @Autowired
     private CustomAuthorityUtils customAuthorityUtils;
 
