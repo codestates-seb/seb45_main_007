@@ -12,8 +12,6 @@ import com.codestates.main07.security.jwt.auth.handler.MemberAuthenticationSucce
 import com.codestates.main07.security.jwt.auth.jwt.JwtTokenizer;
 import com.codestates.main07.security.jwt.utils.CustomAuthorityUtils;
 import com.codestates.main07.security.jwt.utils.SHA256PasswordEncoder;
-import com.codestates.main07.security.oauth.handler.GoogleOAuth2SuccessHandler;
-import com.codestates.main07.security.oauth.handler.KakaoOAuth2SuccessHandler;
 import com.codestates.main07.security.oauth.handler.OAuth2SuccessHandler;
 import com.codestates.main07.security.oauth.sevice.CustomOAuth2UserService;
 import com.codestates.main07.security.oauth.handler.OAuth2FailureHandler;
@@ -47,14 +45,13 @@ public class SecurityConfiguration {
     public SecurityConfiguration(JwtTokenizer jwtTokenizer,
                                    CustomAuthorityUtils authorityUtils,
                                  CustomOAuth2UserService customOAuth2UserService,
-                                 GoogleOAuth2SuccessHandler googleOAuth2SuccessHandler,
-                                 KakaoOAuth2SuccessHandler kakaoOAuth2SuccessHandler,
+                                 OAuth2SuccessHandler oAuth2SuccessHandler,
                                  OAuth2FailureHandler oAuth2FailureHandler,
                                  MemberRepository memberRepository) {
         this.jwtTokenizer = jwtTokenizer;
         this.authorityUtils = authorityUtils;
         this.customOAuth2UserService = customOAuth2UserService;
-        this.oAuth2SuccessHandler = new OAuth2SuccessHandler(googleOAuth2SuccessHandler, kakaoOAuth2SuccessHandler);
+        this.oAuth2SuccessHandler = oAuth2SuccessHandler;
         this.oAuth2FailureHandler = oAuth2FailureHandler;
         this.memberRepository = memberRepository;
     }
