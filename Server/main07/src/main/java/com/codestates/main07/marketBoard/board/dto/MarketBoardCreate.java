@@ -1,6 +1,7 @@
 package com.codestates.main07.marketBoard.board.dto;
 
 
+import com.codestates.main07.marketBoard.board.domain.Tag;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -12,4 +13,6 @@ public class MarketBoardCreate {
     private String title;
     private String content;
     private int priceContent;
+    private String photo;
+    private Tag tag;
 }

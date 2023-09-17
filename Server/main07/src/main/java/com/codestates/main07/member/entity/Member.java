@@ -3,20 +3,17 @@ package com.codestates.main07.member.entity;
 import com.codestates.main07.audit.Audit;
 import com.codestates.main07.clubBoard.board.entity.ClubBoard;
 import com.codestates.main07.clubBoard.comment.entity.ClubBoardComment;
-import com.codestates.main07.marketBoard.board.MarketBoard;
+import com.codestates.main07.marketBoard.board.domain.MarketBoard;
 import com.codestates.main07.marketBoard.comment.MarketBoardComment;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.Pattern;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 

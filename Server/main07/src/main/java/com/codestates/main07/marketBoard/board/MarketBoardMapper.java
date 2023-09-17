@@ -1,5 +1,6 @@
 package com.codestates.main07.marketBoard.board;
 
+import com.codestates.main07.marketBoard.board.domain.MarketBoard;
 import com.codestates.main07.marketBoard.board.dto.MarketBoardCreate;
 import com.codestates.main07.marketBoard.board.dto.MarketBoardResponse;
 import com.codestates.main07.marketBoard.board.dto.MarketBoardUpdate;

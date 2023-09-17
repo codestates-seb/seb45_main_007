@@ -2,8 +2,7 @@ package com.codestates.main07.marketBoard.board;
 
 import com.codestates.main07.exception.BusinessLogicException;
 import com.codestates.main07.exception.ExceptionCode;
-import com.codestates.main07.marketBoard.board.dto.MarketBoardUpdate;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.codestates.main07.marketBoard.board.domain.MarketBoard;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,13 +23,17 @@ public class MarketBoardService {
     }
 
     public MarketBoard createBoard(MarketBoard marketBoard) {
+        marketBoard.setTag(marketBoard.getTag());
         return marketBoardRepository.save(marketBoard);
     }
 
     public MarketBoard updateBoard(MarketBoard marketBoard) {
         MarketBoard findMarketBoard = findCorrectMarketBoard(marketBoard.getMarketBoardId());
 
-        findMarketBoard.update(marketBoard.getTitle(), marketBoard.getContent(), marketBoard.getPriceContent());
+        findMarketBoard.update(marketBoard.getTitle(),
+                marketBoard.getContent(),
+                marketBoard.getPriceContent(),
+                marketBoard.getPhoto());
 
         findMarketBoard.setModifiedAt(LocalDateTime.now());
 

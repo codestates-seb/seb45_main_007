@@ -6,8 +6,9 @@ import com.codestates.main07.marketBoard.comment.dto.MarketBoardCommentUpdate;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
+import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MarketBoardCommentMapper {
 
     @Mapping(source = "marketBoardId", target = "marketBoard.marketBoardId")

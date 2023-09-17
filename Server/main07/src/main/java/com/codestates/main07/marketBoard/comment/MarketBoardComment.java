@@ -1,7 +1,7 @@
 package com.codestates.main07.marketBoard.comment;
 
 import com.codestates.main07.audit.Audit;
-import com.codestates.main07.marketBoard.board.MarketBoard;
+import com.codestates.main07.marketBoard.board.domain.MarketBoard;
 import com.codestates.main07.member.entity.Member;
 import lombok.*;
 
@@ -26,7 +26,7 @@ public class MarketBoardComment extends Audit {
     @JoinColumn(name = "market_board_id")
     private MarketBoard marketBoard;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -56,10 +56,6 @@ public class MarketBoardComment extends Audit {
     }
 
     public void update(String content) {
-        this.content = content;
-    }
-
-    public void createReply(String content) {
         this.content = content;
     }
 }

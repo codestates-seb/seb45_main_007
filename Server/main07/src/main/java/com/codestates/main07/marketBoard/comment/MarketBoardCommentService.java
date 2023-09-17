@@ -2,9 +2,11 @@ package com.codestates.main07.marketBoard.comment;
 
 import com.codestates.main07.exception.BusinessLogicException;
 import com.codestates.main07.exception.ExceptionCode;
-import com.codestates.main07.marketBoard.board.MarketBoard;
+import com.codestates.main07.marketBoard.board.domain.MarketBoard;
 import com.codestates.main07.marketBoard.board.MarketBoardRepository;
 import com.codestates.main07.marketBoard.comment.dto.MarketBoardCommentCreate;
+import com.codestates.main07.member.entity.Member;
+import com.codestates.main07.member.repository.MemberRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,54 +19,36 @@ import java.util.Optional;
 public class MarketBoardCommentService {
     private final MarketBoardCommentRepository marketBoardCommentRepository;
     private final MarketBoardRepository marketBoardRepository;
-//    private final MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
     private final MarketBoardCommentMapper mapper;
 
-    public MarketBoardCommentService(MarketBoardCommentRepository marketBoardCommentRepository, MarketBoardRepository marketBoardRepository, MarketBoardCommentMapper mapper) {
+    public MarketBoardCommentService(MarketBoardCommentRepository marketBoardCommentRepository, MarketBoardRepository marketBoardRepository, MemberRepository memberRepository, MarketBoardCommentMapper mapper) {
         this.marketBoardCommentRepository = marketBoardCommentRepository;
         this.marketBoardRepository = marketBoardRepository;
+        this.memberRepository = memberRepository;
         this.mapper = mapper;
     }
 
-//    public MarketBoardComment createComment(MarketBoardComment marketBoardComment) {
-//        return marketBoardCommentRepository.save(marketBoardComment);
-//    }
-
-//    public MarketBoardComment createComment(MarketBoardComment marketBoardComment, MarketBoardCommentCreate createDto) {
-//        if (createDto.getParentId() != null) {
-//            // 대댓글 생성
-//            MarketBoardComment parentComment = findCorrectMarketBoardComment(createDto.getParentId());
-//            marketBoardComment.updateParent(parentComment);
-//            parentComment.getChildren().add(marketBoardComment);
-//        } else {
-//            // 댓글 생성
-//            MarketBoard marketBoard = marketBoardRepository.findById(createDto.getMarketBoardId())
-//                    .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
-//            marketBoardComment.updateBoard(marketBoard);
-//        }
-//        marketBoardComment.update(createDto.getContent());
-//        return marketBoardCommentRepository.save(marketBoardComment);
-//    }
-
     public MarketBoardComment createComment(MarketBoardComment marketBoardComment, MarketBoardCommentCreate createDto) {
-        Long marketBoardId = createDto.getMarketBoardId();
-        if (marketBoardId == null) {
-            // 적절한 오류 처리 또는 로깅을 수행하거나 예외를 던집니다.
-            throw new BusinessLogicException(ExceptionCode.UNKNOWN_ERROR);
-        }
+        Member member = memberRepository.findById(createDto.getMemberId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        MarketBoard marketBoard = marketBoardRepository.findById(marketBoardComment.getMarketBoard().getMarketBoardId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
+
+//        MarketBoardComment marketBoardComments = findCorrectMarketBoardComment(marketBoardComment.getMarketBoardCommentId());
 
         if (createDto.getParentId() != null) {
             // 대댓글 생성
             MarketBoardComment parentComment = findCorrectMarketBoardComment(createDto.getParentId());
             marketBoardComment.updateParent(parentComment);
             parentComment.getChildren().add(marketBoardComment);
+            marketBoardComment.updateMember(member);
         } else {
             // 댓글 생성
-            MarketBoard marketBoard = marketBoardRepository.findById(marketBoardId)
-                    .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
             marketBoardComment.updateBoard(marketBoard);
         }
-        marketBoardComment.update(createDto.getContent());
+        marketBoardComment.update(marketBoardComment.getContent());
         return marketBoardCommentRepository.save(marketBoardComment);
     }
 

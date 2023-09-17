@@ -2,21 +2,16 @@ package com.codestates.main07.marketBoard.board;
 
 import com.codestates.main07.exception.BusinessLogicException;
 import com.codestates.main07.exception.ExceptionCode;
-import com.codestates.main07.jwt.auth.jwt.JwtTokenizer;
+import com.codestates.main07.marketBoard.board.domain.MarketBoard;
 import com.codestates.main07.marketBoard.board.dto.MarketBoardCreate;
 import com.codestates.main07.marketBoard.board.dto.MarketBoardResponse;
 import com.codestates.main07.marketBoard.board.dto.MarketBoardUpdate;
 import com.codestates.main07.marketBoard.board.dto.SuccessDto;
 import com.codestates.main07.marketBoard.photo.PhotoService;
-import com.codestates.main07.member.entity.Member;
 import com.codestates.main07.member.service.MemberService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +20,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.Positive;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -85,6 +79,8 @@ public class MarketBoardController {
     public ResponseEntity addMarketBoard (@RequestBody MarketBoardCreate createDto) {
 
         MarketBoard marketBoard = mapper.createDtoToMarketBoard(createDto);
+
+        marketBoard.setTag(createDto.getTag());
 
         marketBoard.setMember(memberService.viewMember(createDto.getMemberId()));
 

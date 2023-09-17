@@ -16,13 +16,15 @@ public class MarketBoardUpdate {
     private String title;
     private String content;
     private int priceContent;
+    private String photo;
     private String nickname;
     private LocalDateTime modifiedAt;
 
     @Builder
-    public MarketBoardUpdate(String title, String content, int priceContent) {
+    public MarketBoardUpdate(String title, String content, int priceContent, String photo) {
         this.title = title;
         this.content = content;
         this.priceContent = priceContent;
+        this.photo = photo;
     }
 }

@@ -1,4 +1,4 @@
-package com.codestates.main07.marketBoard.board;
+package com.codestates.main07.marketBoard.board.domain;
 
 import com.codestates.main07.audit.Audit;
 import com.codestates.main07.marketBoard.comment.MarketBoardComment;
@@ -29,8 +29,16 @@ public class MarketBoard extends Audit {
     @Column (nullable = false)
     private int priceContent;
 
+    @Lob
+    @Column
+    private String photo;
+
     @Column (columnDefinition = "integer default 0", nullable = false)
     private int viewCount;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private Tag tag;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -51,10 +59,11 @@ public class MarketBoard extends Audit {
 //        this.member = member;
 //    }
 
-    public void update(String title, String content, int priceContent) {
+    public void update(String title, String content, int priceContent, String photo) {
         this.title = title;
         this.content = content;
         this.priceContent = priceContent;
+        this.photo = photo;
     }
 
     public void incrementViewCount() {
@@ -66,5 +75,9 @@ public class MarketBoard extends Audit {
 
     public void setMember(Member member) {
         this.member = member;
+    }
+
+    public void setTag(Tag tag) {
+        this.tag = tag;
     }
 }
