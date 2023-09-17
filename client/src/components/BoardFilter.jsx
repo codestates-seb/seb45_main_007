@@ -1,6 +1,12 @@
 import { NavLink } from "react-router-dom";
 import { styled } from "styled-components";
 import React from "react";
+import movieIcon from "../images/filterBar/movieIcon.png";
+import comicIcon from "../images/filterBar/comicIcon.png";
+import tvIcon from "../images/filterBar/tvIcon.png";
+import itemIcon from "../images/filterBar/itemIcon.png";
+import musicIcon from "../images/filterBar/musicIcon.png";
+import gameIcon from "../images/filterBar/gameIcon.png";
 
 const BoardFilterSect = styled.section`
   width: 12.5%;
@@ -35,13 +41,13 @@ const ThreeBoxTitle = styled.div`
   border-bottom: 1px solid green;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 20px;
   display: flex;
 `;
 
 const ThreeBoxContent = styled.div`
   width: 100%;
-  height: 13%;
+  height: 15%;
   display: flex;
   padding: 10px;
   padding-left: 18px;
@@ -53,6 +59,12 @@ const ThreeBoxContent = styled.div`
   text-align: center;
 `;
 
+const ThreeBoxItemImg = styled.img`
+  width: 15px;
+  height: 15px;
+  margin-right: 10px;
+`;
+
 const ThreeBoxCircle = styled.div`
   width: 10px;
   height: 10px;
@@ -62,6 +74,45 @@ const ThreeBoxCircle = styled.div`
 `;
 
 export const BoardFilter = () => {
+  const ThreeBoxContentArr = [
+    {
+      NavLink: "/club/comic",
+      itemName: "만화",
+      menuColor: "#800000",
+      imgsrc: comicIcon,
+    },
+    {
+      NavLink: "/club/movie",
+      itemName: "영화",
+      menuColor: "#ff4500",
+      imgsrc: movieIcon,
+    },
+    {
+      NavLink: "/club/tvshow",
+      itemName: "TV 프로그램",
+      menuColor: "#cccc00",
+      imgsrc: tvIcon,
+    },
+    {
+      NavLink: "/club/item",
+      itemName: "추억 아이템",
+      menuColor: "#006400",
+      imgsrc: itemIcon,
+    },
+    {
+      NavLink: "/club/music",
+      itemName: "노래",
+      menuColor: "#00008b",
+      imgsrc: musicIcon,
+    },
+    {
+      NavLink: "/club/game",
+      itemName: "게임",
+      menuColor: "#4b0082",
+      imgsrc: gameIcon,
+    },
+  ];
+
   return (
     <>
       <BoardFilterSect>
@@ -69,31 +120,13 @@ export const BoardFilter = () => {
           <BoardFilterThreeBox>
             <ThreeBoxTitle>게시판 이동하기</ThreeBoxTitle>
 
-            <ThreeBoxContent>
-              <NavLink to="/club/totalcontents">만화</NavLink>
-              <ThreeBoxCircle color="red" />
-            </ThreeBoxContent>
-
-            <ThreeBoxContent>
-              영화
-              <ThreeBoxCircle color="blue" />
-            </ThreeBoxContent>
-            <ThreeBoxContent>
-              TV 프로그램
-              <ThreeBoxCircle color="green" />
-            </ThreeBoxContent>
-            <ThreeBoxContent>
-              추억 아이템
-              <ThreeBoxCircle color="yellow" />
-            </ThreeBoxContent>
-            <ThreeBoxContent>
-              노래
-              <ThreeBoxCircle color="purple" />
-            </ThreeBoxContent>
-            <ThreeBoxContent>
-              게임
-              <ThreeBoxCircle color="white" />
-            </ThreeBoxContent>
+            {ThreeBoxContentArr.map((item) => (
+              <ThreeBoxContent key={item.itemName}>
+                <ThreeBoxItemImg src={item.imgsrc} />
+                <NavLink to={item.NavLink}>{item.itemName}</NavLink>
+                <ThreeBoxCircle color={item.menuColor} />
+              </ThreeBoxContent>
+            ))}
           </BoardFilterThreeBox>
         </BoardFilterBox>
       </BoardFilterSect>

@@ -1,50 +1,41 @@
 import { styled } from "styled-components";
-import chulsuImg from "../images/theme/chulsu.jpg";
 import React from "react";
 
 const BoardOneSect = styled.section`
   width: 100%;
-  height: 350px;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  flex-wrap: wrap;
 `;
-
-// const BoardOneTitle = styled.div`
-//   width: 18%;
-//   height: 10%;
-//   border-bottom: 3px solid #a7cfff;
-//   font-size: 22px;
-//   margin-top: 2%;
-//   text-align: center;
-//   color: white;
-// `;
 
 const BoardNoteSect = styled.div`
   width: 100%;
+
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
 `;
 
 const OneBoard = styled.article`
-  width: 375px;
-  height: 100%;
+  width: 22%;
+  height: 500px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   position: relative;
+  margin-right: 30px;
 `;
 
 const BoardNote = styled.div`
-  width: 90%;
+  width: 100%;
   height: 75%;
   border-radius: 10px;
-  background-color: #f8f8cd;
-  border-bottom: 5px solid black;
+  background-color: white;
   margin-top: 1%;
   cursor: pointer;
   display: flex;
@@ -60,37 +51,25 @@ const BoardNote = styled.div`
   margin-bottom: 1%;
 
   &:hover {
-    border: 10px solid #9bfff5;
-    transition: 0.2s ease-in;
+    border: 30px solid white;
+    transition: 0.1s ease-in;
   }
 `;
 
 const BoardNoteTitle = styled.h3`
   font-size: 18px;
-  width: 300px;
+  width: 100%;
   height: 50px;
   color: black;
   display: flex;
   justify-content: center;
+  align-items: center;
   color: white;
   margin-top: 10px;
 `;
 
-const BoardTitleCircle = styled.div`
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  top: 1.5%;
-  z-index: 999;
-  left: 6%;
-  background-color: #7272f8;
-  border-radius: 50%;
-`;
-
 const BoardNoteCircle = styled.div`
-  border-radius: 50%;
-  background-color: #f8f8cd;
-  width: 110%;
+  width: 100%;
   height: 100%;
   top: 0%;
   position: absolute;
@@ -104,8 +83,8 @@ const BoardNoteCircle = styled.div`
 `;
 
 const BoardCircleImg = styled.img`
-  width: 70%;
-  height: 70%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: top center;
   filter: brightness(0.9);
@@ -119,11 +98,10 @@ export const NormalContent = ({ NormalContentData }) => {
           {/* eslint-disable-next-line react/prop-types */}
           {NormalContentData.map((data) => (
             <OneBoard key={data.market_board_id}>
-              <BoardTitleCircle />
               <BoardNote>
                 <BoardNoteCircle>
                   <BoardCircleImg
-                    src={chulsuImg}
+                    src={data.baseImg}
                     style={{ objectPosition: "bottom center" }}
                   />
                 </BoardNoteCircle>

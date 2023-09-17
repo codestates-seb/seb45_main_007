@@ -20,7 +20,10 @@ function App() {
         <Route path="/" element={<MarketTContPage />} />
         <Route path="/market/totalcontents" element={<MarketTContPage />} />
         <Route path="/club/totalcontents" element={<ClubTContPage />} />
-        <Route path="/club/onecontent" element={<ClubOneContPage />} />
+        <Route
+          path="/club/onecontent/:clubBoardId"
+          element={<ClubOneContPage />}
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/club" element={<ClubMainPage />} />

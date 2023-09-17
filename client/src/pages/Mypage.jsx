@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import modifyIcon from "../icon/modify.png";
 import React, { useState } from "react";
-import { NewHeader } from "../components/NewHeader.jsx";
 import userImg from "../images/userExample.png";
 
 export default function Mypage() {
@@ -25,7 +24,6 @@ export default function Mypage() {
   };
   return (
     <>
-      <NewHeader />
       <Container>
         <Title>마 이 페 이 지</Title>
         <UserContainer>

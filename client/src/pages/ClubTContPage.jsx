@@ -2,8 +2,11 @@ import { styled } from "styled-components";
 import { ClubContents } from "../components/ClubContents.jsx";
 import { NewHeader } from "../components/NewHeader.jsx";
 import boardmarker from "../images/theme/white board marker.jpg";
-import { ClubBasicData } from "../data/ClubBasicData.js";
-import React, { useState } from "react";
+import { ClubMockData } from "../data/ClubMockData.js";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Pagination from "../components/Pagination.jsx";
+import { useParams } from "react-router-dom";
 
 const BoardTotalContainer = styled.section`
   width: 100vw;
@@ -240,33 +243,33 @@ const PaginationBtnBox = styled.div`
   justify-content: center;
 `;
 
-const OnePageBtn = styled.div`
-  width: 12%;
-  height: 85%;
-  margin-right: 3%;
-  border: 3px solid #718be8;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  color: #718be8;
-  cursor: pointer;
-  border-radius: 10px;
-`;
+// const OnePageBtn = styled.div`
+//   width: 12%;
+//   height: 85%;
+//   margin-right: 3%;
+//   border: 3px solid #718be8;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   font-size: 18px;
+//   color: #718be8;
+//   cursor: pointer;
+//   border-radius: 10px;
+// `;
 
-const OnePageBtnSelected = styled.div`
-  width: 12%;
-  height: 85%;
-  margin-right: 3%;
-  border: 3px solid black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  color: black;
-  cursor: pointer;
-  border-radius: 10px;
-`;
+// const OnePageBtnSelected = styled.div`
+//   width: 12%;
+//   height: 85%;
+//   margin-right: 3%;
+//   border: 3px solid black;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   font-size: 18px;
+//   color: black;
+//   cursor: pointer;
+//   border-radius: 10px;
+// `;
 
 // 선택된 버튼만 필터링할 수 있도록 수정하기!
 
@@ -287,24 +290,65 @@ const BoardFooterSect = styled.div`
 `;
 
 export const ClubTContPage = () => {
-  const totalPosts = ClubBasicData.length;
-  console.log(`totalPostNum: ${totalPosts}`);
-  const postsPerPage = 10;
-  const totalPages = Math.ceil(totalPosts / postsPerPage);
+  const { category } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
-  const pagesToShow = 5;
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalClubData, setTotalClubData] = useState([]);
+  const apiUrl = `https://9dac-2406-5900-705c-f80b-2c90-ee5-6e07-7434.ngrok-free.app/clubBoards?page=1&size=10`;
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(apiUrl, {
+          headers: {
+            "Content-Type": "application/json",
+            "ngrok-skip-browser-warning": "69420",
+          },
+        });
+
+        if (response.status === 200) {
+          setTotalClubData(response.data.clubBoards);
+          console.log(totalClubData);
+          setTotalPages(response.data.pageInfo.totalPages);
+        } else {
+          console.error("데이터 가져오기 실패");
+        }
+      } catch (error) {
+        const filteredClubData = ClubMockData.filter(
+          (data) => data.clubBoards.category === category,
+        );
+        setTotalClubData(filteredClubData.slice(0, 10));
+        setTotalPages(Math.ceil(filteredClubData.length / 10));
+      }
+    }
+    fetchData();
+  }, []);
+
+  const changePage = async (newPage) => {
+    const response = await axios.get(
+      `https://9dac-2406-5900-705c-f80b-2c90-ee5-6e07-7434.ngrok-free.app/clubBoards?page=${newPage}&size=10`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "69420",
+        },
+      },
+    );
+
+    if (response.status === 200) {
+      setTotalClubData(response.data.clubBoards);
+      setTotalPages(response.data.pageInfo.totalPages);
+      setCurrentPage(newPage);
+    } else {
+      const filteredClubData = ClubMockData.filter(
+        (data) => data.clubBoards.category === category,
+      );
+      const startIdx = newPage * 10 - 10 + 1;
+      const sliceClubData = filteredClubData.slice(startIdx, startIdx + 10);
+      setTotalClubData(sliceClubData);
+      setTotalPages(Math.ceil(filteredClubData.length / 10));
+      setCurrentPage(newPage);
+    }
   };
-
-  const pageRange = Array.from({ length: totalPages }, (_, index) => index + 1);
-  const startPage = Math.max(1, currentPage - Math.floor(pagesToShow / 2));
-  const endPage = Math.min(totalPages, startPage + pagesToShow - 1);
-  const startIndex = (currentPage - 1) * postsPerPage;
-  const endIndex = startIndex + postsPerPage;
-  const currentPosts = ClubBasicData.slice(startIndex, endIndex);
-
-  // 다섯개의 버튼씩 따른 분리 해보기, 다른 정보 들어오게 해보기, 페이지네이션 코드 암기 및 코드분리 기획하기 및 전체상태관리에 대한 생각 및 구상. 전체 로직 암기. 검색기능 구현에 대한 기획하기. 라우팅 분리하기
 
   return (
     <>
@@ -378,32 +422,16 @@ export const ClubTContPage = () => {
           </BoardNameSect>
 
           <BoardContentCont>
-            <ClubContents currentPosts={currentPosts} />
+            <ClubContents totalClubData={totalClubData} />
             <PaginationBtnSect>
               <PaginationBtnBox>
                 <PageArrowBtnBox>&larr;</PageArrowBtnBox>
 
-                {pageRange.slice(startPage - 1, endPage).map((pageNumber) => {
-                  if (currentPage === pageNumber) {
-                    return (
-                      <OnePageBtnSelected
-                        key={pageNumber}
-                        onClick={() => handlePageChange(pageNumber)}
-                      >
-                        {pageNumber}
-                      </OnePageBtnSelected>
-                    );
-                  } else {
-                    return (
-                      <OnePageBtn
-                        key={pageNumber}
-                        onClick={() => handlePageChange(pageNumber)}
-                      >
-                        {pageNumber}
-                      </OnePageBtn>
-                    );
-                  }
-                })}
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={changePage}
+                />
                 <PageArrowBtnBox>&rarr;</PageArrowBtnBox>
               </PaginationBtnBox>
             </PaginationBtnSect>
@@ -414,3 +442,25 @@ export const ClubTContPage = () => {
     </>
   );
 };
+
+// {pageRange.slice(startPage - 1, endPage).map((pageNumber) => {
+//   if (currentPage === pageNumber) {
+//     return (
+//       <OnePageBtnSelected
+//         key={pageNumber}
+//         onClick={() => handlePageChange(pageNumber)}
+//       >
+//         {pageNumber}
+//       </OnePageBtnSelected>
+//     );
+//   } else {
+//     return (
+//       <OnePageBtn
+//         key={pageNumber}
+//         onClick={() => handlePageChange(pageNumber)}
+//       >
+//         {pageNumber}
+//       </OnePageBtn>
+//     );
+//   }
+// })}

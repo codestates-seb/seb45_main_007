@@ -1,6 +1,8 @@
 import { styled } from "styled-components";
 import { NewHeader } from "../components/NewHeader.jsx";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const BoardOneContContainer = styled.section`
   width: 100%;
@@ -305,6 +307,35 @@ const CommentRightInputBox = styled.div`
 `;
 
 export const ClubOneContPage = () => {
+  // const navigate = useNavigate();
+  const { clubBoardId } = useParams();
+  const { category } = useParams();
+  const [oneClubData, setOneClubData] = useState([]);
+  const OneContApiUrl = `https://9dac-2406-5900-705c-f80b-2c90-ee5-6e07-7434.ngrok-free.app/clubBoards/${category}/${clubBoardId}`;
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(OneContApiUrl, {
+          headers: {
+            "Content-Type": "application/json",
+            "ngrok-skip-browser-warning": "69420",
+          },
+        });
+
+        if (response.status === 200) {
+          setOneClubData(response.data);
+          console.log(response.data);
+          console.log(oneClubData);
+        } else {
+          console.error("데이터 가져오기 실패");
+        }
+      } catch (error) {
+        console.error("데이터 가져오기 실패", error);
+      }
+    }
+    fetchData();
+  }, []);
   return (
     <>
       <NewHeader />
@@ -323,25 +354,29 @@ export const ClubOneContPage = () => {
               <BoardTitleBox>
                 <WritedTitleBox>
                   <LeftTitleSect>제목</LeftTitleSect>
-                  <CenterTitleBox>디지몬 어드벤처 물건 팔아요</CenterTitleBox>
-                  <RightInfoBox>2023-09-05 | 조회수 102</RightInfoBox>
+                  <CenterTitleBox>{oneClubData.title}</CenterTitleBox>
+                  <RightInfoBox>
+                    {oneClubData.createdAt} | 조회수 {oneClubData.viewCount}
+                  </RightInfoBox>
                 </WritedTitleBox>
                 <WritedInfoBox>
                   <LeftWirterBox>작성자</LeftWirterBox>
-                  <RightWirterInfoBox>정창인</RightWirterInfoBox>
+                  <RightWirterInfoBox>
+                    {oneClubData.nickname}
+                  </RightWirterInfoBox>
                 </WritedInfoBox>
               </BoardTitleBox>
             </BoardTitleSect>
 
             <BasicSizeContentBox>
               <COneContTextBox>
-                포켓몬 스티커 다 모은 사람?
+                {oneClubData.content}
                 <br />
                 <br />
                 <br />
                 <br />
                 <br />
-                나 이거 어릴 때부터 모았는데
+                {oneClubData.content}
                 <br />
                 <br />
                 <br />
@@ -352,7 +387,7 @@ export const ClubOneContPage = () => {
                 <br />
                 <br />
                 <br />
-                보여줌
+                {oneClubData.content}
                 <br />
               </COneContTextBox>
             </BasicSizeContentBox>

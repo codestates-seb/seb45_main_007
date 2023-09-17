@@ -6,7 +6,7 @@ import { HotContent } from "../components/HotContent.jsx";
 import React from "react";
 import { NewHeader } from "../components/NewHeader.jsx";
 import charImg from "../images/userExample.png";
-import itemImg from "../images/chi021.png";
+// import itemImg from "../images/chi021.png";
 
 export default function MarketOneContPage() {
   return (
@@ -30,7 +30,7 @@ export default function MarketOneContPage() {
               <Icon className="pre">
                 <img src={preIcon} alt="previous" />
               </Icon>
-              <img src={itemImg} alt="mdExample" style={{ height: "650px" }} />
+              <img src="" alt="mdExample" style={{ height: "650px" }} />
               <Icon className="next">
                 <img src={nextIcon} alt="next" />
               </Icon>

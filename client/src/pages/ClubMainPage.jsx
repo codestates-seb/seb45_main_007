@@ -1,22 +1,18 @@
 import { styled } from "styled-components";
-import { React } from "react";
-import { NewHeader } from "../components/NewHeader.jsx";
+import { React, useEffect, useState } from "react";
 import { BoardFilter } from "../components/BoardFilter.jsx";
+import { ClubMockData } from "../data/ClubMockData.js";
+import axios from "axios";
+import pin2Img from "../images/pin2.png";
+import { Link } from "react-router-dom";
 
 const categories = [
-  { name: "만화", path: "/comics" },
-  { name: "영화", path: "/movies" },
-  { name: "TV 프로그램", path: "/tvshows" },
-  { name: "추억템", path: "/nostalgiaitems" },
-  { name: "노래", path: "/songs" },
-  { name: "게임", path: "/games" },
-  { name: "기타", path: "/others" },
-];
-
-const posts = [
-  { title: "게시글 1", likes: 10, date: "2023-09-11" },
-  { title: "게시글 2", likes: 20, date: "2023-09-12" },
-  // ... (다른 게시글들)
+  { name: "comic", titleName: "만화", path: "/comics" },
+  { name: "movie", titleName: "영화", path: "/movies" },
+  { name: "TV", titleName: "TV 프로그램", path: "/tv" },
+  { name: "추억아이템", titleName: "추억 아이템", path: "/items" },
+  { name: "노래", titleName: "노래", path: "/song" },
+  { name: "game", titleName: "게임", path: "/game" },
 ];
 
 const ClubTotalContainer = styled.section`
@@ -78,30 +74,32 @@ const CategoryBoxes = styled.div`
 
 const CategoryBox = styled.div`
   width: 500px;
-  height: 250px;
-  border: 1px solid #fabcbc;
+  height: 300px;
+  border: 3px solid black;
   padding: 10px;
   background: #ffffff;
   border-radius: 8px;
+  position: relative;
+`;
+
+const CategoryBoxPinImg = styled.img`
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  top: -6%;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 const CategoryHeader = styled.div`
   display: flex;
   font-size: 20px;
+  padding-left: 10px;
   justify-content: space-between;
   margin-bottom: 10px;
-  border-bottom: 3px solid black;
-  height: 30px;
+  border-bottom: 3px solid ${(props) => props.color};
+  height: 60px;
   align-items: center;
-`;
-const PlusButton = styled.button`
-  width: 30px;
-  height: 100%;
-  margin-bottom: 10px;
-  border: none;
-  font-size: 32px;
-  background-color: white;
-  cursor: pointer;
 `;
 
 const CategoryContent = styled.div`
@@ -109,14 +107,41 @@ const CategoryContent = styled.div`
 `;
 
 const Post = styled.div`
-  font-size: 13px;
+  font-size: 15px;
   display: flex;
-  justify-content: space-between;
   margin-bottom: 10px;
   align-items: center;
-  height: 35px;
+  height: 50px;
   line-height: 1.2;
   border-bottom: 1px solid gray;
+  cursor: pointer;
+`;
+
+const PostTitle = styled.div`
+  width: 70%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  margin-right: 20px;
+  font-size: 18px;
+  font-style: italic;
+`;
+
+const PostLikesBox = styled.div`
+  width: 5%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+`;
+
+const PostWriterBox = styled.div`
+  width: 20%;
+  font-size: 13px;
+  height: 100%;
+  display: flex;
+  align-items: center;
 `;
 
 const ClubMainFooterSect = styled.div`
@@ -126,9 +151,51 @@ const ClubMainFooterSect = styled.div`
 `;
 
 function ClubMainPage() {
+  const [clubTotalData, setClubTotalData] = useState([]);
+  const apiUrl = "clubTotalUrl";
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get(apiUrl, {
+          headers: {
+            "Content-Type": "application/json",
+            "ngrok-skip-browser-warning": "69420",
+          },
+        });
+
+        if (response.status === 200) {
+          setClubTotalData(response.data.clubBoards);
+        } else {
+          setClubTotalData(ClubMockData.clubBoards);
+          console.log(clubTotalData);
+        }
+      } catch (error) {
+        setClubTotalData(ClubMockData.clubBoards);
+        console.log(clubTotalData);
+      }
+    }
+    fetchData();
+  }, []);
+
+  const CategoryHeaderColorChange = (idx) => {
+    if (idx === 0) {
+      return "#800000";
+    } else if (idx === 1) {
+      return "#FF4500";
+    } else if (idx === 2) {
+      return "#CCCC00";
+    } else if (idx === 3) {
+      return "#006400";
+    } else if (idx === 4) {
+      return "#00008B";
+    } else {
+      return "#4B0082";
+    }
+  };
+
   return (
     <>
-      <NewHeader />
       <ClubTotalContainer>
         <BoardFilter />
         <PageContent>
@@ -140,28 +207,40 @@ function ClubMainPage() {
             <SchoolBCircle>판</SchoolBCircle>
           </SchoolBoardTitle>
           <CategoryBoxes>
-            {categories.map((category) => (
-              <CategoryBox key={category.name}>
-                <CategoryHeader>
-                  <span>{category.name}</span>
-                  <PlusButton
-                    onClick={() => (window.location.href = category.path)}
-                  >
-                    +
-                  </PlusButton>
-                </CategoryHeader>
-                <CategoryContent>
-                  {posts.map((post, index) => (
-                    <Post key={index}>
-                      <div>{post.title}</div>
-                      <div>
-                        <div>추천수: {post.likes}</div>
-                        <div>{post.date}</div>
-                      </div>
-                    </Post>
-                  ))}
-                </CategoryContent>
-              </CategoryBox>
+            {categories.map((category, idx) => (
+              <>
+                <CategoryBox key={category.name}>
+                  <CategoryBoxPinImg src={pin2Img} />
+                  <Link to={`/club/${category.name}`}>
+                    <CategoryHeader
+                      color={() => CategoryHeaderColorChange(idx)}
+                    >
+                      <span>{category.titleName}</span>
+                    </CategoryHeader>
+                  </Link>
+                  <CategoryContent>
+                    {/* 여기 슬라이드 줘서 오른쪽으로, 왼쪽으로 누르면 슬라이스 되는 데이터가 다르게 한다! */}
+                    {clubTotalData
+                      .filter((post) => post.category === category.name)
+                      .slice(0, 3) // 각 카테고리당 5개까지만 표시하려면 slice 사용
+                      // 조회수별 정리하기 위해서, 조회수 높은대로 필터링해서 슬라이스로 자르면 된다! 총 11개의 데이터가 존재하니 4페이지까지 존재할듯.
+                      // 아래쪽으로 넘긴다는 느낌으로?
+                      .map((post) => (
+                        <Link
+                          to={`/club/${post.category}/${post.clubBoardId}`}
+                          key={post.clubBoardId}
+                        >
+                          <Post>
+                            <PostTitle>{post.title.slice(0, 20)}</PostTitle>
+                            {/* 글자수 넘는 경우 ...처리하기 */}
+                            <PostWriterBox>{post.nickname}</PostWriterBox>
+                            <PostLikesBox>{post.viewCount}</PostLikesBox>
+                          </Post>
+                        </Link>
+                      ))}
+                  </CategoryContent>
+                </CategoryBox>
+              </>
             ))}
           </CategoryBoxes>
         </PageContent>
