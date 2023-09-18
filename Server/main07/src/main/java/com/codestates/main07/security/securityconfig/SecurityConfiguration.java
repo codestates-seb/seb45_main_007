@@ -107,13 +107,17 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PATCH", "DELETE"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PATCH", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedOrigins(Arrays.asList(
-                "http://localhost:3000"
+                "http://localhost:3000",
+                "https://6b4f-125-181-59-71.ngrok-free.app",
+                "http://localhost:8080",
+                "null"
         ));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
+//        configuration.setAllowedHeaders(Arrays.asList("*")); 기존 set 사용 시
+        configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true); // 인증 정보(Credentials)를 허용
-        configuration.setExposedHeaders(Arrays.asList("Authorization", "Refresh"));
+        configuration.setExposedHeaders(Arrays.asList("Authorization", "Refresh", "Access-Control-Allow-Origin"));
 
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
