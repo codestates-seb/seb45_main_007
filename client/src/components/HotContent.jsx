@@ -134,7 +134,7 @@ export const HotContent = ({ title, color, HotContentData }) => {
               <BoardNotePhotoTape src={pinImg} />
               <BoardNoteInnerLine>
                 <BoardNoteCircle>
-                  <BoardCircleImg src={data.baseImg} />
+                  <BoardCircleImg src={data.photo} />
                 </BoardNoteCircle>
                 <BoardNoteTitle>{data.title}</BoardNoteTitle>
               </BoardNoteInnerLine>

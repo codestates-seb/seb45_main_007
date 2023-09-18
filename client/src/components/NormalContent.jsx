@@ -101,7 +101,7 @@ export const NormalContent = ({ NormalContentData }) => {
               <BoardNote>
                 <BoardNoteCircle>
                   <BoardCircleImg
-                    src={data.baseImg}
+                    src={data.photo}
                     style={{ objectPosition: "bottom center" }}
                   />
                 </BoardNoteCircle>
