@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import userImg from "../images/userExample.png";
 import axios from "axios";
 import CategoryDropdown from "../components/CategoryDropdown.jsx";
+import { NewHeader } from "../components/NewHeader.jsx";
 
 export default function Mypage() {
   const [editing, setEditing] = useState(false);
