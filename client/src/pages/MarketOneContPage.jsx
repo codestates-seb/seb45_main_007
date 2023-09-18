@@ -1,21 +1,22 @@
 import { styled } from "styled-components";
 import Reply from "../components/Reply.jsx";
-import nextIcon from "../icon/next.png";
-import preIcon from "../icon/pre.png";
+// import nextIcon from "../icon/next.png";
+// import preIcon from "../icon/pre.png";
 // import { HotContent } from "../components/HotContent.jsx";
 import React, { useEffect, useState } from "react";
 import { NewHeader } from "../components/NewHeader.jsx";
 import charImg from "../images/userExample.png";
-import itemImg from "../images/chi021.png";
 import axios from "axios";
-
+import IsSameDay from "../utility/IsSameDay.jsx";
+import { Link, useNavigate } from "react-router-dom";
 export default function MarketOneContPage() {
   const [data, setData] = useState({});
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://49c9-221-150-55-48.ngrok-free.app/marketBoards/25",
+          "https://49c9-221-150-55-48.ngrok-free.app/marketBoards/13",
           {
             headers: {
               "Content-Type": `application/json`,
@@ -33,6 +34,23 @@ export default function MarketOneContPage() {
     fetchData();
   }, []);
 
+  const deletePost = async () => {
+    if (window.confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
+      try {
+        const response = await axios.delete(
+          "https://49c9-221-150-55-48.ngrok-free.app/marketBoards/13",
+          { headers: { "Content-Type": "application/json" } },
+        );
+        console.log(response);
+        if (response.status === 200) {
+          navigate("/"); // 홈페이지로 리디렉션
+        }
+      } catch (error) {
+        console.error("Error deleting the post", error);
+      }
+    }
+  };
+
   return (
     <>
       <NewHeader />
@@ -42,7 +60,7 @@ export default function MarketOneContPage() {
             <Margnet />
             <ContentTitle>{data.title}</ContentTitle>
             <SecondContainer>
-              <CreatedAt>{data.createdAt}</CreatedAt>
+              <CreatedAt>{IsSameDay(data.createdAt)}</CreatedAt>
               <WriterContainer>
                 {data.nickname}
                 <WriterImage>
@@ -51,21 +69,32 @@ export default function MarketOneContPage() {
               </WriterContainer>
             </SecondContainer>
             <ContentImage>
-              <Icon className="pre">
+              {/* <Icon className="pre">
                 <img src={preIcon} alt="previous" />
-              </Icon>
-              <img src={itemImg} alt="mdExample" style={{ height: "650px" }} />
-              <Icon className="next">
+              </Icon> */}
+              <img
+                src={data.photo}
+                alt="mdExample"
+                style={{ height: "650px" }}
+              />
+              {/* <Icon className="next">
                 <img src={nextIcon} alt="next" />
-              </Icon>
+              </Icon> */}
             </ContentImage>
             <TextContentContainer>
-              <Price>30000원</Price>
+              <Price>{data.priceContent}원</Price>
               <TextContent>{data.content}</TextContent>
             </TextContentContainer>
             <BottomContainer>
-              <div>조회수 : {data.viewCount}</div> <div>찜 : 20</div>{" "}
-              <div>댓글 : 3</div>
+              <div className="left">
+                <div>조회수 : {data.viewCount}</div> <div>찜 : 20</div>{" "}
+                <div>댓글 : 3</div>
+              </div>
+              <div>
+                <StyledLink className="vote">♡ 찜하기</StyledLink>
+                <StyledLink>수정</StyledLink>{" "}
+                <StyledLink onClick={deletePost}>삭제</StyledLink>
+              </div>
             </BottomContainer>
           </ContentContainer>
           <Reply />
@@ -114,6 +143,7 @@ const Margnet = styled.div`
   left: 50%;
   z-index: 998;
 `;
+
 const ContentContainer = styled.div`
   width: 75%;
   border: 1px solid;
@@ -141,16 +171,16 @@ const ContentImage = styled.div`
     border-radius: 12px;
   }
 `;
-const Icon = styled.div`
-  width: 30px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  &:hover {
-    cursor: pointer;
-    filter: opacity(0.5) drop-shadow(0 0 0 gray);
-  }
-`;
+// const Icon = styled.div`
+//   width: 30px;
+//   height: 30px;
+//   display: flex;
+//   justify-content: center;
+//   &:hover {
+//     cursor: pointer;
+//     filter: opacity(0.5) drop-shadow(0 0 0 gray);
+//   }
+// `;
 
 const WriterContainer = styled.div`
   display: flex;
@@ -158,6 +188,7 @@ const WriterContainer = styled.div`
   height: 25px;
   align-items: center;
   justify-content: end;
+  font-size: 16px;
 `;
 
 const WriterImage = styled.div`
@@ -197,6 +228,7 @@ const CreatedAt = styled.div`
   color: #756e6e;
   display: flex;
   align-items: center;
+  font-size: 16px;
 `;
 const Price = styled.h3`
   width: 100%;
@@ -217,8 +249,22 @@ const BottomContainer = styled.div`
   margin-bottom: 30px;
   padding-top: 15px;
   border-top: 1px solid gray;
+  justify-content: space-between;
   div {
     padding-right: 20px;
     margin-right: 15px;
+  }
+  .left {
+    display: flex;
+    flex-direction: row;
+  }
+`;
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  margin-left: 15px;
+  padding-left: 20px;
+  color: #756e6e;
+  &.vote {
+    color: #f397a6;
   }
 `;
