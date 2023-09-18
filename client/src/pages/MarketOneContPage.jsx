@@ -1,14 +1,56 @@
 import { styled } from "styled-components";
-import arrowIcon from "../icon/arrow-right.png";
-import nextIcon from "../icon/next.png";
-import preIcon from "../icon/pre.png";
-import { HotContent } from "../components/HotContent.jsx";
-import React from "react";
+import Reply from "../components/Reply.jsx";
+// import nextIcon from "../icon/next.png";
+// import preIcon from "../icon/pre.png";
+// import { HotContent } from "../components/HotContent.jsx";
+import React, { useEffect, useState } from "react";
 import { NewHeader } from "../components/NewHeader.jsx";
 import charImg from "../images/userExample.png";
-import itemImg from "../images/chi021.png";
-
+import axios from "axios";
+import IsSameDay from "../utility/IsSameDay.jsx";
+import { Link, useNavigate } from "react-router-dom";
 export default function MarketOneContPage() {
+  const [data, setData] = useState({});
+  const navigate = useNavigate();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://49c9-221-150-55-48.ngrok-free.app/marketBoards/13",
+          {
+            headers: {
+              "Content-Type": `application/json`,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          },
+        );
+        console.log(response);
+        setData(response.data);
+      } catch (error) {
+        console.error("Error fetching the data", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const deletePost = async () => {
+    if (window.confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
+      try {
+        const response = await axios.delete(
+          "https://49c9-221-150-55-48.ngrok-free.app/marketBoards/13",
+          { headers: { "Content-Type": "application/json" } },
+        );
+        console.log(response);
+        if (response.status === 200) {
+          navigate("/"); // 홈페이지로 리디렉션
+        }
+      } catch (error) {
+        console.error("Error deleting the post", error);
+      }
+    }
+  };
+
   return (
     <>
       <NewHeader />
@@ -16,75 +58,47 @@ export default function MarketOneContPage() {
         <BoardNoteContainer>
           <ContentContainer>
             <Margnet />
-            <ContentTitle>센과 치히로 비디오 팝니다</ContentTitle>
+            <ContentTitle>{data.title}</ContentTitle>
             <SecondContainer>
-              {/* <CreatedAt>2023.09.10</CreatedAt> */}
+              <CreatedAt>{IsSameDay(data.createdAt)}</CreatedAt>
               <WriterContainer>
-                작성자
+                {data.nickname}
                 <WriterImage>
                   <img src={charImg} alt="user" />
                 </WriterImage>
               </WriterContainer>
             </SecondContainer>
             <ContentImage>
-              <Icon className="pre">
+              {/* <Icon className="pre">
                 <img src={preIcon} alt="previous" />
-              </Icon>
-              <img src={itemImg} alt="mdExample" style={{ height: "650px" }} />
-              <Icon className="next">
+              </Icon> */}
+              <img
+                src={data.photo}
+                alt="mdExample"
+                style={{ height: "650px" }}
+              />
+              {/* <Icon className="next">
                 <img src={nextIcon} alt="next" />
-              </Icon>
+              </Icon> */}
             </ContentImage>
             <TextContentContainer>
-              <Price>30000원</Price>
-              <TextContent>
-                30000원부터 시작합니다 <br />
-                팝니다
-                <br />팜<br />
-                팔아요
-                <br />
-                사실분
-                <br />
-                유지웅
-                <br />
-                최승연
-              </TextContent>
+              <Price>{data.priceContent}원</Price>
+              <TextContent>{data.content}</TextContent>
             </TextContentContainer>
             <BottomContainer>
-              <div>조회수 : 300</div> <div>찜 : 20</div> <div>댓글 : 3</div>
+              <div className="left">
+                <div>조회수 : {data.viewCount}</div> <div>찜 : 20</div>{" "}
+                <div>댓글 : 3</div>
+              </div>
+              <div>
+                <StyledLink className="vote">♡ 찜하기</StyledLink>
+                <StyledLink>수정</StyledLink>{" "}
+                <StyledLink onClick={deletePost}>삭제</StyledLink>
+              </div>
             </BottomContainer>
           </ContentContainer>
-          <ReplyContainer>
-            <ReplyIcon>
-              <img src={arrowIcon} alt="icon" />
-            </ReplyIcon>
-            <ReplyWriterConatiner>작성자 : </ReplyWriterConatiner>
-            <ReplyContents>삽니다</ReplyContents>
-            <ReplyCreatedAt>2023.08.23</ReplyCreatedAt>
-          </ReplyContainer>
-          <ReplyContainer>
-            <ReplyIcon>
-              <img src={arrowIcon} alt="icon" />
-            </ReplyIcon>
-            <ReplyWriterConatiner>작성자 : </ReplyWriterConatiner>
-            <ReplyContents>
-              가<br />나<br />다<br />라<br />마<br />바
-            </ReplyContents>
-            <ReplyCreatedAt>2023.08.23</ReplyCreatedAt>
-          </ReplyContainer>
-          <ReplyContainer>
-            <ReplyIcon>
-              <img src={arrowIcon} alt="icon" />
-            </ReplyIcon>
-            <ReplyWriterConatiner>작성자 : </ReplyWriterConatiner>
-            <ReplyContents>마이크테스트</ReplyContents>
-            <ReplyCreatedAt>2023.08.23</ReplyCreatedAt>
-          </ReplyContainer>
-          <ReplyInput type="text" placeholder="댓글입력"></ReplyInput>
-          <ButtonContainer>
-            <Button>확인</Button>
-          </ButtonContainer>
-          <HotContent />
+          <Reply />
+          {/* <HotContent /> */}
         </BoardNoteContainer>
       </TotalContainer>
     </>
@@ -129,6 +143,7 @@ const Margnet = styled.div`
   left: 50%;
   z-index: 998;
 `;
+
 const ContentContainer = styled.div`
   width: 75%;
   border: 1px solid;
@@ -156,16 +171,16 @@ const ContentImage = styled.div`
     border-radius: 12px;
   }
 `;
-const Icon = styled.div`
-  width: 30px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  &:hover {
-    cursor: pointer;
-    filter: opacity(0.5) drop-shadow(0 0 0 gray);
-  }
-`;
+// const Icon = styled.div`
+//   width: 30px;
+//   height: 30px;
+//   display: flex;
+//   justify-content: center;
+//   &:hover {
+//     cursor: pointer;
+//     filter: opacity(0.5) drop-shadow(0 0 0 gray);
+//   }
+// `;
 
 const WriterContainer = styled.div`
   display: flex;
@@ -173,6 +188,7 @@ const WriterContainer = styled.div`
   height: 25px;
   align-items: center;
   justify-content: end;
+  font-size: 16px;
 `;
 
 const WriterImage = styled.div`
@@ -207,12 +223,13 @@ const ContentTitle = styled.h2`
   display: flex;
   align-items: center;
 `;
-// const CreatedAt = styled.div`
-//   width: 100%;
-//   color: #756e6e;
-//   display: flex;
-//   align-items: center;
-// `;
+const CreatedAt = styled.div`
+  width: 100%;
+  color: #756e6e;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+`;
 const Price = styled.h3`
   width: 100%;
   margin-top: 10px;
@@ -232,86 +249,22 @@ const BottomContainer = styled.div`
   margin-bottom: 30px;
   padding-top: 15px;
   border-top: 1px solid gray;
+  justify-content: space-between;
   div {
     padding-right: 20px;
     margin-right: 15px;
   }
-`;
-
-const ReplyContainer = styled.div`
-  width: 75%;
-  color: white;
-  font-family: "HakgyoansimBunpilR";
-  font-size: 30px;
-  font-weight: bold;
-  border-bottom: 2px solid white;
-  display: flex;
-  flex-direction: row;
-  margin-top: 30px;
-`;
-const ReplyWriterConatiner = styled.div`
-  display: flex;
-  margin-left: 20px;
-  width: 7%;
-  font-size: 20px;
-  padding-top: 20px;
-`;
-
-const ReplyContents = styled.div`
-  width: 100%;
-  margin: 20px 0;
-  font-size: 20px;
-`;
-const ReplyCreatedAt = styled.div`
-  font-family: "HakgyoansimBunpilR";
-  color: white;
-  font-size: 16px;
-  display: flex;
-  align-items: end;
-  padding-bottom: 20px;
-`;
-const ReplyIcon = styled.div`
-  img {
-    width: 45px;
-    height: 45px;
+  .left {
+    display: flex;
+    flex-direction: row;
   }
 `;
-const ReplyInput = styled.textarea`
-  width: 75%;
-  height: 200px;
-  background: none;
-  font-size: 26px;
-  color: white;
-  font-family: "HakgyoansimBunpilR";
-  border: 2px solid white;
-  margin-top: 30px;
-  overflow-y: auto;
-  border-radius: 8px;
-
-  &:focus {
-    outline: none;
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  margin-left: 15px;
+  padding-left: 20px;
+  color: #756e6e;
+  &.vote {
+    color: #f397a6;
   }
-`;
-const Button = styled.button`
-  display: flex;
-  width: 155px;
-  height: 48px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 8px;
-  background: none;
-  color: #fff;
-  font-size: 20px;
-  border: 2px solid white;
-  font-family: "HakgyoansimBunpilR";
-  font-weight: bold;
-  &:hover {
-    cursor: pointer;
-  }
-`;
-const ButtonContainer = styled.div`
-  display: flex;
-  width: 75%;
-  justify-content: end;
-  margin: 30px 0;
 `;

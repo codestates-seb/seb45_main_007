@@ -4,6 +4,7 @@ import { HotContent } from "../components/HotContent.jsx";
 import { NormalContent } from "../components/NormalContent.jsx";
 import { AnaLogClock } from "../components/Clock.jsx";
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const TotalContainer = styled.div`
   width: 100vw;
@@ -143,25 +144,29 @@ const BoardFooterSect = styled.div`
 
 export const MarketTContPage = () => {
   const [MarketTData, setMarketTData] = useState([]);
-  const MarketAPI = "market/board";
 
   useEffect(() => {
-    const fetchedPost = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(MarketAPI);
-
-        if (!response.ok) {
-          throw new Error("게시물 목록을 가져오는 데 실패했습니다.");
-        }
-        const data = await response.json();
-        setMarketTData(data);
+        const response = await axios.get(
+          "https://49c9-221-150-55-48.ngrok-free.app/marketBoards",
+          {
+            headers: {
+              "Content-Type": `application/json`,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          },
+        );
+        console.log(response);
+        setMarketTData(response.data);
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching the data", error);
       }
     };
-    fetchedPost();
-  }, []);
 
+    fetchData();
+  }, []);
+  console.log(MarketTData);
   const HotContentData = MarketTData.slice(0, 3);
   const NormalContentData = MarketTData.slice(0, 4);
 
