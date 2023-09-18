@@ -68,12 +68,13 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        "https://69e6-125-181-59-71.ngrok-free.app/signin",
+        "https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/signin",
         { email, password },
       );
       if (response.data.success) {
         setLoggedIn(true);
         dispatch(setUser(response.data));
+        console.log("로그인성공");
       } else {
         setMessage(response.data.message);
       }

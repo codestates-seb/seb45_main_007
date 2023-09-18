@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { ClubMockData } from "../data/ClubMockData.js";
-import { ClubCommentData } from "../data/ClubCommentData.js";
+// import { ClubCommentData } from "../data/ClubCommentData.js";
 
 const BoardOneContContainer = styled.section`
   width: 100%;
@@ -333,36 +333,36 @@ const CommentRightInputBox = styled.input`
   padding: 30px;
 `;
 
-const SubComment = styled.div`
-  width: 100%;
-  height: 50px;
-  border-bottom: 1px solid gray;
-  display: flex;
-  align-items: center;
-  padding: 30px;
-  font-size: 13px;
-`;
+// const SubComment = styled.div`
+//   width: 100%;
+//   height: 50px;
+//   border-bottom: 1px solid gray;
+//   display: flex;
+//   align-items: center;
+//   padding: 30px;
+//   font-size: 13px;
+// `;
 
-const SubCommentPlus = styled.div`
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #e2e2ff;
-  position: absolute;
-  right: 0;
-`;
+// const SubCommentPlus = styled.div`
+//   width: 30px;
+//   height: 30px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   background-color: #e2e2ff;
+//   position: absolute;
+//   right: 0;
+// `;
 
-const SubcommentInput = styled.input`
-  width: 100%;
-  height: 50px;
-  border-bottom: 1px solid gray;
-  display: flex;
-  align-items: center;
-  padding: 30px;
-  font-size: 13px;
-`;
+// const SubcommentInput = styled.input`
+//   width: 100%;
+//   height: 50px;
+//   border-bottom: 1px solid gray;
+//   display: flex;
+//   align-items: center;
+//   padding: 30px;
+//   font-size: 13px;
+// `;
 
 const LikeBtn = styled.div`
   width: 50px;
@@ -382,6 +382,16 @@ const DeleteModal = styled.div`
   transform: translate(-50%, -50%);
 `;
 
+const DeleteCommentBtn = styled.div`
+  width: 50px;
+  height: 50px;
+  background-color: blue;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const ClubOneContPage = () => {
   // const navigate = useNavigate();
   const { clubBoardId } = useParams();
@@ -389,10 +399,11 @@ export const ClubOneContPage = () => {
   const [oneClubData, setOneClubData] = useState([]);
   const OneContApiUrl = `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}`;
 
+  const OneCommentAPiUrl = `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}/comments?page=1&size=5`;
   const [editingState, setEditingState] = useState(false);
   const [editingTitle, setEditingTitle] = useState(oneClubData.title);
   const [editingContent, setEditingContent] = useState(oneClubData.content);
-  const [baseCommentData, setBaseCommentData] = useState([...ClubCommentData]);
+  const [baseCommentData, setBaseCommentData] = useState([]);
   const [insertComment, setInserComment] = useState("");
 
   const [deleteState, setDeleteState] = useState(false);
@@ -468,61 +479,50 @@ export const ClubOneContPage = () => {
   //   }
   // };
 
-  const [commentInputStates, setCommentInputStates] = useState(
-    baseCommentData.map(() => ({
-      subcommentAdd: false,
-      subcommentText: "",
-    })),
-  );
+  // const [commentInputStates, setCommentInputStates] = useState(
+  //   baseCommentData.map(() => ({
+  //     subcommentAdd: false,
+  //     subcommentText: "",
+  //   })),
+  // );
 
-  const toggleSubCommentInput = (index) => {
-    setCommentInputStates((prevStates) =>
-      prevStates.map((state, i) =>
-        i === index ? { ...state, subcommentAdd: !state.subcommentAdd } : state,
-      ),
-    );
-  };
+  // const toggleSubCommentInput = (index) => {
+  //   setCommentInputStates((prevStates) =>
+  //     prevStates.map((state, i) =>
+  //       i === index ? { ...state, subcommentAdd: !state.subcommentAdd } : state,
+  //     ),
+  //   );
+  // };
 
-  const handleSubCommentChange = (index, event) => {
-    const { name, value } = event.target;
-    setCommentInputStates((prevStates) =>
-      prevStates.map((state, i) =>
-        i === index ? { ...state, [name]: value } : state,
-      ),
-    );
-  };
+  // const handleSubCommentChange = (index, event) => {
+  //   const { name, value } = event.target;
+  //   setCommentInputStates((prevStates) =>
+  //     prevStates.map((state, i) =>
+  //       i === index ? { ...state, [name]: value } : state,
+  //     ),
+  //   );
+  // };
 
-  const addSubComment = (index) => {
-    const updatedCommentData = [...baseCommentData];
-    updatedCommentData[index].subComment.push(
-      commentInputStates[index].subcommentText,
-    );
-    setBaseCommentData(updatedCommentData);
+  // const addSubComment = (index) => {
+  //   const updatedCommentData = [...baseCommentData];
+  //   updatedCommentData[index].subComment.push(
+  //     commentInputStates[index].subcommentText,
+  //   );
+  //   setBaseCommentData(updatedCommentData);
 
-    // 입력 상태 초기화
-    setCommentInputStates((prevStates) =>
-      prevStates.map((state, i) =>
-        i === index
-          ? { ...state, subcommentAdd: false, subcommentText: "" }
-          : state,
-      ),
-    );
-  };
+  //   // 입력 상태 초기화
+  //   setCommentInputStates((prevStates) =>
+  //     prevStates.map((state, i) =>
+  //       i === index
+  //         ? { ...state, subcommentAdd: false, subcommentText: "" }
+  //         : state,
+  //     ),
+  //   );
+  // };
 
   const InsertCommentFunc = (event) => {
     const newValue = event.target.value;
     setInserComment(newValue);
-  };
-
-  const CommentChangeBtnClick = () => {
-    const copiedData = [...baseCommentData];
-    const newData = {};
-    newData.commentId = copiedData.length + 1;
-    newData.content = insertComment;
-    newData.writer = "추가된 작성자";
-    newData.createdAt = "2023-07-06T20:52:28.17253";
-    const AddedCommentData = [...copiedData, newData];
-    setBaseCommentData(AddedCommentData);
   };
 
   const SetEditingBtnClick = () => {
@@ -539,19 +539,109 @@ export const ClubOneContPage = () => {
     setEditingContent(newValue);
   };
 
-  const EditingSubmitFunc = () => {
-    const copiedData = oneClubData;
-    copiedData.title = editingTitle;
-    copiedData.content = editingContent;
-    setOneClubData(copiedData);
-    setEditingState(false);
+  // const JWT_TOKEN = "YOUR_JWT_TOKEN";
+
+  const dataToSend = {
+    title: editingTitle,
+    content: editingContent,
   };
 
-  // function extractDateFromDateISOString(dateISOString) {
-  //   const dateObject = new Date(dateISOString);
-  //   const formattedDate = dateObject.toISOString().split("T")[0];
-  //   return formattedDate;
-  // };
+  const EditingSubmitFunc = async () => {
+    try {
+      const response = await axios.put(
+        `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}`,
+        dataToSend, // 데이터는 여기에 넣어야 합니다.
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "ngrok-skip-browser-warning": "69420",
+          },
+        },
+      );
+      if (response.status === 200) {
+        console.log("수정 성공");
+        navigate(`club/${category}`);
+      } else {
+        console.log("수정 실패");
+      }
+    } catch (error) {
+      console.error("수정 요청 실패:", error);
+    }
+  };
+
+  const dataToSendComment = {
+    memberId: 1,
+    content: insertComment,
+  };
+
+  const CommentChangeBtnClick = async () => {
+    try {
+      const response = await axios.post(
+        `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}/comments`,
+        dataToSendComment, // 데이터는 여기에 넣어야 합니다.
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "ngrok-skip-browser-warning": "69420",
+          },
+        },
+      );
+      if (response.status === 201) {
+        console.log("댓글 추가 성공");
+        fetch;
+      } else {
+        console.log("수정 실패");
+      }
+    } catch (error) {
+      console.error("수정 요청 실패:", error);
+    }
+  };
+
+  const DeleteCommentBtnClick = async (clubBoardCommentId) => {
+    try {
+      const response = await axios.delete(
+        `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}/comments/${clubBoardCommentId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "ngrok-skip-browser-warning": "69420",
+          },
+        },
+      );
+      if (response.status === 200) {
+        console.log("댓글 삭제 성공");
+        fetchCommentData();
+      } else {
+        console.log("수정 실패");
+      }
+    } catch (error) {
+      console.error("수정 요청 실패:", error);
+    }
+  };
+
+  const fetchCommentData = async () => {
+    try {
+      const response = await axios.get(OneCommentAPiUrl, {
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "69420",
+        },
+      });
+
+      if (response.status === 200) {
+        setBaseCommentData(response.data.clubBoardComments);
+        console.log(baseCommentData);
+      } else {
+        console.error("200 코드가 아님");
+      }
+    } catch (error) {
+      console.log("error");
+    }
+  };
+
+  useEffect(() => {
+    fetchCommentData();
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -580,6 +670,29 @@ export const ClubOneContPage = () => {
     }
     fetchData();
   }, []);
+
+  // useEffect(() => {
+  //   async function fetchCommentData() {
+  //     try {
+  //       const response = await axios.get(OneCommentAPiUrl, {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           "ngrok-skip-browser-warning": "69420",
+  //         },
+  //       });
+
+  //       if (response.status === 200) {
+  //         setBaseCommentData(response.data.clubBoardComments);
+  //         console.log(baseCommentData);
+  //       } else {
+  //         console.error("200 코드가 아님");
+  //       }
+  //     } catch (error) {
+  //       console.log("error");
+  //     }
+  //   }
+  //   fetchCommentData();
+  // }, []);
 
   const DeleteContentBtnClick = async () => {
     const response = await axios.delete(
@@ -707,20 +820,28 @@ export const ClubOneContPage = () => {
             ) : null}
 
             <BoardOneCommentSect>
-              {baseCommentData.map((data, index) => (
+              {baseCommentData.map((data) => (
                 <>
-                  <BoardOneCommentOne key={data.commentId}>
-                    <CommentOneLeft>{data.writer}</CommentOneLeft>
+                  <BoardOneCommentOne key={data.clubBoardCommentId}>
+                    <CommentOneLeft>{data.nickname}</CommentOneLeft>
                     <CommentOneCenter>{data.content}</CommentOneCenter>
                     <CommentOneRight>{data.createdAt}</CommentOneRight>
-                    <SubCommentPlus
+                    {/* <SubCommentPlus
                       onClick={() => toggleSubCommentInput(index)}
                     >
                       +
-                    </SubCommentPlus>
+                    </SubCommentPlus> */}
+
+                    <DeleteCommentBtn
+                      onClick={() =>
+                        DeleteCommentBtnClick(data.clubBoardCommentId)
+                      }
+                    >
+                      댓글 삭제하기
+                    </DeleteCommentBtn>
                   </BoardOneCommentOne>
 
-                  {data.subComment.map((item) => (
+                  {/* {data.subComment.map((item) => (
                     <>
                       <SubComment key={item}> ============{item}</SubComment>
                     </>
@@ -737,7 +858,7 @@ export const ClubOneContPage = () => {
                       />
                       <button onClick={() => addSubComment(index)}>추가</button>
                     </>
-                  )}
+                  )} */}
                 </>
               ))}
             </BoardOneCommentSect>

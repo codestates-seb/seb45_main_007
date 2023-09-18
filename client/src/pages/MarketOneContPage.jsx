@@ -24,7 +24,6 @@ export default function MarketOneContPage() {
             },
           },
         );
-        console.log(response);
         setData(response.data);
       } catch (error) {
         console.error("Error fetching the data", error);
