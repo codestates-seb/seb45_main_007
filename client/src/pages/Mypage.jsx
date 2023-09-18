@@ -1,13 +1,43 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import modifyIcon from "../icon/modify.png";
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
+import { NewHeader } from "../components/NewHeader.jsx";
 import userImg from "../images/userExample.png";
+import axios from "axios";
+import CategoryDropdown from "../components/CategoryDropdown.jsx";
 
 export default function Mypage() {
   const [editing, setEditing] = useState(false);
   const [newNickname, setNewNickname] = useState("");
   const [nickname, setNickname] = useState("코딩왕");
+  const [clubData, setClubData] = useState([]);
+  const [pageInfo, setPageInfo] = useState({});
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const fetchData = async (page) => {
+    try {
+      const response = await axios.get(
+        `https://a742-2406-5900-705c-f80b-858d-ab44-7a5d-7fa2.ngrok-free.app/clubBoards/myPage/1?page=${page}&size=5&category=${selectedCategory}`,
+        {
+          headers: {
+            "Content-Type": `application/json`,
+            "ngrok-skip-browser-warning": "69420",
+          },
+        },
+      );
+      setClubData(response.data.clubBoards || []);
+      setPageInfo(response.data.pageInfo || {});
+    } catch (error) {
+      console.error("Error fetching the data", error);
+      setClubData([]);
+    }
+  };
+  useEffect(() => {
+    fetchData(1);
+  }, [selectedCategory]);
+
+  const handlePageClick = (pageNum) => fetchData(pageNum);
 
   const handleEditClick = () => {
     setEditing(true);
@@ -134,7 +164,7 @@ export default function Mypage() {
               </tbody>
             </ContentsTable>
           </MiddleContents>
-          <Number>1</Number>
+          <PageNumber>1</PageNumber>
         </MiddleContainer>
         <MiddleContainer>
           <MiddleTitle>
@@ -194,11 +224,15 @@ export default function Mypage() {
               </tbody>
             </ContentsTable>
           </MiddleContents>
-          <Number>1</Number>
+          <PageNumber>1</PageNumber>
         </MiddleContainer>
         <BottomContainer>
           <BottomTitle>
-            3. 내가 쓴 게시글<FilterButton>카테고리</FilterButton>
+            3. 내가 쓴 게시글
+            <CategoryDropdown
+              setSelectedCategory={setSelectedCategory}
+              fetchData={fetchData}
+            />
           </BottomTitle>
           <BottomContents>
             <ContentsTable>
@@ -212,45 +246,23 @@ export default function Mypage() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>56</td>
-                  <td>324</td>
-                  <td>만화</td>
-                  <td>안녕하세요</td>
-                  <td>2023.08.23</td>
-                </tr>
-                <tr>
-                  <td>56</td>
-                  <td>324</td>
-                  <td>만화</td>
-                  <td>안녕하세요</td>
-                  <td>2023.08.23</td>
-                </tr>
-                <tr>
-                  <td>56</td>
-                  <td>324</td>
-                  <td>만화</td>
-                  <td>안녕하세요</td>
-                  <td>2023.08.23</td>
-                </tr>
-                <tr>
-                  <td>56</td>
-                  <td>324</td>
-                  <td>만화</td>
-                  <td>안녕하세요</td>
-                  <td>2023.08.23</td>
-                </tr>
-                <tr>
-                  <td>56</td>
-                  <td>324</td>
-                  <td>만화</td>
-                  <td>안녕하세요</td>
-                  <td>2023.08.23</td>
-                </tr>
+                {clubData.map((post) => (
+                  <tr key={post.clubBoardId}>
+                    <td>{post.clubBoardId}</td>
+                    <td>{post.viewCount}</td>
+                    <td>{post.category}</td>
+                    <td>{post.title}</td>
+                    <td>{new Date(post.createdAt).toLocaleDateString()}</td>
+                  </tr>
+                ))}
               </tbody>
             </ContentsTable>
           </BottomContents>
-          <Number>1</Number>
+          {[...Array(pageInfo.totalPages)].map((_, i) => (
+            <PageNumber onClick={() => handlePageClick(i + 1)} key={i}>
+              {i + 1}
+            </PageNumber>
+          ))}
         </BottomContainer>
         <BottomContainer>
           <ButtonContianer>
@@ -396,7 +408,7 @@ const MiddleContents = styled.div`
   height: 300px;
 `;
 
-const Number = styled.div`
+const PageNumber = styled.div`
   width: 100%;
   height: 28px;
   display: flex;
@@ -406,6 +418,7 @@ const Number = styled.div`
   padding-top: 50px;
   text-decoration: underline;
   font-weight: bold;
+  flex-direction: row;
 `;
 
 const BottomContainer = styled(MiddleContainer)``;
