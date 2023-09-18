@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 public class RecommendResponseDto {
     private long clubBoardRecommendId;
     private boolean recommended;
-    private boolean success;
     private long recommendCount;
     private Member member;
     private ClubBoard clubBoard;
