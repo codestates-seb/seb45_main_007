@@ -11,12 +11,15 @@ import MarketOneContPage from "./pages/MarketOneContPage.jsx";
 import React from "react";
 import "./App.css";
 import { NewHeader } from "./components/NewHeader.jsx";
-// import { ClubTestPage } from "./pages/ClubTestPage.jsx";
+import Write from "./pages/Write.jsx";
+import KakaoAuth from "./pages/KakaoAuth.jsx";
+import GoogleOAuth2RedirectPage from "./pages/GoogleOAuth2RedirectPage.jsx";
+
 
 function App() {
   return (
     <Router>
-      <NewHeader />
+      <NewHeader></NewHeader>
       <Routes>
         <Route path="/" element={<MarketTContPage />} />
         <Route path="/market/totalcontents" element={<MarketTContPage />} />
@@ -31,6 +34,12 @@ function App() {
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/market/onecontent" element={<MarketOneContPage />} />
         <Route path="/usermodify" element={<UserModify />} />
+        <Route path="/write" element={<Write />} />
+        <Route path="/oauth2/authorization/kakao" element={<KakaoAuth />} />
+        <Route
+          path="/oauth2/authorization/google"
+          element={<GoogleOAuth2RedirectPage />}
+        />
       </Routes>
     </Router>
   );

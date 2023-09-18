@@ -4,6 +4,7 @@ import { styled } from "styled-components";
 import { useSelector } from "react-redux";
 import { LoginBox } from "./styles/LoginBox";
 import axios from "axios";
+import KakaoBtn from "./KakaoBtn.jsx";
 
 const PageStyle = styled.div`
   padding: 65px 0px;
@@ -22,9 +23,20 @@ export default function Login() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [message, setMessage] = useState("");
 
-  const REST_API_KEY = "aa";
-  const REDIRECT_URI = "aa";
-  const kakao = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
+  const KAKAO_REST_API_KEY = process.env.REACT_APP_KAKAO_CLIENT_KEY;
+  const KAKAO_REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
+  const kakao = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
+
+  const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_KEY;
+  const GOOGLE_REDIRECT_URI = process.env.REACT_APP_GOOGLE_REDIRECT_URI;
+
+  const onGoogleSocialLogin = () => {
+    window.location.href = `https://accounts.google.com/o/oauth2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=code&scope=openid email profile`;
+  };
+
+  useEffect(() => {
+    console.log(process.env);
+  }, []);
 
   const user = useSelector((state) => state.user);
 
@@ -53,7 +65,10 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("/signin", { email, password });
+      const response = await axios.post(
+        "https://69e6-125-181-59-71.ngrok-free.app/signin",
+        { email, password },
+      );
       if (response.data.success) {
         setLoggedIn(true);
       } else {
@@ -125,7 +140,7 @@ export default function Login() {
         <div className="social-box">
           <div>
             <button
-              onClick={() => (window.location.href = "/auth/google/signin")}
+              onClick={onGoogleSocialLogin}
               className="button1"
               style={{ fontSize: "16px" }}
             >
@@ -151,6 +166,7 @@ export default function Login() {
               <div></div>
             </button>
           </div>
+          <KakaoBtn></KakaoBtn>
         </div>
         <div className="signup-box">
           <div className="signup1">회원이 아니신가요?</div>
