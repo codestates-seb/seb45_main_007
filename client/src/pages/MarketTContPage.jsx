@@ -1,10 +1,11 @@
 import { styled } from "styled-components";
-import { NewHeader } from "../components/NewHeader.jsx";
 import { HotContent } from "../components/HotContent.jsx";
 import { NormalContent } from "../components/NormalContent.jsx";
 import { AnaLogClock } from "../components/Clock.jsx";
 import React, { useState, useEffect } from "react";
+import { MarketBasicData } from "../data/MarketBasicData.js";
 import axios from "axios";
+
 
 const TotalContainer = styled.div`
   width: 100vw;
@@ -14,6 +15,7 @@ const TotalContainer = styled.div`
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+  margin-top: 72px;
 `;
 
 const BoardNoteContainer = styled.div`
@@ -22,8 +24,7 @@ const BoardNoteContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  background-color: #083d03;
-  margin-top: 0.2%;
+  background-color: #438b7b;
   box-sizing: border-box;
   border-top: 20px solid brown;
   justify-content: center;
@@ -33,13 +34,13 @@ const BoardNoteContainer = styled.div`
 
 const BoardFilterBtnSect = styled.div`
   width: 100%;
-  height: 320px;
-  margin-top: 3.5%;
+  height: 300px;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  background-color: #d7d7fe;
+  background-color: #ebebff;
+  z-index: 1005;
 `;
 
 const ClassTeachingBoard = styled.div`
@@ -82,11 +83,14 @@ const BoardNoteSection = styled.div`
 const BoardLetterSect = styled.div`
   width: 6vw;
   height: 30vh;
-  position: absolute;
-  top: 5%;
+  position: fixed;
+  z-index: 995;
+  top: 12%;
   left: 3%;
   display: flex;
   flex-direction: column;
+  opacity: ${(props) => (props.isVisible ? "1" : "0")};
+  transition: opacity 0.3s ease-in-out;
 `;
 
 const LetterTitleSect = styled.div`
@@ -128,7 +132,7 @@ const MarketMoreReadBtn = styled.div`
   background-color: #083d03;
   border: 3px solid white;
   color: white;
-  display: flex;
+  display: ${(props) => (!props.noMoreRead ? "flex" : "none")};
   align-items: center;
   justify-content: center;
   font-size: 22px;
@@ -142,12 +146,81 @@ const BoardFooterSect = styled.div`
   background-color: #fffff0;
 `;
 
+const NormalContentTitleSect = styled.div`
+  width: 100%;
+  height: 100px;
+  font-size: 22px;
+  margin-top: 50px;
+`;
+
 export const MarketTContPage = () => {
   const [MarketTData, setMarketTData] = useState([]);
+
+  const [HotContentData, setHotContentData] = useState([]);
+  const [NormalContentData, setNormalContentData] = useState([]);
+  const [menuIsVisible, setMenuIsVisible] = useState(false);
+  const [noMoreRead, setNoMoreRead] = useState(false);
+
+  useEffect(() => {
+    if (NormalContentData.length >= MarketBasicData.brings.length) {
+      setNoMoreRead(true);
+    }
+  }, [NormalContentData]);
+
+  useEffect(() => {
+    const hanldeMenuScroll = () => {
+      if (window.scrollY >= 300) {
+        setMenuIsVisible(true);
+      } else {
+        setMenuIsVisible(false);
+      }
+    };
+
+    window.addEventListener("scroll", hanldeMenuScroll);
+
+    return () => {
+      window.removeEventListener("scroll", hanldeMenuScroll);
+    };
+  }, []);
+
+  const MarketAPI = "market/board";
+
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+
+        const response = await fetch(MarketAPI);
+        if (!response.ok) {
+          console.log("not response.ok");
+        }
+        const data = await response.json();
+        setMarketTData(data);
+      } catch (error) {
+        setMarketTData(MarketBasicData.brings);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (MarketTData.length > 0) {
+      const hotData = MarketTData.slice(0, 4);
+      const normalData = MarketTData.slice(0, 16);
+      setHotContentData(hotData);
+      setNormalContentData(normalData);
+    }
+  }, [MarketTData]);
+
+  const MoreReadNormalData = () => {
+    const startIndex = NormalContent.length;
+    const endIndex = startIndex + 8;
+    const moreData = MarketTData.slice(startIndex, endIndex);
+    setNormalContentData((prev) => [...prev, ...moreData]);
+  };
+
         const response = await axios.get(
           "https://49c9-221-150-55-48.ngrok-free.app/marketBoards",
           {
@@ -172,8 +245,6 @@ export const MarketTContPage = () => {
 
   return (
     <TotalContainer>
-      <NewHeader />
-
       <BoardFilterBtnSect>
         <ClassTeachingBoard>
           <TeachTitle>급훈</TeachTitle>
@@ -184,7 +255,7 @@ export const MarketTContPage = () => {
 
       <BoardNoteContainer>
         <BoardNoteSection>
-          <BoardLetterSect>
+          <BoardLetterSect isVisible={menuIsVisible}>
             <LetterTitleSect>카테고리</LetterTitleSect>
             <LetterContUl>
               <LetterContLi>판매중인 물건</LetterContLi>
@@ -202,10 +273,14 @@ export const MarketTContPage = () => {
             color="blue"
             HotContentData={HotContentData}
           />
+          <NormalContentTitleSect>판매중인 물건 </NormalContentTitleSect>
           <NormalContent NormalContentData={NormalContentData} />
-          <NormalContent NormalContentData={NormalContentData} />
-          <NormalContent NormalContentData={NormalContentData} />
-          <MarketMoreReadBtn>더 보기</MarketMoreReadBtn>
+          <MarketMoreReadBtn
+            onClick={MoreReadNormalData}
+            noMoreRead={noMoreRead}
+          >
+            더 보기
+          </MarketMoreReadBtn>
         </BoardNoteSection>
       </BoardNoteContainer>
       <BoardFooterSect />

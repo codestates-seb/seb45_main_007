@@ -1,10 +1,11 @@
 import { styled } from "styled-components";
 import React from "react";
-import { NavLink } from "react-router-dom";
+import pinImg from "../images/pin.png";
+import chalkImg from "../images/chalk.png";
 
 const BoardOneSect = styled.section`
   width: 1440px;
-  height: 400px;
+  height: 550px;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -13,10 +14,11 @@ const BoardOneSect = styled.section`
 `;
 
 const BoardOneTitle = styled.div`
-  width: 75%;
+  width: 100%;
   font-size: 22px;
   font-weight: bold;
-  margin-top: 2%;
+  margin-top: 100px;
+  position: relative;
   color: white;
   font-family: "HakgyoansimBunpilR";
   display: flex;
@@ -31,96 +33,111 @@ const BoardOneTitle = styled.div`
 `;
 
 const BoardTitleDiv = styled.div`
-  width: 100px;
+  width: 100%;
   height: 50px;
-  font-size: 22px;
+  font-size: 24px;
   position: relative;
   text-decoration: underline;
   text-underline-offset: 10px;
 `;
 
+const BoardTitleChalkImg = styled.img`
+  width: 30px;
+  height: 30px;
+  left: -40px;
+  position: absolute;
+`;
+
 const BoardNoteSect = styled.div`
-  width: 75%;
-  height: 400px;
+  width: 100%;
+  height: 500px;
   display: flex;
   justify-content: space-between;
 `;
 
 const BoardNote = styled.div`
-  width: 31.5%;
+  width: 24%;
   height: 85%;
   border-radius: 10px;
-  background-color: ${(props) =>
-    props.color === "red" ? "#FFC0CB" : "#ADD8E6"};
-  border-bottom: 5px solid black;
   margin-top: 1%;
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   flex-wrap: wrap;
   align-items: center;
-  color: white;
   font-size: 50px;
   text-align: center;
-  overflow: hidden;
   position: relative;
-  margin-bottom: 1%;
-  &:hover {
-    border: 10px solid #9bfff5;
-    transition: 0.2s ease-in;
-  }
+  background-color: white;
+  border: 10px solid white;
 `;
 
-const BoardNoteTitle = styled.h3`
-  font-size: 18px;
-  width: 100%;
-  height: 20%;
-  color: black;
+const BoardNotePhotoTape = styled.img`
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: -30px;
+  left: 45%;
+  z-index: 999;
+`;
+
+const BoardNoteInnerLine = styled.div`
+  width: 90%;
+  height: 90%;
+  border-bottom: 1px solid #474747;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
+  flex-direction: column;
+  overflow: hidden;
 `;
 
 const BoardNoteCircle = styled.div`
-  border-radius: 50%;
-  background-color: white;
-  width: 110%;
-  height: 100%;
-  top: 30%;
-  position: absolute;
-  z-index: 1001;
-  color: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  overflow: hidden;
+  width: 100%;
+  height: 90%;
+  &:hover {
+    height: 120%;
+    transition: 0.2s ease-in;
+  }
 `;
 
 const BoardCircleImg = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top center;
 `;
+
+const BoardNoteTitle = styled.div`
+  width: 100%;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+`;
+
 // eslint-disable-next-line react/prop-types
 export const HotContent = ({ title, color, HotContentData }) => {
+  console.log(HotContentData);
   return (
     <>
       <BoardOneSect>
         <BoardOneTitle>
           <BoardTitleDiv>{title}</BoardTitleDiv>
+          <BoardTitleChalkImg src={chalkImg} />
         </BoardOneTitle>
         <BoardNoteSect>
           {/* eslint-disable-next-line react/prop-types */}
           {HotContentData.map((data) => (
             <BoardNote color={color} key={data.market_board_id}>
-              <NavLink to="/market/onecontent" style={{ width: "1px" }}>
+              <BoardNotePhotoTape src={pinImg} />
+              <BoardNoteInnerLine>
+                <BoardNoteCircle>
+                  <BoardCircleImg src={data.baseImg} />
+                </BoardNoteCircle>
                 <BoardNoteTitle>{data.title}</BoardNoteTitle>
-              </NavLink>
-              <BoardNoteCircle>
-                <BoardCircleImg />
-              </BoardNoteCircle>
+              </BoardNoteInnerLine>
             </BoardNote>
           ))}
         </BoardNoteSect>

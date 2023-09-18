@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import toy1 from "../images/theme/toy1.png";
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 /* eslint-disable react/prop-types */
 
 const BoardContentSect = styled.div`
@@ -65,23 +65,32 @@ const ContentInfoSect = styled.div`
   margin-left: 2%;
 `;
 
-export const ClubContents = ({ currentPosts }) => {
+export const ClubContents = ({ totalClubData }) => {
+  const { category } = useParams();
+  function extractDateFromDateISOString(dateISOString) {
+    const dateObject = new Date(dateISOString);
+    const formattedDate = dateObject.toISOString().split("T")[0];
+    return formattedDate;
+  }
   return (
     <>
       <BoardContentSect>
-        {currentPosts.map((item, idx) => (
-          <BoardOneContent key={idx}>
+        {totalClubData.map((data) => (
+          <BoardOneContent key={data.clubBoardId}>
             <OneContentLabelSect>
               <OneContLabelImg src={toy1} />
             </OneContentLabelSect>
 
             <OneContentDiv>
               <TitleTextSect>
-                <NavLink to="/club/onecontent">{item.title}</NavLink>
+                <NavLink to={`/club/${category}/${data.clubBoardId}`}>
+                  {data.title}
+                </NavLink>
               </TitleTextSect>
               <ContentInfoSect>
-                작성자 : {item.writer} &nbsp;&nbsp;&nbsp; | {item.day}{" "}
-                &nbsp;&nbsp;&nbsp; | 조회수 : {item.viewship}
+                작성자 : {data.nickname} &nbsp;&nbsp;&nbsp; |{" "}
+                {extractDateFromDateISOString(data.createdAt)}{" "}
+                &nbsp;&nbsp;&nbsp; | 조회수 : {data.viewCount}
               </ContentInfoSect>
             </OneContentDiv>
           </BoardOneContent>

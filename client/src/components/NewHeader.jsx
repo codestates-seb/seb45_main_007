@@ -1,92 +1,141 @@
 import { styled } from "styled-components";
-import { NavLink } from "react-router-dom/dist";
+import { NavLink, useLocation } from "react-router-dom/dist";
 import React from "react";
+import { SecondHeaderHeight } from "./NewHeaderUtil";
+import menuImg1 from "../images/menu/candybar.png";
+import menuImg2 from "../images/menu/bear.png";
+import menuImg3 from "../images/menu/cotton.png";
+import menuImg4 from "../images/menu/lolpop.png";
+import menuImg5 from "../images/menu/chocolate.png";
 
 const BoardHeaderSect = styled.section`
   width: 100vw;
-  height: 72px;
-  background-color: white;
-  border-bottom: 0.5px solid gray;
+  height: ${SecondHeaderHeight}px;
   display: flex;
-  position: fixed;
   top: 0;
   left: 0;
-  z-index: 1002;
+  z-index: 10002;
   flex-direction: column;
+  position: fixed;
+  background-color: white;
 `;
 
 const NavLinkSection = styled.div`
-  width: 100%;
+  width: 50%;
   height: 100%;
   align-items: center;
   display: flex;
+  position: absolute;
+  right: 0;
 `;
 
 const NavUl = styled.ul`
-  margin-left: 75px;
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
 `;
 
 const NavLi = styled.li`
   width: 13%;
   height: 100%;
-  font-size: 28px;
+  font-size: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 0.5%;
-  color: white;
   box-sizing: border-box;
   cursor: pointer;
-  &:hover {
-    background-color: #b9b9b9;
+  position: relative;
+`;
+
+const NavLiImg = styled.img`
+  width: 25px;
+  height: 25px;
+`;
+
+const CustomNavLink = styled.a`
+  border: 3px solid white;
+  width: 80%;
+  height: 100%;
+  border-radius: 40%;
+  padding: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  &:hover,
+  &:active {
+    color: white;
+    background-color: black;
   }
 `;
 
-// const NavLastLi = styled.li`
-//   width: 9%;
-//   height: 60%;
-//   background-color: #babaff;
-//   font-size: 22px;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   margin-left: 700px;
-//   border: 2px solid white;
-//   color: black;
-//   box-sizing: border-box;
-//   cursor: pointer;
-// `;
 export const NewHeader = () => {
+  const location = useLocation();
+  const currentPath = location.pathname;
+
+  const isHome = currentPath === "/";
+  // const [headerColorChange, setHeaderColorChange] = useState(false);
+
+  // useEffect(() => {
+  //   const hanldeMenuScroll = () => {
+  //     if (window.scrollY >= 390) {
+  //       setHeaderColorChange(true);
+  //     } else {
+  //       setHeaderColorChange(false);
+  //     }
+  //   };
+
+  //   window.addEventListener("scroll", hanldeMenuScroll);
+
+  //   return () => {
+  //     window.removeEventListener("scroll", hanldeMenuScroll);
+  //   };
+  // }, []);
+
   return (
     <>
       <BoardHeaderSect>
         <NavLinkSection>
           <NavUl>
             <NavLi>
-              <NavLink to="/">메인</NavLink>
+              <NavLiImg src={menuImg1} />
+              <CustomNavLink
+                as={NavLink}
+                to="/"
+                className={isHome ? "active" : ""}
+              >
+                메인
+              </CustomNavLink>
             </NavLi>
 
             <NavLi>
-              <NavLink to="/market/totalcontents">바자회</NavLink>
+              <NavLiImg src={menuImg2} />
+              <CustomNavLink as={NavLink} to="/market/totalcontents">
+                바자회
+              </CustomNavLink>
             </NavLi>
 
             <NavLi>
-              <NavLink to="/club">동아리</NavLink>
+              <NavLiImg src={menuImg3} />
+              <CustomNavLink as={NavLink} to="/club">
+                동아리
+              </CustomNavLink>
             </NavLi>
             <NavLi>
-              <NavLink to="/login">로그인</NavLink>
+              <NavLiImg src={menuImg4} />
+              <CustomNavLink as={NavLink} to="/login">
+                로그인
+              </CustomNavLink>
             </NavLi>
             <NavLi>
-              <NavLink to="/mypage">마이페이지</NavLink>
+              <NavLiImg src={menuImg5} />
+              <CustomNavLink as={NavLink} to="/mypage">
+                바자회
+              </CustomNavLink>
             </NavLi>
-            {/* 
-            <NavLastLi>
-              <NavLink to="/mypage">마이페이지</NavLink>
-            </NavLastLi> */}
           </NavUl>
         </NavLinkSection>
       </BoardHeaderSect>

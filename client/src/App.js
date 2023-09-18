@@ -15,6 +15,7 @@ import Write from "./pages/Write.jsx";
 import KakaoAuth from "./pages/KakaoAuth.jsx";
 import GoogleOAuth2RedirectPage from "./pages/GoogleOAuth2RedirectPage.jsx";
 
+
 function App() {
   return (
     <Router>
@@ -22,8 +23,11 @@ function App() {
       <Routes>
         <Route path="/" element={<MarketTContPage />} />
         <Route path="/market/totalcontents" element={<MarketTContPage />} />
-        <Route path="/club/totalcontents" element={<ClubTContPage />} />
-        <Route path="/club/onecontent" element={<ClubOneContPage />} />
+        <Route path="/club/:category" element={<ClubTContPage />} />
+        <Route
+          path="/club/:category/:clubBoardId"
+          element={<ClubOneContPage />}
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/club" element={<ClubMainPage />} />
