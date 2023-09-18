@@ -58,7 +58,7 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(HttpMethod.POST, "/*/members").permitAll()         // 회원등록 누구나 가능
-                        .antMatchers(HttpMethod.PATCH, "/*/members/**").hasRole("USER")  // 회원 정보 수정 회원만 가능
+                        .antMatchers(HttpMethod.PUT, "/*/members/**").permitAll()  // 회원 정보 수정 회원만 가능
                         .antMatchers(HttpMethod.GET, "/*/members").hasRole("ADMIN")     // 모든 회원 정보는 관리자만 접근 가능
                         .antMatchers(HttpMethod.GET, "/*/members/**").hasAnyRole("USER", "ADMIN")  // 특정 회원 조회 누구나
                         .antMatchers(HttpMethod.DELETE, "/*/members/**").hasRole("USER") // 탈퇴 회원만
@@ -79,7 +79,7 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PATCH", "DELETE"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE"));
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:3000"
         ));

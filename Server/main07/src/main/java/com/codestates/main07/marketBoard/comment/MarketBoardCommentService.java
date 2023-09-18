@@ -5,6 +5,7 @@ import com.codestates.main07.exception.ExceptionCode;
 import com.codestates.main07.marketBoard.board.domain.MarketBoard;
 import com.codestates.main07.marketBoard.board.MarketBoardRepository;
 import com.codestates.main07.marketBoard.comment.dto.MarketBoardCommentCreate;
+import com.codestates.main07.marketBoard.comment.dto.MarketBoardCommentUpdate;
 import com.codestates.main07.member.entity.Member;
 import com.codestates.main07.member.repository.MemberRepository;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Transactional
@@ -52,10 +54,13 @@ public class MarketBoardCommentService {
         return marketBoardCommentRepository.save(marketBoardComment);
     }
 
-    public MarketBoardComment updateComment(MarketBoardComment marketBoardComment) {
-        MarketBoardComment findMarketBoardComment = findCorrectMarketBoardComment(marketBoardComment.getMarketBoardCommentId());
+    public MarketBoardComment updateComment(long marketBoardCommentId,MarketBoardCommentUpdate updateDto) {
 
-        findMarketBoardComment.update(marketBoardComment.getContent());
+        MarketBoardComment findMarketBoardComment = findCorrectMarketBoardComment(marketBoardCommentId);
+
+        findMarketBoardComment.update(updateDto.getContent());
+
+        findMarketBoardComment.setModifiedAt(LocalDateTime.now());
 
         return marketBoardCommentRepository.save(findMarketBoardComment);
     }
@@ -72,6 +77,10 @@ public class MarketBoardCommentService {
 
     public Page<MarketBoardComment> commentList (Pageable pageable) {
         return marketBoardCommentRepository.findAll(pageable);
+    }
+
+    public MarketBoardComment findComment(long marketBoardCommentId) {
+        return findCorrectMarketBoardComment(marketBoardCommentId);
     }
 
     private MarketBoardComment findCorrectMarketBoardComment(long marketBoardCommentId) {

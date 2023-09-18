@@ -15,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +25,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@CrossOrigin
 @RequiredArgsConstructor
 @Slf4j
 @Validated
+@PreAuthorize("isAuthenticated()")
 @RequestMapping("/marketBoards")
 @RestController
 public class MarketBoardController {
@@ -141,7 +145,7 @@ public class MarketBoardController {
         try {
             photoService.insertPhoto(photo);
             model.addAttribute("message", "사진이 등록되었습니다");
-            return "upload";  // upload.html 이라는 이름의 템플릿을 사용한다고 가정
+            return "photo";
         } catch (Exception e) {
 //            throw new BusinessLogicException(ExceptionCode.PHOTO_UPLOAD_FAILED);
             throw new BusinessLogicException(ExceptionCode.UNKNOWN_ERROR);

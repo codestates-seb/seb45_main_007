@@ -16,4 +16,5 @@ public class MarketBoardCommentResponse {
     private String nickname;
     private boolean success;
     private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
 }

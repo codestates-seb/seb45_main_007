@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@ToString
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -57,5 +58,9 @@ public class MarketBoardComment extends Audit {
 
     public void update(String content) {
         this.content = content;
+    }
+
+    public void setMarketBoardCommentId () {
+        this.marketBoardCommentId = marketBoardCommentId;
     }
 }

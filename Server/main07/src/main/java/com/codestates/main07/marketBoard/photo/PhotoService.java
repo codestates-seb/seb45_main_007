@@ -1,11 +1,15 @@
 package com.codestates.main07.marketBoard.photo;
 
+import com.codestates.main07.exception.BusinessLogicException;
+import com.codestates.main07.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -13,6 +17,7 @@ import java.util.UUID;
 public class PhotoService {
 
     private final PhotoDao photoDao;
+    private final String photoUploadDirectory = "uploads";
 
     public void insertPhoto(MultipartFile photo) throws Exception {
         // 파일이 빈 것이 들어오면 메서드 종료
@@ -34,11 +39,11 @@ public class PhotoService {
             if (!StringUtils.hasText(contentType)) {
                 return;
             } else {
-                if (contentType.contains("photo/jpeg")) {
+                if (contentType.contains("image/jpeg")) {
                     originalPhotoExtension = ".jpg";
-                } else if (contentType.contains("photo/png")) {
+                } else if (contentType.contains("image/png")) {
                     originalPhotoExtension = ".png";
-                } else if (contentType.contains("photo/gif")) {
+                } else if (contentType.contains("image/gif")) {
                     originalPhotoExtension = ".gif";
                 }
                 // 기타 확장자명일 경우 메서드 종료

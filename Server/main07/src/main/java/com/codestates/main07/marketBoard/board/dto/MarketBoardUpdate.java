@@ -1,6 +1,7 @@
 package com.codestates.main07.marketBoard.board.dto;
 
 
+import com.codestates.main07.marketBoard.board.domain.Tag;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ public class MarketBoardUpdate {
     private String content;
     private int priceContent;
     private String photo;
+    private Tag tag;
     private String nickname;
     private LocalDateTime modifiedAt;
 

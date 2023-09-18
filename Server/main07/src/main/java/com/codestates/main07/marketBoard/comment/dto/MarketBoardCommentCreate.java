@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 public class MarketBoardCommentCreate {
     private long memberId;
     private Long marketBoardId;
-//    private long marketBoardCommentId;
     private Long parentId;
     private String content;
 
