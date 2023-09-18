@@ -1,10 +1,11 @@
 import { useEffect, useState, React } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { LoginBox } from "./styles/LoginBox";
 import axios from "axios";
 import KakaoBtn from "./KakaoBtn.jsx";
+import { setUser } from "../redux/userSlice";
 
 const PageStyle = styled.div`
   padding: 65px 0px;
@@ -39,6 +40,7 @@ export default function Login() {
   }, []);
 
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -71,6 +73,7 @@ export default function Login() {
       );
       if (response.data.success) {
         setLoggedIn(true);
+        dispatch(setUser(response.data));
       } else {
         setMessage(response.data.message);
       }
