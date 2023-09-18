@@ -69,6 +69,7 @@ const Write = () => {
   const [content, setContent] = useState("");
   const [photoURL, setPhotoURL] = useState("");
 
+  const memberId = localStorage.getItem("memberId");
   const navigate = useNavigate();
 
   const handleValidation = () => {
@@ -106,7 +107,7 @@ const Write = () => {
         apiUrl =
           "https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards"; // 실제 도메인으로 업데이트
         payload = {
-          memberId: 1,
+          memberId: memberId,
           title: title,
           content: content,
           photo: photoURL, // photo가 파일 객체를 가지고 있다고 가정
@@ -127,7 +128,7 @@ const Write = () => {
         if (response.data.success) {
           console.log("글이 성공적으로 등록되었습니다.");
           if (board === "바자회") {
-            navigate("/market/onecontent");
+            navigate(`/market/oneContent`);
           } else if (board === "동아리") {
             navigate(`/club/${category}/${response.data.clubBoardId}`);
           }

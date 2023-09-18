@@ -67,7 +67,7 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        "https://810f-125-181-59-71.ngrok-free.app/signin",
+        "https://4208-125-181-59-71.ngrok-free.app/signin",
         { email, password },
       );
       if (response.data.success) {
@@ -75,8 +75,10 @@ export default function Login() {
 
         localStorage.setItem("accessToken", response.headers.authorization);
         localStorage.setItem("refreshToken", response.headers.refresh);
+        localStorage.setItem("memberId", response.data.memberId);
         console.log(response.headers.authorization, response.headers.refresh);
         console.log(response);
+        console.log(response.data.memberId);
 
         dispatch(
           setUser({
