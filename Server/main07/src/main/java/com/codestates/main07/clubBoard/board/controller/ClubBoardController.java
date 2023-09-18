@@ -116,7 +116,7 @@ public class ClubBoardController {
                                                      @Positive @RequestParam int page,
                                                      @Positive @RequestParam int size,
                                                      @RequestParam String category) {
-        if (category.equals("전체")) {
+        if (category.equals("all")) {
             return viewMyClubBoards(memberId, page, size);
         }
 
@@ -150,7 +150,7 @@ public class ClubBoardController {
                 new ClubBoardMultiResponseDto<>(responses, pageClubBoards, true), HttpStatus.OK);
     }
 
-    public ResponseEntity viewMyClubBoards(@PathVariable ("member-id") long memberId,
+    private ResponseEntity viewMyClubBoards(@PathVariable ("member-id") long memberId,
                                            @Positive @RequestParam int page,
                                            @Positive @RequestParam int size) {
         Page<ClubBoard> pageClubBoards = service.findMyClubBoards(page - 1, size, memberId);
