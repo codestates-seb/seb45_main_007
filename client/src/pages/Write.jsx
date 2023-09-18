@@ -67,8 +67,7 @@ const Write = () => {
   const [category, setCategory] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [photo, setPhoto] = useState(null);
-  const [photoURL, setPhotoURL] = useState(null);
+  const [photoURL, setPhotoURL] = useState("");
 
   const navigate = useNavigate();
 
@@ -84,29 +83,8 @@ const Write = () => {
     return false;
   };
 
-  const handlePhotoUpload = (e) => {
-    setPhoto(e.target.files[0]);
-  };
-
   const handleCancel = () => {
     navigate(-1);
-  };
-
-  const photoSubmit = async () => {
-    const formData = new FormData();
-    formData.append("photo", photo);
-    try {
-      const response = await axios.post(
-        "https://49c9-221-150-55-48.ngrok-free.app/marketBoards/photos",
-        formData,
-      );
-      if (response.status === 200) {
-        console.log("성공");
-        setPhotoURL(response.data.url);
-      }
-    } catch (error) {
-      console.log("error");
-    }
   };
 
   const handlePostSubmit = async () => {
@@ -131,19 +109,10 @@ const Write = () => {
           memberId: 1,
           title: title,
           content: content,
-          photo: photo ? photo.name : "", // photo가 파일 객체를 가지고 있다고 가정
+          photo: photoURL, // photo가 파일 객체를 가지고 있다고 가정
           voice: "", // 이 값은 선택사항이며 비워 둘 수 있다고 가정. 필요하다면 동적 값 추가
           category: category,
         };
-      }
-
-      const formData = new FormData();
-      for (let key in payload) {
-        formData.append(key, payload[key]);
-      }
-
-      if (photo) {
-        formData.append("photo", photo);
       }
 
       const config = {
@@ -154,13 +123,13 @@ const Write = () => {
       };
 
       try {
-        const response = await axios.post(apiUrl, formData, config);
+        const response = await axios.post(apiUrl, payload, config);
         if (response.data.success) {
           console.log("글이 성공적으로 등록되었습니다.");
           if (board === "바자회") {
             navigate("/market/onecontent");
           } else if (board === "동아리") {
-            navigate("/club/onecontent");
+            navigate(`/club/${category}/${response.data.clubBoardId}`);
           }
         } else {
           console.error("글 등록에 실패하였습니다.");
@@ -193,13 +162,12 @@ const Write = () => {
               <option value="" disabled>
                 카테고리 선택
               </option>
-              <option value="만화">만화</option>
-              <option value="영화">영화</option>
-              <option value="TV프로그램">TV프로그램</option>
-              <option value="추억템">추억템</option>
-              <option value="노래">노래</option>
-              <option value="게임">게임</option>
-              <option value="기타">기타</option>
+              <option value="comic">만화</option>
+              <option value="movie">영화</option>
+              <option value="tvshow">TV프로그램</option>
+              <option value="item">추억템</option>
+              <option value="music">노래</option>
+              <option value="game">게임</option>
             </select>
           )}
         </SelectBox>
@@ -211,8 +179,12 @@ const Write = () => {
           onChange={(e) => setTitle(e.target.value)}
         />
         <ImageBox>
-          <input type="file" onChange={handlePhotoUpload} />
-          <button onClick={photoSubmit}>등록</button>
+          <input
+            type="text"
+            placeholder="이미지 URL"
+            value={photoURL}
+            onChange={(e) => setPhotoURL(e.target.value)}
+          />
         </ImageBox>
         <ContentBox
           placeholder="내용"

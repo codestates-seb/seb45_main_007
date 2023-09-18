@@ -7,8 +7,8 @@ export const userSlice = createSlice({
     email: "",
     name: "",
     memberId: 1,
-    accessToken: "",
-    refreshToken: "",
+    accessToken: localStorage.getItem("accessToken") || "",
+    refreshToken: localStorage.getItem("refreshToken") || "",
   },
   reducers: {
     setUser: (state, action) => {

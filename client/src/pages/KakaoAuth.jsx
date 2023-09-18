@@ -14,6 +14,7 @@ function KakaoAuth() {
         { code: code },
       );
       console.log("Response from backend:", response.data);
+      console.log("Access token received:", response);
     } catch (error) {
       console.error("Error sending auth code to backend:", error);
     }
@@ -39,6 +40,7 @@ function KakaoAuth() {
 
       console.log("Access token received:", response.data.access_token);
       // 토큰을 저장하고 추가 작업을 여기서 수행하세요
+      localStorage.setItem("accessToken", response.data.access_token);
     } catch (error) {
       console.error("Error getting access token:", error);
     }

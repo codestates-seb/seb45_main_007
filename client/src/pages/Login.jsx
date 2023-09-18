@@ -72,6 +72,12 @@ export default function Login() {
       );
       if (response.data.success) {
         setLoggedIn(true);
+
+        localStorage.setItem("accessToken", response.headers.authorization);
+        localStorage.setItem("refreshToken", response.headers.refresh);
+        console.log(response.headers.authorization, response.headers.refresh);
+        console.log(response);
+
         dispatch(
           setUser({
             loggedIn: true,
