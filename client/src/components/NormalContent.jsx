@@ -97,13 +97,11 @@ export const NormalContent = ({ NormalContentData }) => {
         <BoardNoteSect>
           {/* eslint-disable-next-line react/prop-types */}
           {NormalContentData.map((data) => (
-
             <OneBoard key={data.marketBoardId}>
-              <BoardTitleCircle />
               <BoardNote>
                 <BoardNoteCircle>
                   <BoardCircleImg
-                    src={data.baseImg}
+                    src={data.photo}
                     style={{ objectPosition: "bottom center" }}
                   />
                 </BoardNoteCircle>
