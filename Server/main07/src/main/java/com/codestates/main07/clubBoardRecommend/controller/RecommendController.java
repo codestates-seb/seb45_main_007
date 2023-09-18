@@ -26,11 +26,7 @@ public class RecommendController {
     }
 
     @GetMapping("/{clubBoardId}")
-<<<<<<< HEAD
     public ResponseEntity<Long> getRecommendCount(@PathVariable long clubBoardId) {
-=======
-    public ResponseEntity<Long> getRecommendCount(@PathVariable("clubBoardId") long clubBoardId) {
->>>>>>> fb702b4773034424abd3fdfafba2dcad5ad6e2b2
         long recommendCount = recommendService.getRecommendCount(clubBoardId);
         return ResponseEntity.ok(recommendCount);
     }
