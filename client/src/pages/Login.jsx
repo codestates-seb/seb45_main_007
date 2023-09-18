@@ -4,7 +4,6 @@ import { styled } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { LoginBox } from "./styles/LoginBox";
 import axios from "axios";
-import KakaoBtn from "./KakaoBtn.jsx";
 import { setUser } from "../redux/userSlice";
 
 const PageStyle = styled.div`
@@ -68,7 +67,7 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        "https://69e6-125-181-59-71.ngrok-free.app/signin",
+        "https://6b4f-125-181-59-71.ngrok-free.app/signin",
         { email, password },
       );
       if (response.data.success) {
@@ -169,7 +168,6 @@ export default function Login() {
               <div></div>
             </button>
           </div>
-          <KakaoBtn></KakaoBtn>
         </div>
         <div className="signup-box">
           <div className="signup1">회원이 아니신가요?</div>

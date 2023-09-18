@@ -52,7 +52,6 @@ export default function Mypage() {
   };
   return (
     <>
-      <NewHeader />
       <Container>
         <Title>마 이 페 이 지</Title>
         <UserContainer>

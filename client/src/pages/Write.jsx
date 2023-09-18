@@ -68,6 +68,7 @@ const Write = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [photo, setPhoto] = useState(null);
+  const [photoURL, setPhotoURL] = useState(null);
 
   const navigate = useNavigate();
 
@@ -91,6 +92,23 @@ const Write = () => {
     navigate(-1);
   };
 
+  const photoSubmit = async () => {
+    const formData = new FormData();
+    formData.append("photo", photo);
+    try {
+      const response = await axios.post(
+        "https://49c9-221-150-55-48.ngrok-free.app/marketBoards/photos",
+        formData,
+      );
+      if (response.status === 200) {
+        console.log("성공");
+        setPhotoURL(response.data.url);
+      }
+    } catch (error) {
+      console.log("error");
+    }
+  };
+
   const handlePostSubmit = async () => {
     if (handleValidation()) {
       let apiUrl = "";
@@ -102,12 +120,13 @@ const Write = () => {
           memberId: 1,
           title: title,
           content: content,
-          photo: photo ? photo.name : "", // photo가 파일 객체를 가지고 있다고 가정
+          photo: photoURL,
           priceContent: 10000, // 필요하다면 동적 값 추가
           tag: "SALE", // 필요하다면 동적 값 추가
         };
       } else if (board === "동아리") {
-        apiUrl = "https://YOUR_DOMAIN_HERE/clubBoards"; // 실제 도메인으로 업데이트
+        apiUrl =
+          "https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards"; // 실제 도메인으로 업데이트
         payload = {
           memberId: 1,
           title: title,
@@ -129,7 +148,7 @@ const Write = () => {
 
       const config = {
         headers: {
-          "Content-type": "multipart/form-data",
+          "Content-type": "application/json",
           Authorization: `Bearer [YOUR_DYNAMIC_JWT_TOKEN_HERE]`, // 동적 토큰 검색 방법으로 업데이트
         },
       };
@@ -193,6 +212,7 @@ const Write = () => {
         />
         <ImageBox>
           <input type="file" onChange={handlePhotoUpload} />
+          <button onClick={photoSubmit}>등록</button>
         </ImageBox>
         <ContentBox
           placeholder="내용"
