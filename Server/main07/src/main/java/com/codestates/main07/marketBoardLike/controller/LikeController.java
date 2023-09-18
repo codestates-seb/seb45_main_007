@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/marketBoard")
+@RequestMapping("/marketBoards")
 public class LikeController {
     private final LikeService likeService;
     private final LikeRepository likeRepository;
