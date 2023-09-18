@@ -10,10 +10,8 @@ import lombok.NoArgsConstructor;
 @Setter
 @NoArgsConstructor
 public class LikeResponseDto {
-    private long maketBoardLikeId;
     private boolean liked;
-    private Member member;
-    private MarketBoard marketBoard;
+    private boolean success;
 
     public LikeResponseDto(boolean liked) {
         this.liked = liked;

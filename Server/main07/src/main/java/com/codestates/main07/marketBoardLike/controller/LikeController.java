@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/marketBoards")
+@RequestMapping("/likes")
 public class LikeController {
     private final LikeService likeService;
     private final LikeRepository likeRepository;
@@ -25,32 +25,34 @@ public class LikeController {
         this.likeRepository = likeRepository;
     }
 
-    @GetMapping("/{marketBoard-id}/{member-id}/likes")
-    public ResponseEntity<Boolean> isLikedByMember(@PathVariable("marketBoard-id") long marketBoardId,
-                                                         @PathVariable("member-id") long memberId) {
+    @GetMapping("/{marketBoardId}/{memberId}")
+    public ResponseEntity<Boolean> isLikedByMember(@PathVariable long marketBoardId,
+                                                         @PathVariable long memberId) {
         boolean liked = likeService.isLikedByMember(marketBoardId, memberId);
         return ResponseEntity.ok(liked);
     }
 
-    @PostMapping("/{marketBoard-id}/likes")
-    public ResponseEntity<LikeResponseDto> createLike(@PathVariable("marketBoard-id") long marketBoardId,
-                                                                @PathVariable("member-id") long memberId,
+    @PostMapping("/{marketBoardId}/{memberId}")
+    public ResponseEntity<LikeResponseDto> createLike(@PathVariable long marketBoardId,
+                                                                @PathVariable long memberId,
                                                                 @RequestBody LikePostDto LikePostDto) {
         boolean liked = LikePostDto.isLiked();
         likeService.createLike(marketBoardId, memberId, liked);
 
         LikeResponseDto responseDto = new LikeResponseDto(liked);
+        responseDto.setSuccess(true);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
-    @DeleteMapping("/{marketBoard-id}/likes")
-    public ResponseEntity<LikeResponseDto> removeLike(@PathVariable("marketBoard-id") long marketBoardId,
-                                                                @PathVariable("member-id") long memberId) {
+    @DeleteMapping("/{marketBoardId}/{memberId}")
+    public ResponseEntity<LikeResponseDto> removeLike(@PathVariable long marketBoardId,
+                                                                @PathVariable long memberId) {
         likeService.deleteLike(marketBoardId, memberId);
 
         boolean liked = likeRepository.existsByMarketBoard_MarketBoardIdAndMember_MemberId(marketBoardId, memberId);
 
         LikeResponseDto responseDto = new LikeResponseDto(liked);
+        responseDto.setSuccess(true);
         return ResponseEntity.ok(responseDto);
     }
 

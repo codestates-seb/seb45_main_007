@@ -10,8 +10,5 @@ import lombok.NoArgsConstructor;
 @Setter
 @NoArgsConstructor
 public class LikePostDto {
-    private long marketBoardLikeId;
     private boolean liked;
-    private Member member;
-    private MarketBoard marketBoard;
 }

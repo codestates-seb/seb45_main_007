@@ -10,9 +10,5 @@ import lombok.NoArgsConstructor;
 @Setter
 @NoArgsConstructor
 public class RecommendPostDto {
-    private long clubBoardRecommendId;
     private boolean recommended;
-    private long recommendCount;
-    private Member member;
-    private ClubBoard clubBoard;
 }

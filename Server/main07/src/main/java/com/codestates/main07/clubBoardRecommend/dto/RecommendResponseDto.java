@@ -10,12 +10,9 @@ import lombok.NoArgsConstructor;
 @Setter
 @NoArgsConstructor
 public class RecommendResponseDto {
-    private long clubBoardRecommendId;
     private boolean recommended;
     private boolean success;
     private long recommendCount;
-    private Member member;
-    private ClubBoard clubBoard;
 
     public RecommendResponseDto(long recommendCount, boolean recommended) {
         this.recommendCount = recommendCount;
