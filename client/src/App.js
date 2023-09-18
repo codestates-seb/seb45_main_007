@@ -15,7 +15,6 @@ import Write from "./pages/Write.jsx";
 import KakaoAuth from "./pages/KakaoAuth.jsx";
 import GoogleOAuth2RedirectPage from "./pages/GoogleOAuth2RedirectPage.jsx";
 
-
 function App() {
   return (
     <Router>

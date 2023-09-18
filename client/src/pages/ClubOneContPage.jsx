@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 import { NewHeader } from "../components/NewHeader.jsx";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { ClubMockData } from "../data/ClubMockData.js";
 import { ClubCommentData } from "../data/ClubCommentData.js";
 
@@ -370,6 +370,18 @@ const LikeBtn = styled.div`
   background-color: blue;
 `;
 
+const DeleteModal = styled.div`
+  width: 500px;
+  height: 500px;
+  background-color: black;
+  color: white;
+  position: absolute;
+  z-index: 100022;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
 export const ClubOneContPage = () => {
   // const navigate = useNavigate();
   const { clubBoardId } = useParams();
@@ -382,6 +394,14 @@ export const ClubOneContPage = () => {
   const [editingContent, setEditingContent] = useState(oneClubData.content);
   const [baseCommentData, setBaseCommentData] = useState([...ClubCommentData]);
   const [insertComment, setInserComment] = useState("");
+
+  const [deleteState, setDeleteState] = useState(false);
+
+  const navigate = useNavigate();
+
+  const DeleteChangeFunc = () => {
+    setDeleteState(true);
+  };
 
   // 추천수 늘리는 코드
 
@@ -561,6 +581,26 @@ export const ClubOneContPage = () => {
     fetchData();
   }, []);
 
+  const DeleteContentBtnClick = async () => {
+    const response = await axios.delete(
+      `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "69420",
+        },
+      },
+    );
+
+    if (response.status === 200) {
+      navigate(`/club/${category}`);
+      setDeleteState(false);
+      console.log("삭제됨");
+    } else {
+      console.log("에러코드 실행됨: 삭제");
+    }
+  };
+
   const BoardTitleLabelColorChange = () => {
     if (category === "comic") {
       return "#800000";
@@ -580,6 +620,11 @@ export const ClubOneContPage = () => {
     <>
       <NewHeader />
       <BoardOneContContainer>
+        {deleteState ? (
+          <DeleteModal onClick={DeleteContentBtnClick}>
+            누르면 삭제 됩니다.
+          </DeleteModal>
+        ) : null}
         <BoardOneFilterSect></BoardOneFilterSect>
         <BoardOneContentSect>
           <BoardUpSect>
@@ -591,7 +636,7 @@ export const ClubOneContPage = () => {
             <PrevBoardBtn onClick={SetEditingBtnClick}>
               글 수정 하기
             </PrevBoardBtn>
-            <PrevBoardBtn>글 삭제 하기</PrevBoardBtn>
+            <PrevBoardBtn onClick={DeleteChangeFunc}>글 삭제 하기</PrevBoardBtn>
             <Link to={`/club/${category}`}>
               <PrevBoardBtn>글 목록 가기</PrevBoardBtn>
             </Link>
