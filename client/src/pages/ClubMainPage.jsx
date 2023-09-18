@@ -7,11 +7,11 @@ import pin2Img from "../images/pin2.png";
 import { Link } from "react-router-dom";
 
 const categories = [
-  { name: "comic", titleName: "만화", path: "/comics" },
-  { name: "movie", titleName: "영화", path: "/movies" },
-  { name: "TV", titleName: "TV 프로그램", path: "/tv" },
-  { name: "추억아이템", titleName: "추억 아이템", path: "/items" },
-  { name: "노래", titleName: "노래", path: "/song" },
+  { name: "comic", titleName: "만화", path: "/comic" },
+  { name: "movie", titleName: "영화", path: "/movie" },
+  { name: "tvshow", titleName: "TV 프로그램", path: "/tvshow" },
+  { name: "item", titleName: "추억 아이템", path: "/item" },
+  { name: "music", titleName: "노래", path: "/music" },
   { name: "game", titleName: "게임", path: "/game" },
 ];
 

@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import React from "react";
 import movieIcon from "../images/filterBar/movieIcon.png";
@@ -123,7 +123,7 @@ export const BoardFilter = () => {
             {ThreeBoxContentArr.map((item) => (
               <ThreeBoxContent key={item.itemName}>
                 <ThreeBoxItemImg src={item.imgsrc} />
-                <NavLink to={item.NavLink}>{item.itemName}</NavLink>
+                <Link to={item.NavLink}>{item.itemName}</Link>
                 <ThreeBoxCircle color={item.menuColor} />
               </ThreeBoxContent>
             ))}

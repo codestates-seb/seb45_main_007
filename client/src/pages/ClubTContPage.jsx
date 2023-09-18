@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Pagination from "../components/Pagination.jsx";
 import { useParams } from "react-router-dom";
+import { BoardFilter } from "../components/BoardFilter.jsx";
 
 const BoardTotalContainer = styled.section`
   width: 100vw;
@@ -37,57 +38,6 @@ const BoardFilterSect = styled.section`
   position: relative;
 `;
 
-const BoardFilterBox = styled.div`
-  width: 9%;
-  height: 40vh;
-  border: 0.5px solid #718be8;
-  border-radius: 10px;
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  top: 30%;
-  left: 1%;
-`;
-
-const BoardFilterThreeBox = styled.div`
-  width: 100%;
-  height: 90%;
-  display: flex;
-  flex-direction: column;
-`;
-
-const ThreeBoxTitle = styled.div`
-  width: 100%;
-  height: 20%;
-  border-bottom: 1px solid green;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  display: flex;
-`;
-
-const ThreeBoxContent = styled.div`
-  width: 100%;
-  height: 13%;
-  display: flex;
-  padding: 10px;
-  padding-left: 18px;
-  align-items: center;
-  font-size: 18px;
-  border-bottom: 0.001px solid black;
-  background-color: #ededed;
-  cursor: pointer;
-  text-align: center;
-`;
-
-const ThreeBoxCircle = styled.div`
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  margin-left: 5px;
-  background-color: ${(props) => props.color};
-`;
-
 const TitleSect = styled.div`
   width: 20%;
   height: 20%;
@@ -99,7 +49,7 @@ const TitleSect = styled.div`
 const TitleLabel = styled.div`
   height: 7%;
   width: 40%;
-  background-color: #c40505;
+  background-color: ${(props) => props.color};
   margin-bottom: 0.7%;
 `;
 
@@ -176,7 +126,7 @@ const SearchBarNameFilter = styled.div`
   padding: 15px;
 `;
 
-const NameInputSect = styled.div`
+const NameInputSect = styled.input`
   width: 35%;
   height: 90%;
   border-bottom: 1px solid gray;
@@ -207,6 +157,7 @@ const SortFilterBtn = styled.div`
   padding: 15px;
   margin-left: 10px;
   cursor: pointer;
+  background: ${(props) => (props.sorted ? "#ffc9c9" : "white")};
 `;
 
 const BoardContentCont = styled.section`
@@ -236,48 +187,8 @@ const PaginationBtnSect = styled.div`
 `;
 
 const PaginationBtnBox = styled.div`
-  width: 25%;
+  width: 40%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-// const OnePageBtn = styled.div`
-//   width: 12%;
-//   height: 85%;
-//   margin-right: 3%;
-//   border: 3px solid #718be8;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   font-size: 18px;
-//   color: #718be8;
-//   cursor: pointer;
-//   border-radius: 10px;
-// `;
-
-// const OnePageBtnSelected = styled.div`
-//   width: 12%;
-//   height: 85%;
-//   margin-right: 3%;
-//   border: 3px solid black;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   font-size: 18px;
-//   color: black;
-//   cursor: pointer;
-//   border-radius: 10px;
-// `;
-
-// 선택된 버튼만 필터링할 수 있도록 수정하기!
-
-const PageArrowBtnBox = styled.div`
-  width: 12%;
-  height: 85%;
-  margin-right: 2%;
-  font-size: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -289,11 +200,79 @@ const BoardFooterSect = styled.div`
   background-color: #fffff0;
 `;
 
+const NameInputBtn = styled.div`
+  width: 100px;
+  height: 40px;
+  color: white;
+  background-color: black;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-left: 30px;
+`;
+
 export const ClubTContPage = () => {
   const { category } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalClubData, setTotalClubData] = useState([]);
+  const [sortByCreatedAt, setSortByCreatedAt] = useState(false);
+  const [searchTitle, setSearchTitle] = useState("");
+  const [sortByViewState, setSortByViewState] = useState(false);
+
+  const CategoryTitleChange = () => {
+    if (category === "comic") {
+      return "만화";
+    } else if (category === "movie") {
+      return "영화";
+    } else if (category === "tvshow") {
+      return "TV 프로그램";
+    } else if (category === "music") {
+      return "노래";
+    } else if (category === "item") {
+      return "추억 아이템";
+    } else if (category === "game") {
+      return "게임";
+    }
+  };
+
+  const BoardTitleLabelColorChange = () => {
+    if (category === "comic") {
+      return "#800000";
+    } else if (category === "movie") {
+      return "#ff4500";
+    } else if (category === "tvshow") {
+      return "#cccc00";
+    } else if (category === "music") {
+      return "#00008b";
+    } else if (category === "game") {
+      return "#4b0082";
+    } else if (category === "item") {
+      return "#006400";
+    }
+  };
+
+  const SearchInputChange = (event) => {
+    const newValue = event.target.value;
+    setSearchTitle(newValue);
+  };
+
+  const SearchTitleBtnClick = (title) => {
+    const matchedCategoryData = ClubMockData.clubBoards.filter(
+      (data) => data.category === category,
+    );
+    const matchedTitleData = matchedCategoryData.filter((data) =>
+      data.title.includes(title),
+    );
+    setTotalClubData(matchedTitleData);
+  };
+
+  useEffect(() => {
+    setTotalPages(Math.floor(totalClubData.length / 10 + 1));
+  }, [totalClubData]);
+
   const apiUrl = `https://9dac-2406-5900-705c-f80b-2c90-ee5-6e07-7434.ngrok-free.app/clubBoards?page=1&size=10`;
   useEffect(() => {
     async function fetchData() {
@@ -307,21 +286,21 @@ export const ClubTContPage = () => {
 
         if (response.status === 200) {
           setTotalClubData(response.data.clubBoards);
-          console.log(totalClubData);
           setTotalPages(response.data.pageInfo.totalPages);
         } else {
-          console.error("데이터 가져오기 실패");
+          console.log("데이터 가져오기 실패");
         }
       } catch (error) {
-        const filteredClubData = ClubMockData.filter(
-          (data) => data.clubBoards.category === category,
+        const filteredClubData = ClubMockData.clubBoards.filter(
+          (data) => data.category === category,
         );
+        console.log("에러코드실행");
         setTotalClubData(filteredClubData.slice(0, 10));
-        setTotalPages(Math.ceil(filteredClubData.length / 10));
+        setTotalPages(Math.ceil(filteredClubData.length / 10) + 1);
       }
     }
     fetchData();
-  }, []);
+  }, [category]);
 
   const changePage = async (newPage) => {
     const response = await axios.get(
@@ -339,8 +318,8 @@ export const ClubTContPage = () => {
       setTotalPages(response.data.pageInfo.totalPages);
       setCurrentPage(newPage);
     } else {
-      const filteredClubData = ClubMockData.filter(
-        (data) => data.clubBoards.category === category,
+      const filteredClubData = ClubMockData.clubBoards.filter(
+        (data) => data.category === category,
       );
       const startIdx = newPage * 10 - 10 + 1;
       const sliceClubData = filteredClubData.slice(startIdx, startIdx + 10);
@@ -350,48 +329,62 @@ export const ClubTContPage = () => {
     }
   };
 
+  const sortDataByCreatedAt = () => {
+    const sortedData = [...totalClubData].sort((a, b) => {
+      return new Date(a.createdAt) - new Date(b.createdAt);
+    });
+    setTotalClubData(sortedData);
+  };
+
+  const handleSortByCreatedAt = () => {
+    if (!sortByViewState) {
+      sortDataByCreatedAt();
+      setSortByCreatedAt(true);
+      setSortByViewState(false);
+    } else {
+      setTotalClubData(
+        ClubMockData.clubBoards.filter((data) => data.category === category),
+      );
+      setSortByCreatedAt(false);
+      setSortByViewState(false);
+    }
+  };
+
+  const sortDataByViewAt = () => {
+    const sortedData = [...totalClubData].sort((b, a) => {
+      return a.viewCount - b.viewCount;
+    });
+    setTotalClubData(sortedData);
+  };
+
+  const handleSortByViewAt = () => {
+    if (!sortByViewState) {
+      sortDataByViewAt();
+      setSortByCreatedAt(false);
+      setSortByViewState(true);
+    } else {
+      setTotalClubData(
+        ClubMockData.clubBoards.filter((data) => data.category === category),
+      );
+      setSortByCreatedAt(false);
+      setSortByViewState(false);
+    }
+  };
+
   return (
     <>
       <NewHeader />
 
       <BoardTotalContainer>
         <BoardFilterSect>
-          <BoardFilterBox>
-            <BoardFilterThreeBox>
-              <ThreeBoxTitle>게시판 이동하기</ThreeBoxTitle>
-              <ThreeBoxContent>
-                만화
-                <ThreeBoxCircle color="red" />
-              </ThreeBoxContent>
-              <ThreeBoxContent>
-                영화
-                <ThreeBoxCircle color="blue" />
-              </ThreeBoxContent>
-              <ThreeBoxContent>
-                TV 프로그램
-                <ThreeBoxCircle color="green" />
-              </ThreeBoxContent>
-              <ThreeBoxContent>
-                추억 아이템
-                <ThreeBoxCircle color="yellow" />
-              </ThreeBoxContent>
-              <ThreeBoxContent>
-                노래
-                <ThreeBoxCircle color="purple" />
-              </ThreeBoxContent>
-              <ThreeBoxContent>
-                게임
-                <ThreeBoxCircle color="white" />
-              </ThreeBoxContent>
-            </BoardFilterThreeBox>
-          </BoardFilterBox>
+          <BoardFilter />
         </BoardFilterSect>
 
         <BoardContentSect>
           <BoardNameSect>
             <TitleSect>
-              <TitleLabel />
-              <TitleText>만화</TitleText>
+              <TitleLabel color={BoardTitleLabelColorChange()} />
+              <TitleText>{CategoryTitleChange()}</TitleText>
             </TitleSect>
 
             <HotBoard>
@@ -412,11 +405,23 @@ export const ClubTContPage = () => {
 
             <SearchBarSect>
               <SearchBarNameFilter>제목</SearchBarNameFilter>
-              <NameInputSect>검색어를 입력하세요</NameInputSect>
+              <NameInputSect value={searchTitle} onChange={SearchInputChange} />
+              <NameInputBtn onClick={() => SearchTitleBtnClick(searchTitle)}>
+                검색
+              </NameInputBtn>
               <SortFilterSect>
-                <SortFilterBtn>조회순</SortFilterBtn>
-                <SortFilterBtn>작성일순</SortFilterBtn>
-                <SortFilterBtn>추천순</SortFilterBtn>
+                <SortFilterBtn
+                  sorted={sortByViewState}
+                  onClick={handleSortByViewAt}
+                >
+                  조회순
+                </SortFilterBtn>
+                <SortFilterBtn
+                  sorted={sortByCreatedAt}
+                  onClick={handleSortByCreatedAt}
+                >
+                  작성일순
+                </SortFilterBtn>
               </SortFilterSect>
             </SearchBarSect>
           </BoardNameSect>
@@ -425,14 +430,11 @@ export const ClubTContPage = () => {
             <ClubContents totalClubData={totalClubData} />
             <PaginationBtnSect>
               <PaginationBtnBox>
-                <PageArrowBtnBox>&larr;</PageArrowBtnBox>
-
                 <Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
                   onPageChange={changePage}
                 />
-                <PageArrowBtnBox>&rarr;</PageArrowBtnBox>
               </PaginationBtnBox>
             </PaginationBtnSect>
           </BoardContentCont>
@@ -442,25 +444,3 @@ export const ClubTContPage = () => {
     </>
   );
 };
-
-// {pageRange.slice(startPage - 1, endPage).map((pageNumber) => {
-//   if (currentPage === pageNumber) {
-//     return (
-//       <OnePageBtnSelected
-//         key={pageNumber}
-//         onClick={() => handlePageChange(pageNumber)}
-//       >
-//         {pageNumber}
-//       </OnePageBtnSelected>
-//     );
-//   } else {
-//     return (
-//       <OnePageBtn
-//         key={pageNumber}
-//         onClick={() => handlePageChange(pageNumber)}
-//       >
-//         {pageNumber}
-//       </OnePageBtn>
-//     );
-//   }
-// })}

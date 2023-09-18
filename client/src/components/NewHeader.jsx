@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import { NavLink, useLocation } from "react-router-dom/dist";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { SecondHeaderHeight } from "./NewHeaderUtil";
 import menuImg1 from "../images/menu/candybar.png";
 import menuImg2 from "../images/menu/bear.png";
@@ -77,27 +77,27 @@ export const NewHeader = () => {
   const currentPath = location.pathname;
 
   const isHome = currentPath === "/";
-  const [headerColorChange, setHeaderColorChange] = useState(false);
+  // const [headerColorChange, setHeaderColorChange] = useState(false);
 
-  useEffect(() => {
-    const hanldeMenuScroll = () => {
-      if (window.scrollY >= 390) {
-        setHeaderColorChange(true);
-      } else {
-        setHeaderColorChange(false);
-      }
-    };
+  // useEffect(() => {
+  //   const hanldeMenuScroll = () => {
+  //     if (window.scrollY >= 390) {
+  //       setHeaderColorChange(true);
+  //     } else {
+  //       setHeaderColorChange(false);
+  //     }
+  //   };
 
-    window.addEventListener("scroll", hanldeMenuScroll);
+  //   window.addEventListener("scroll", hanldeMenuScroll);
 
-    return () => {
-      window.removeEventListener("scroll", hanldeMenuScroll);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("scroll", hanldeMenuScroll);
+  //   };
+  // }, []);
 
   return (
     <>
-      <BoardHeaderSect headerColorChange={headerColorChange}>
+      <BoardHeaderSect>
         <NavLinkSection>
           <NavUl>
             <NavLi>
@@ -106,7 +106,6 @@ export const NewHeader = () => {
                 as={NavLink}
                 to="/"
                 className={isHome ? "active" : ""}
-                headerColorChange={headerColorChange}
               >
                 메인
               </CustomNavLink>
@@ -114,42 +113,26 @@ export const NewHeader = () => {
 
             <NavLi>
               <NavLiImg src={menuImg2} />
-              <CustomNavLink
-                as={NavLink}
-                to="/market/totalcontents"
-                headerColorChange={headerColorChange}
-              >
+              <CustomNavLink as={NavLink} to="/market/totalcontents">
                 바자회
               </CustomNavLink>
             </NavLi>
 
             <NavLi>
               <NavLiImg src={menuImg3} />
-              <CustomNavLink
-                as={NavLink}
-                to="/club"
-                headerColorChange={headerColorChange}
-              >
+              <CustomNavLink as={NavLink} to="/club">
                 동아리
               </CustomNavLink>
             </NavLi>
             <NavLi>
               <NavLiImg src={menuImg4} />
-              <CustomNavLink
-                as={NavLink}
-                to="/login"
-                headerColorChange={headerColorChange}
-              >
+              <CustomNavLink as={NavLink} to="/login">
                 로그인
               </CustomNavLink>
             </NavLi>
             <NavLi>
               <NavLiImg src={menuImg5} />
-              <CustomNavLink
-                as={NavLink}
-                to="/mypage"
-                headerColorChange={headerColorChange}
-              >
+              <CustomNavLink as={NavLink} to="/mypage">
                 바자회
               </CustomNavLink>
             </NavLi>

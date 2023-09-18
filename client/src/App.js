@@ -11,6 +11,7 @@ import MarketOneContPage from "./pages/MarketOneContPage.jsx";
 import React from "react";
 import "./App.css";
 import { NewHeader } from "./components/NewHeader.jsx";
+// import { ClubTestPage } from "./pages/ClubTestPage.jsx";
 
 function App() {
   return (
@@ -19,9 +20,9 @@ function App() {
       <Routes>
         <Route path="/" element={<MarketTContPage />} />
         <Route path="/market/totalcontents" element={<MarketTContPage />} />
-        <Route path="/club/totalcontents" element={<ClubTContPage />} />
+        <Route path="/club/:category" element={<ClubTContPage />} />
         <Route
-          path="/club/onecontent/:clubBoardId"
+          path="/club/:category/:clubBoardId"
           element={<ClubOneContPage />}
         />
         <Route path="/login" element={<Login />} />
