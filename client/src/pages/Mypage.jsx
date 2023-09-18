@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import modifyIcon from "../icon/modify.png";
 import React, { useState, useEffect } from "react";
-import { NewHeader } from "../components/NewHeader.jsx";
 import userImg from "../images/userExample.png";
 import axios from "axios";
 import CategoryDropdown from "../components/CategoryDropdown.jsx";
