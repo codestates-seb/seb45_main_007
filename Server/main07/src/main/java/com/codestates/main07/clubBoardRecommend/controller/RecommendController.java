@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/recommends")
+@RequestMapping("/clubBoards/{clubBoard-id}/recommends")
 public class RecommendController {
     private final RecommendService recommendService;
     private final RecommendRepository recommendRepository;
