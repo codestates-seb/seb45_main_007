@@ -67,12 +67,21 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        "https://6b4f-125-181-59-71.ngrok-free.app/signin",
+        "https://810f-125-181-59-71.ngrok-free.app/signin",
         { email, password },
       );
       if (response.data.success) {
         setLoggedIn(true);
-        dispatch(setUser(response.data));
+        dispatch(
+          setUser({
+            loggedIn: true,
+            email: response.data.email,
+            name: response.data.name,
+            memberId: response.data.memberId,
+            accessToken: response.data.accessToken, // 토큰 저장
+            refreshToken: response.data.refreshToken, // 토큰 저장
+          }),
+        );
       } else {
         setMessage(response.data.message);
       }

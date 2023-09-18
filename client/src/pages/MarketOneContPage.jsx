@@ -16,7 +16,7 @@ export default function MarketOneContPage() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://49c9-221-150-55-48.ngrok-free.app/marketBoards/13",
+          "https://49c9-221-150-55-48.ngrok-free.app/marketBoards/19",
           {
             headers: {
               "Content-Type": `application/json`,

@@ -7,6 +7,8 @@ export const userSlice = createSlice({
     email: "",
     name: "",
     memberId: 1,
+    accessToken: "",
+    refreshToken: "",
   },
   reducers: {
     setUser: (state, action) => {
@@ -14,6 +16,8 @@ export const userSlice = createSlice({
       state.email = action.payload.email;
       state.name = action.payload.name;
       state.memberId = action.payload.memberId;
+      state.accessToken = action.payload.accessToken; // Setting new state properties
+      state.refreshToken = action.payload.refreshToken; // Setting new state properties
       return state;
     },
   },
