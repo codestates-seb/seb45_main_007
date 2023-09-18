@@ -269,11 +269,11 @@ export const ClubTContPage = () => {
     setTotalClubData(matchedTitleData);
   };
 
-  useEffect(() => {
-    setTotalPages(Math.floor(totalClubData.length / 10 + 1));
-  }, [totalClubData]);
+  // useEffect(() => {
+  //   setTotalPages(Math.floor(totalClubData.length / 10 + 1));
+  // }, [totalClubData]);
 
-  const apiUrl = `https://9dac-2406-5900-705c-f80b-2c90-ee5-6e07-7434.ngrok-free.app/clubBoards?page=1&size=10`;
+  const apiUrl = `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/category?page=1&size=5&category=${category}`;
   useEffect(() => {
     async function fetchData() {
       try {
@@ -304,7 +304,7 @@ export const ClubTContPage = () => {
 
   const changePage = async (newPage) => {
     const response = await axios.get(
-      `https://9dac-2406-5900-705c-f80b-2c90-ee5-6e07-7434.ngrok-free.app/clubBoards?page=${newPage}&size=10`,
+      `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/category?page=${newPage}&size=5&category=${category}`,
       {
         headers: {
           "Content-Type": "application/json",

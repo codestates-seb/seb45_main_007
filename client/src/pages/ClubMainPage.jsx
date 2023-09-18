@@ -152,7 +152,7 @@ const ClubMainFooterSect = styled.div`
 
 function ClubMainPage() {
   const [clubTotalData, setClubTotalData] = useState([]);
-  const apiUrl = "clubTotalUrl";
+  const apiUrl = `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards?page=1&size=300`;
 
   useEffect(() => {
     async function fetchData() {

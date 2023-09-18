@@ -364,18 +364,89 @@ const SubcommentInput = styled.input`
   font-size: 13px;
 `;
 
+const LikeBtn = styled.div`
+  width: 50px;
+  height: 50px;
+  background-color: blue;
+`;
+
 export const ClubOneContPage = () => {
   // const navigate = useNavigate();
   const { clubBoardId } = useParams();
   const { category } = useParams();
   const [oneClubData, setOneClubData] = useState([]);
-  const OneContApiUrl = `https://9dac-2406-5900-705c-f80b-2c90-ee5-6e07-7434.ngrok-free.app/clubBoards/${category}/${clubBoardId}`;
+  const OneContApiUrl = `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}`;
 
   const [editingState, setEditingState] = useState(false);
   const [editingTitle, setEditingTitle] = useState(oneClubData.title);
   const [editingContent, setEditingContent] = useState(oneClubData.content);
   const [baseCommentData, setBaseCommentData] = useState([...ClubCommentData]);
   const [insertComment, setInserComment] = useState("");
+
+  // 추천수 늘리는 코드
+
+  // const sendLikeRequest = async () => {
+  //   try {
+  //     // 요청을 보낼 URL
+  //     const url = `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}/recommends`;
+
+  //     // POST 요청 보내기
+  //     const response = await axios.post(url, postData, {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "ngrok-skip-browser-warning": "69420",
+  //       },
+  //     });
+
+  //     // 요청이 성공한 경우
+  //     console.log("POST 요청 성공:", response.data);
+  //   } catch (error) {
+  //     // 요청이 실패한 경우
+  //     console.error("POST 요청 실패:", error);
+  //   }
+  // };
+
+  // 좋아요 불러오는 코드
+
+  // const sendLikeReadRequest = async () => {
+  //   try {
+  //     // 요청을 보낼 URL
+  //     const url = `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}/recommends`;
+
+  //     // POST 요청 보내기
+  //     const response = await axios.get(url, {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "ngrok-skip-browser-warning": "69420",
+  //       },
+  //     });
+
+  //     // 요청이 성공한 경우
+  //     console.log("POST 요청 성공:", response.data);
+  //   } catch (error) {
+  //     // 요청이 실패한 경우
+  //     console.error("POST 요청 실패:", error);
+  //   }
+  // };
+
+  // 좋아요 취소하는 코드
+
+  // const sendLikeCancelRequest = async () => {
+  //   try {
+  //     const url = `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}/recommends`;
+
+  //     const response = await axios.delete(url, {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "ngrok-skip-browser-warning": "69420",
+  //       },
+  //     });
+  //     console.log("POST 요청 성공:", response.data);
+  //   } catch (error) {
+  //     // 요청이 실패한 경우
+  //     console.error("POST 요청 실패:", error);
+  //   }
+  // };
 
   const [commentInputStates, setCommentInputStates] = useState(
     baseCommentData.map(() => ({
@@ -574,6 +645,7 @@ export const ClubOneContPage = () => {
                   <br />
                   {oneClubData.content}
                   <br />
+                  <LikeBtn>좋아요 버튼</LikeBtn>
                 </COneContTextBox>
               ) : (
                 <EditingCOneContTextBox
