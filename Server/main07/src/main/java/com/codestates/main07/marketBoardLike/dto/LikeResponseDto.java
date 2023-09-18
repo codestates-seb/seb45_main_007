@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class LikeResponseDto {
     private long maketBoardLikeId;
     private boolean liked;
-    private boolean success
+    private boolean success;
     private Member member;
     private MarketBoard marketBoard;
 
