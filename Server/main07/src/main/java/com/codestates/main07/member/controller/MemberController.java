@@ -6,8 +6,12 @@ import com.codestates.main07.member.dto.MemberPostDto;
 import com.codestates.main07.member.entity.Member;
 import com.codestates.main07.member.mapper.MemberMapper;
 import com.codestates.main07.member.service.MemberService;
+import com.codestates.main07.security.jwt.auth.userdetails.MemberDetailsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

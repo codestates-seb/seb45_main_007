@@ -24,11 +24,11 @@ spring:
               - email
               - profile
           kakao:
-            client-id: 3713566f240a38a563fdcf1c6fbe54dd
-            client-secret: tgDSN8xQe4wjGpnPUW0FayEO6es3UVer
-            client-name: Kakao
+            client-id: ${KAKAO_REST_API_KEY}
+            client-secret: ${KAKAO_REST_API_SECRET}
             authorization-grant-type: authorization_code
-            redirect-uri: "http://localhost:3000/oauth2/authorization/kakao"
+            client-name: Kakao
+            redirect-uri: ${KAKAO_REDIRECT_URI}
             scope:
               - profile_nickname
               - account_email

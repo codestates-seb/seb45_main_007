@@ -39,6 +39,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     @Autowired
     private CustomAuthorityUtils customAuthorityUtils;
 
+    @Autowired
+    private MemberRepository memberRepository;
+
     @Override // 사용자가 OAuth2를 통해 성공적으로 인증된 경우 실행되는 메서드
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
@@ -79,6 +82,11 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             log.error("OAuth2 login failed. No member found with email: " + email);
             throw new EntityNotFoundException("Member with email " + email + " not found.");
         }
+
+        // 사용자 정보를 Member 엔터티에 저장
+        member.setEmail(email);
+        member.setUsername(name);
+        memberRepository.save(member); // 사용자 정보를 저장
 
         // OAuth2로 로그인한 사용자의 권한을 설정
         Long memberId = member.getMemberId();

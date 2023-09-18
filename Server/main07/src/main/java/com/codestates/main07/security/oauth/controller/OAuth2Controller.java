@@ -1,5 +1,7 @@
 package com.codestates.main07.security.oauth.controller;
 
+import com.codestates.main07.security.oauth.property.KakaoProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -10,18 +12,25 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
+@Slf4j
 @RestController
 public class OAuth2Controller {
 
-    @PostMapping("/auth/google/login")
-    public String redirectToGoogle() {
-        return "redirect:/oauth2/authorization/google";
+    private final KakaoProperties kakaoProperties;
+
+    public OAuth2Controller(KakaoProperties kakaoProperties) {
+        this.kakaoProperties = kakaoProperties;
     }
 
     @PostMapping("/auth/kakao/login")
     public String redirectToKakao() {
         return "redirect:/oauth2/authorization/kakao";
     }
+
+//    @PostMapping("/auth/google/login")
+//    public String redirectToGoogle() {
+//        return "redirect:/oauth2/authorization/google";
+//    }
 
     // 카카오로부터 액세스 토큰을 얻기 위한 엔드포인트
     @PostMapping("/auth/kakao/token")
@@ -34,10 +43,13 @@ public class OAuth2Controller {
         HttpHeaders headers = new HttpHeaders();  // 요청 헤더를 설정하기 위한 객체 생성
         headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
-        // 카카오 개발자 센터에서 제공받은 API 키와 비밀번호
-        String credentials = "REST_API_KEY:REST_API_SECRET";
+        // 환경 변수로부터 값을 가져오는 대신, KakaoProperties 클래스로부터 값을 가져옴
+        String credentials = kakaoProperties.getRestApiKey() + ":" + kakaoProperties.getRestApiSecret();
+        String redirectUri = kakaoProperties.getRedirectUri();
+
         // 인증 코드를 이용하여 액세스 토큰을 요청하기 위한 요청 본문 생성
-        String body = "grant_type=authorization_code&client_id=REST_API_KEY&redirect_uri=REDIRECT_URI&code=" + code;
+        String body = "grant_type=authorization_code&client_id=" + kakaoProperties.getRestApiKey() +
+                "&redirect_uri=" + redirectUri + "&code=" + code;
 
         // 요청 객체 생성 (헤더와 본문 포함)
         HttpEntity<String> request = new HttpEntity<>(body, headers);
@@ -47,5 +59,27 @@ public class OAuth2Controller {
                 HttpMethod.POST, request, Map.class);
 
         return ResponseEntity.ok(response.getBody());  // 카카오로부터 받은 응답 반환
+    }
+
+    @PostMapping("/auth/kakao/userinfo")
+    public ResponseEntity<Map<String, Object>> getUserInfoFromKakao(@RequestBody Map<String, String> payload) {
+        String accessToken = payload.get("access_token");  // 받은 액세스 토큰을 가져옴
+        log.debug("Received access token: {}", accessToken);  // 액세스 토큰을 로그에 출력
+
+        RestTemplate restTemplate = new RestTemplate(); // REST 요청을 위한 스프링의 헬퍼 클래스
+
+        HttpHeaders headers = new HttpHeaders(); // 요청 헤더를 설정하기 위한 객체 생성
+        headers.add("Authorization", "Bearer " + accessToken);  // 액세스 토큰을 헤더에 추가
+
+        HttpEntity<String> request = new HttpEntity<>(headers);
+
+        // 카카오 사용자 정보 가져오기 엔드포인트에 GET 요청을 보냄
+        ResponseEntity<Map> response = restTemplate.exchange("https://kapi.kakao.com/v2/user/me",
+                HttpMethod.GET, request, Map.class);
+
+        Map<String, Object> userInfo = response.getBody();
+        log.debug("Received user info: {}", userInfo);  // 사용자 정보를 로그에 출력
+
+        return ResponseEntity.ok(userInfo);  // 카카오로부터 받은 사용자 정보 반환
     }
 }
