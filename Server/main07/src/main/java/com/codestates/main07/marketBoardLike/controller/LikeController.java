@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Likes")
+@RequestMapping("/marketBoard")
 public class LikeController {
     private final LikeService likeService;
     private final LikeRepository likeRepository;
@@ -25,14 +25,14 @@ public class LikeController {
         this.likeRepository = likeRepository;
     }
 
-    @GetMapping("/{marketBoard-id}/{member-id}")
+    @GetMapping("/{marketBoard-id}/{member-id}/likes")
     public ResponseEntity<Boolean> isLikedByMember(@PathVariable("marketBoard-id") long marketBoardId,
                                                          @PathVariable("member-id") long memberId) {
         boolean liked = likeService.isLikedByMember(marketBoardId, memberId);
         return ResponseEntity.ok(liked);
     }
 
-    @PostMapping("/{marketBoard-id}/{member-id}")
+    @PostMapping("/{marketBoard-id}/likes")
     public ResponseEntity<LikeResponseDto> createLike(@PathVariable("marketBoard-id") long marketBoardId,
                                                                 @PathVariable("member-id") long memberId,
                                                                 @RequestBody LikePostDto LikePostDto) {
@@ -43,7 +43,7 @@ public class LikeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
-    @DeleteMapping("/{marketBoard-id}/{member-id}")
+    @DeleteMapping("/{marketBoard-id}/likes")
     public ResponseEntity<LikeResponseDto> removeLike(@PathVariable("marketBoard-id") long marketBoardId,
                                                                 @PathVariable("member-id") long memberId) {
         likeService.deleteLike(marketBoardId, memberId);
