@@ -61,8 +61,11 @@ export default function SignUp() {
 
   const checkNickname = async () => {
     try {
-      const response = await axios.post("/", { nickname });
-      if (response.data.duplicate) {
+      const response = await axios.post(
+        "https://69e6-125-181-59-71.ngrok-free.app/signup",
+        { nickname },
+      );
+      if (response.data.success) {
         setNicknameIsValid(false);
       } else {
         setNicknameIsValid(true);
