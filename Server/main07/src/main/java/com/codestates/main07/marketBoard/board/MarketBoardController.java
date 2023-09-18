@@ -3,6 +3,7 @@ package com.codestates.main07.marketBoard.board;
 import com.codestates.main07.exception.BusinessLogicException;
 import com.codestates.main07.exception.ExceptionCode;
 import com.codestates.main07.marketBoard.board.domain.MarketBoard;
+import com.codestates.main07.marketBoard.board.domain.Tag;
 import com.codestates.main07.marketBoard.board.dto.MarketBoardCreate;
 import com.codestates.main07.marketBoard.board.dto.MarketBoardResponse;
 import com.codestates.main07.marketBoard.board.dto.MarketBoardUpdate;
@@ -17,11 +18,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.Positive;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,6 +50,25 @@ public class MarketBoardController {
     @GetMapping
     public ResponseEntity<List<MarketBoardResponse>> marketBoardList(Pageable pageable) {
         Page<MarketBoard> marketBoardPage = marketBoardService.boardList(pageable);
+        List<MarketBoardResponse> response = marketBoardPage.getContent()
+                .stream()
+                .map(mapper::marketBoardToMarketBoardResponseDto)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * 마이페이지의 내가 쓴 글 목록 조회
+     * @param memberId
+     * @param pageable
+     * @param tag
+     * @return
+     */
+    @GetMapping("/myPage/{memberId}")
+    public ResponseEntity myMarketBoardList (@PathVariable ("memberId") long memberId,
+                                             Pageable pageable, Tag tag) {
+        Page<MarketBoard> marketBoardPage = marketBoardService.myBoardList(pageable, memberId, tag);
         List<MarketBoardResponse> response = marketBoardPage.getContent()
                 .stream()
                 .map(mapper::marketBoardToMarketBoardResponseDto)
@@ -81,6 +104,7 @@ public class MarketBoardController {
      */
     @PostMapping
     public ResponseEntity addMarketBoard (@RequestBody MarketBoardCreate createDto) {
+        Object a = (Object) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         MarketBoard marketBoard = mapper.createDtoToMarketBoard(createDto);
 
@@ -108,6 +132,7 @@ public class MarketBoardController {
     @PutMapping("/{marketBoardId}")
     public ResponseEntity editMarketBoard (@PathVariable ("marketBoardId") long marketBoardId,
                                  @RequestBody MarketBoardUpdate updateDto) {
+        Object a = (Object) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         updateDto.setMarketBoardId(marketBoardId);
         MarketBoard marketBoard = mapper.updateDtoToMarketBoard(updateDto);
@@ -127,6 +152,7 @@ public class MarketBoardController {
      */
     @DeleteMapping("/{marketBoardId}")
     public ResponseEntity deleteMarketBoard (@PathVariable ("marketBoardId") long marketBoardId) {
+        Object a = (Object) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         marketBoardService.deleteBoard(marketBoardId);
 

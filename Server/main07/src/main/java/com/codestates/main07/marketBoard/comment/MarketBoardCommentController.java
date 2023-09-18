@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,6 +51,7 @@ public class MarketBoardCommentController {
     @PostMapping
     public ResponseEntity createComment(@PathVariable long marketBoardId,
                                         @RequestBody MarketBoardCommentCreate createDto) {
+        Object a = (Object) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         MarketBoardComment marketBoardComment = mapper.createDtoToMarketBoardComment(createDto);
 
@@ -64,6 +66,7 @@ public class MarketBoardCommentController {
     public ResponseEntity editComment (@PathVariable long marketBoardId,
                                        @PathVariable ("marketBoardCommentId") long marketBoardCommentId,
                                        @RequestBody MarketBoardCommentUpdate updateDto) {
+        Object a = (Object) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         MarketBoardComment updatedMarketBoardComment = marketBoardCommentService.updateComment(marketBoardCommentId, updateDto);
         MarketBoardCommentResponse response = mapper.marketBoardCommentToMarketBoardCommentResponseDto(updatedMarketBoardComment);
@@ -75,6 +78,7 @@ public class MarketBoardCommentController {
     @DeleteMapping("/{marketBoardCommentId}")
     public ResponseEntity deleteComment (@PathVariable long marketBoardId,
                                          @PathVariable ("marketBoardCommentId") long marketBoardCommentId) {
+        Object a = (Object) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         marketBoardCommentService.deleteComment(marketBoardCommentId);
 

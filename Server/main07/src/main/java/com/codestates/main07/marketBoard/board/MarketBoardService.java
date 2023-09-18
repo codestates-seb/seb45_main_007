@@ -59,6 +59,13 @@ public class MarketBoardService {
         return marketBoardRepository.findAll(pageable);
     }
 
+    public Page<MarketBoard> myBoardList(Pageable pageable, long memberId, Tag tag) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),sort);
+
+        return marketBoardRepository.findByMember_MemberId(pageable, memberId, tag);
+    }
+
     private MarketBoard findCorrectMarketBoard(long marketBoardId) {
         Optional<MarketBoard> optionalMarketBoard = marketBoardRepository.findById(marketBoardId);
         return optionalMarketBoard.orElseThrow(() ->
