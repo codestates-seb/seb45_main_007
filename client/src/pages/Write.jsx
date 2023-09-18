@@ -93,52 +93,64 @@ const Write = () => {
 
   const handlePostSubmit = async () => {
     if (handleValidation()) {
-      // 상세페이지로 이동
+      let apiUrl = "";
+      let payload = {};
+
       if (board === "바자회") {
-        navigate("/Market/onecontent");
+        apiUrl = "https://49c9-221-150-55-48.ngrok-free.app/marketBoards";
+        payload = {
+          memberId: 1,
+          title: title,
+          content: content,
+          photo: photo ? photo.name : "", // photo가 파일 객체를 가지고 있다고 가정
+          priceContent: 10000, // 필요하다면 동적 값 추가
+          tag: "SALE", // 필요하다면 동적 값 추가
+        };
       } else if (board === "동아리") {
-        navigate("/Club/onecontent");
+        apiUrl = "https://YOUR_DOMAIN_HERE/clubBoards"; // 실제 도메인으로 업데이트
+        payload = {
+          memberId: 1,
+          title: title,
+          content: content,
+          photo: photo ? photo.name : "", // photo가 파일 객체를 가지고 있다고 가정
+          voice: "", // 이 값은 선택사항이며 비워 둘 수 있다고 가정. 필요하다면 동적 값 추가
+          category: category,
+        };
+      }
+
+      const formData = new FormData();
+      for (let key in payload) {
+        formData.append(key, payload[key]);
       }
 
       if (photo) {
-        const formData = new FormData();
         formData.append("photo", photo);
-        formData.append("title", title);
-        formData.append("content", content);
-        formData.append("board", board);
-        formData.append("category", category);
-
-        if (board === "바자회") {
-          try {
-            const response = await axios.post("/marketBoards", formData);
-            if (response.data.success) {
-              console.log("글이 성공적으로 등록되었습니다.");
-              navigate("/market/onecontent");
-            } else {
-              console.error("글 등록에 실패하였습니다.");
-            }
-          } catch (error) {
-            console.error("Error", error);
-          }
-        } else if (board === "동아리") {
-          formData.append("category", category);
-          formData.append("memberId", 1);
-          try {
-            const response = await axios.post("/clubBoards", formData);
-
-            if (response.data.success) {
-              console.log("글이 성공적으로 등록되었습니다.");
-              navigate("/club/onecontent");
-            } else {
-              console.error("글 등록에 실패하였습니다.");
-            }
-          } catch (error) {
-            console.error("Error:", error);
-          }
-        }
-      } else {
-        alert("모든 필드를 올바르게 입력해주세요.");
       }
+
+      const config = {
+        headers: {
+          "Content-type": "multipart/form-data",
+          Authorization: `Bearer [YOUR_DYNAMIC_JWT_TOKEN_HERE]`, // 동적 토큰 검색 방법으로 업데이트
+        },
+      };
+
+      try {
+        const response = await axios.post(apiUrl, formData, config);
+        if (response.data.success) {
+          console.log("글이 성공적으로 등록되었습니다.");
+          if (board === "바자회") {
+            navigate("/market/onecontent");
+          } else if (board === "동아리") {
+            navigate("/club/onecontent");
+          }
+        } else {
+          console.error("글 등록에 실패하였습니다.");
+        }
+      } catch (error) {
+        console.error("Error", error);
+      }
+    } else {
+      alert("모든 필드를 올바르게 입력해주세요.");
     }
   };
   return (

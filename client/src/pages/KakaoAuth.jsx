@@ -10,10 +10,8 @@ function KakaoAuth() {
   const sendAuthCodeToBackend = async (code) => {
     try {
       const response = await axios.post(
-        "https://69e6-125-181-59-71.ngrok-free.app/auth/login",
-        {
-          code,
-        },
+        `https://6b4f-125-181-59-71.ngrok-free.app/auth/kakao/login`,
+        { code: code },
       );
       console.log("Response from backend:", response.data);
     } catch (error) {
