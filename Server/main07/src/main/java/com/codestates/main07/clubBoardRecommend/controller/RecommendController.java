@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/clubBoards/{clubBoard-id}/recommends")
+@RequestMapping("/clubBoards")
 public class RecommendController {
     private final RecommendService recommendService;
     private final RecommendRepository recommendRepository;
@@ -25,20 +25,20 @@ public class RecommendController {
         this.recommendRepository = recommendRepository;
     }
 
-    @GetMapping("/{clubBoard-id}")
+    @GetMapping("/{clubBoard-id}/recommends")
     public ResponseEntity<Long> getRecommendCount(@PathVariable("clubBoard-id") long clubBoardId) {
         long recommendCount = recommendService.getRecommendCount(clubBoardId);
         return ResponseEntity.ok(recommendCount);
     }
 
-    @GetMapping("/{clubBoard-id}/{member-id}")
+    @GetMapping("/{clubBoard-id}/{member-id}/recommended")
     public ResponseEntity<Boolean> isRecommendedByMember(@PathVariable("clubBoard-id") long clubBoardId,
                                                          @PathVariable("member-id") long memberId) {
         boolean recommended = recommendService.isRecommendedByMember(clubBoardId, memberId);
         return ResponseEntity.ok(recommended);
     }
 
-    @PostMapping("/{clubBoard-id}/{member-id}")
+    @PostMapping("/{clubBoard-id}/recommends")
     public ResponseEntity<RecommendResponseDto> createRecommend(@PathVariable("clubBoard-id") long clubBoardId,
                                                                 @PathVariable("member-id") long memberId,
                                                                 @RequestBody RecommendPostDto recommendPostDto) {
@@ -52,7 +52,7 @@ public class RecommendController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
-    @DeleteMapping("/{clubBoard-id}/{member-id}")
+    @DeleteMapping("/{clubBoard-id}/recommends")
     public ResponseEntity<RecommendResponseDto> removeRecommend(@PathVariable("clubBoard-id") long clubBoardId,
                                                                 @PathVariable("member-id") long memberId) {
         recommendService.deleteRecommend(clubBoardId, memberId);
