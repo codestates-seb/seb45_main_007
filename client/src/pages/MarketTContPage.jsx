@@ -5,6 +5,7 @@ import { AnaLogClock } from "../components/Clock.jsx";
 import React, { useState, useEffect } from "react";
 import { MarketBasicData } from "../data/MarketBasicData.js";
 import axios from "axios";
+import { useSelector } from "react-redux/es/hooks/useSelector.js";
 
 const TotalContainer = styled.div`
   width: 100vw;
@@ -153,11 +154,17 @@ const NormalContentTitleSect = styled.div`
 `;
 
 export const MarketTContPage = () => {
+  const user = useSelector((state) => state.user);
+  console.log(`유저: ${user.email}`);
   const [MarketTData, setMarketTData] = useState([]);
   const [HotContentData, setHotContentData] = useState([]);
   const [NormalContentData, setNormalContentData] = useState([]);
   const [menuIsVisible, setMenuIsVisible] = useState(false);
   const [noMoreRead, setNoMoreRead] = useState(false);
+  const authorizationHeaderValue = useSelector(
+    (state) => state.user.authorization,
+  );
+  console.log(authorizationHeaderValue);
 
   useEffect(() => {
     if (NormalContentData.length >= MarketBasicData.brings.length) {
