@@ -4,8 +4,7 @@ import { NormalContent } from "../components/NormalContent.jsx";
 import { AnaLogClock } from "../components/Clock.jsx";
 import React, { useState, useEffect } from "react";
 import { MarketBasicData } from "../data/MarketBasicData.js";
-import axios from "axios";
-
+// import axios from "axios";
 
 const TotalContainer = styled.div`
   width: 100vw;
@@ -155,7 +154,6 @@ const NormalContentTitleSect = styled.div`
 
 export const MarketTContPage = () => {
   const [MarketTData, setMarketTData] = useState([]);
-
   const [HotContentData, setHotContentData] = useState([]);
   const [NormalContentData, setNormalContentData] = useState([]);
   const [menuIsVisible, setMenuIsVisible] = useState(false);
@@ -185,12 +183,9 @@ export const MarketTContPage = () => {
 
   const MarketAPI = "market/board";
 
-
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-
         const response = await fetch(MarketAPI);
         if (!response.ok) {
           console.log("not response.ok");
@@ -221,27 +216,27 @@ export const MarketTContPage = () => {
     setNormalContentData((prev) => [...prev, ...moreData]);
   };
 
-        const response = await axios.get(
-          "https://49c9-221-150-55-48.ngrok-free.app/marketBoards",
-          {
-            headers: {
-              "Content-Type": `application/json`,
-              "ngrok-skip-browser-warning": "69420",
-            },
-          },
-        );
-        console.log(response);
-        setMarketTData(response.data);
-      } catch (error) {
-        console.error("Error fetching the data", error);
-      }
-    };
+  //       const response = await axios.get(
+  //         "https://49c9-221-150-55-48.ngrok-free.app/marketBoards",
+  //         {
+  //           headers: {
+  //             "Content-Type": `application/json`,
+  //             "ngrok-skip-browser-warning": "69420",
+  //           },
+  //         },
+  //       );
+  //       console.log(response);
+  //       setMarketTData(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching the data", error);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
-  console.log(MarketTData);
-  const HotContentData = MarketTData.slice(0, 3);
-  const NormalContentData = MarketTData.slice(0, 4);
+  //   fetchData();
+  // }, []);
+  // console.log(MarketTData);
+  // const HotContentData = MarketTData.slice(0, 3);
+  // const NormalContentData = MarketTData.slice(0, 4);
 
   return (
     <TotalContainer>
