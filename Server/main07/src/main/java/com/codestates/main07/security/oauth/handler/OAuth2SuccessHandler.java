@@ -35,7 +35,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     @Lazy
     @Autowired
     private MemberService memberService;  // 사용자 정보 조회를 위한 서비스
-    
+
     @Autowired
     private CustomAuthorityUtils customAuthorityUtils;
 

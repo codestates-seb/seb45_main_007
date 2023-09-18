@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,17 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
-        String email = oAuth2User.getAttribute("email");
+        // `oAuth2User.getAttribute("email")`를 통해 OAuth2 토큰에서 email 속성 값을 가져옵니다.
+        // Optional.ofNullable()은 가져온 email 속성 값이 null인지 아닌지를 확인합니다.
+        String email = Optional.ofNullable(oAuth2User.getAttribute("email"))
+                // .map(Object::toString)을 사용하여 가져온 email 속성 값을 문자열로 변환합니다.
+                // 여기서 Object::toString 메서드 참조를 사용하므로 실제 값이 null이 아닌 경우에만 변환 작업이 이루어집니다.
+                .map(Object::toString)
+                // orElseThrow()를 사용하여 email 속성 값이 null인 경우 예외를 발생시킵니다.
+                // 이 때, OAuth2AuthenticationException 예외가 발생하며 "Email not found in OAuth2 token" 메시지가 포함됩니다.
+                .orElseThrow(() -> new OAuth2AuthenticationException(
+                        new OAuth2Error("invalid_token", "Email not found in OAuth2 token", null)
+                ));
 
         // 멤버 조회
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
@@ -41,7 +52,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         if (!optionalMember.isPresent()) {
             member = new Member();
             member.setEmail(email);
-            member.setUsername(oAuth2User.getAttribute("name"));
+            // `oAuth2User.getAttribute("name")`를 통해 OAuth2 토큰에서 name 속성 값을 가져옵니다.
+            String name = Optional.ofNullable(oAuth2User.getAttribute("name"))
+                    .map(Object::toString)
+                    .orElseThrow(() -> new OAuth2AuthenticationException(
+                            new OAuth2Error("invalid_token", "Name not found in OAuth2 token", null)
+                    ));
+            // 변환된 name 값을 멤버 객체의 username 속성에 설정합니다.
+            member.setUsername(name);
             memberRepository.save(member);
         } else {
             member = optionalMember.get();
