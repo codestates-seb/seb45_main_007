@@ -5,29 +5,14 @@ import com.codestates.main07.clubBoard.board.entity.ClubBoard;
 import com.codestates.main07.clubBoard.board.mapper.ClubBoardMapper;
 import com.codestates.main07.clubBoard.board.service.ClubBoardService;
 import com.codestates.main07.clubBoard.response.SuccessDto;
-import com.codestates.main07.jwt.auth.filter.JwtAuthenticationFilter;
-import com.codestates.main07.jwt.auth.jwt.JwtTokenizer;
-import com.codestates.main07.member.entity.Member;
 import com.codestates.main07.member.service.MemberService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonParser;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import org.apache.tomcat.util.http.parser.Authorization;
-import org.springframework.boot.json.BasicJsonParser;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Positive;
-import java.util.Base64;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/clubBoards")
@@ -36,18 +21,15 @@ public class ClubBoardController {
     private final ClubBoardService service;
     private final ClubBoardMapper mapper;
     private final MemberService memberService;
-    private final ObjectMapper objectMapper;
 
-    public ClubBoardController(ClubBoardService service, ClubBoardMapper mapper, MemberService memberService, ObjectMapper objectMapper) {
+    public ClubBoardController(ClubBoardService service, ClubBoardMapper mapper, MemberService memberService) {
         this.service = service;
         this.mapper = mapper;
         this.memberService = memberService;
-        this.objectMapper = objectMapper;
     }
 
     @PostMapping
-    public ResponseEntity createClubBoard(@RequestHeader(value = "Authorization") String token,
-                                          @RequestBody ClubBoardCreateDto createDto) {
+    public ResponseEntity createClubBoard(@RequestBody ClubBoardCreateDto createDto) {
 
         ClubBoard clubBoard = mapper.createDtoToClubBoard(createDto);
         clubBoard.setMember(memberService.viewMember(clubBoard.getMember().getMemberId()));
@@ -160,15 +142,5 @@ public class ClubBoardController {
         return new ResponseEntity<>(
                 new ClubBoardMultiResponseDto<>(responses, pageClubBoards, true), HttpStatus.OK
         );
-    }
-
-    private long getMemberIdFromToken(String token) throws JsonProcessingException {
-        String payloadJwt = token.split("\\.")[1];
-        Base64.Decoder decoder = Base64.getUrlDecoder();
-
-        String payload = new String(decoder.decode(payloadJwt));
-        JsonNode payloadInfo = objectMapper.readTree(payload);
-
-        return payloadInfo.get("memberId").asLong();
     }
 }
