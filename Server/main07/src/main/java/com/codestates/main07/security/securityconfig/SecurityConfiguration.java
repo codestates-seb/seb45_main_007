@@ -112,6 +112,7 @@ public class SecurityConfiguration {
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:3000",
                 "http://localhost:8080",
+                "http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com",
                 "null"
         ));
         configuration.addAllowedHeader("*");
