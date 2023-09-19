@@ -801,6 +801,7 @@ export const ClubOneContPage = () => {
                   <br />
                   <br />
                   <br />
+                  <img src={oneClubData.photo} alt="fdf" />
                   {oneClubData.content}
                   <br />
                   <LikeBtn>좋아요 버튼</LikeBtn>
