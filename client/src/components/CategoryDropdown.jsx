@@ -2,7 +2,15 @@ import { styled } from "styled-components";
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 export default function CategoryDropdown({ setSelectedCategory }) {
-  const category = ["전체", "게임", "만화", "TV", "노래", "영화", "추억아이템"];
+  const category = [
+    { name: "전체", category: "all" },
+    { name: "게임", category: "game" },
+    { name: "만화", category: "comic" },
+    { name: "TV프로그램", category: "tvshow" },
+    { name: "노래", category: "music" },
+    { name: "영화", category: "movie" },
+    { name: "추억아이템", category: "item" },
+  ];
   const [isOpen, setIsOpen] = useState(false);
   CategoryDropdown.propTypes = {
     setSelectedCategory: PropTypes.func.isRequired,
@@ -16,8 +24,11 @@ export default function CategoryDropdown({ setSelectedCategory }) {
       <DropdownMenu isOpen={isOpen}>
         {category.map((value) => {
           return (
-            <List key={value} onClick={() => setSelectedCategory(value)}>
-              {value}
+            <List
+              key={value}
+              onClick={() => setSelectedCategory(value.category)}
+            >
+              {value.name}
             </List>
           );
         })}
