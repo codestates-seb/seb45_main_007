@@ -4,6 +4,9 @@ spring:
     username: root
     url: jdbc:mysql://localhost:3306/mainproject?serverTimezone=Asia/Seoul
     password: 1234
+  servlet:
+    multipart:
+      enabled: true
   jpa:
     properties:
       hibernate:
@@ -12,3 +15,32 @@ spring:
     database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
     hibernate:
       ddl-auto: update
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: ${KAKAO_REST_API_KEY}
+            client-secret: ${KAKAO_REST_API_SECRET}
+            authorization-grant-type: authorization_code
+            client-name: Kakao
+            redirect-uri: ${KAKAO_REDIRECT_URI}
+            scope:
+              - profile_nickname
+              - account_email
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+
+
+jwt:
+  key: ${JWT_SECRET_KEY}
+  access-token-expiration-minutes: 30
+  refresh-token-expiration-minutes: 420
+
+mail:
+  address:
+    admin: rjf654@gmail.com
+
