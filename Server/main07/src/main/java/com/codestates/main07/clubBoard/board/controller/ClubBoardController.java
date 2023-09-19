@@ -5,16 +5,10 @@ import com.codestates.main07.clubBoard.board.entity.ClubBoard;
 import com.codestates.main07.clubBoard.board.mapper.ClubBoardMapper;
 import com.codestates.main07.clubBoard.board.service.ClubBoardService;
 import com.codestates.main07.clubBoard.response.SuccessDto;
-import com.codestates.main07.jwt.auth.filter.JwtAuthenticationFilter;
-import com.codestates.main07.jwt.auth.jwt.JwtTokenizer;
-import com.codestates.main07.member.entity.Member;
 import com.codestates.main07.member.service.MemberService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Positive;
@@ -26,23 +20,19 @@ import java.util.List;
 public class ClubBoardController {
     private final ClubBoardService service;
     private final ClubBoardMapper mapper;
-    private final JwtTokenizer jwtTokenizer;
     private final MemberService memberService;
 
-    public ClubBoardController(ClubBoardService service, ClubBoardMapper mapper, JwtTokenizer jwtTokenizer, MemberService memberService) {
+    public ClubBoardController(ClubBoardService service, ClubBoardMapper mapper, MemberService memberService) {
         this.service = service;
         this.mapper = mapper;
-        this.jwtTokenizer = jwtTokenizer;
         this.memberService = memberService;
     }
 
     @PostMapping
-    public ResponseEntity createClubBoard(@RequestHeader("Authorization") String authorization,
-                                          @RequestBody ClubBoardCreateDto createDto) {
+    public ResponseEntity createClubBoard(@RequestBody ClubBoardCreateDto createDto) {
 
         ClubBoard clubBoard = mapper.createDtoToClubBoard(createDto);
-        long memberId = getMemberIdFromClaims(authorization);
-        clubBoard.setMember(memberService.viewMember(memberId));
+        clubBoard.setMember(memberService.viewMember(clubBoard.getMember().getMemberId()));
 
         ClubBoard createdClubBoard = service.createClubBoard(clubBoard);
         ClubBoardResponseDto response = mapper.clubBoardToResponseDto(createdClubBoard);
@@ -90,6 +80,38 @@ public class ClubBoardController {
         );
     }
 
+    @GetMapping("/category")
+    public ResponseEntity viewClubBoardsByCategory(@Positive @RequestParam int page,
+                                                   @Positive @RequestParam int size,
+                                                   @RequestParam String category) {
+        Page<ClubBoard> pageClubBoards = service.findClubBoardsByCategory(page - 1, size, category);
+        List<ClubBoard> clubBoards = pageClubBoards.getContent();
+        List<ClubBoardResponsesDto> responses = mapper.clubBoardsToResponsesDto(clubBoards);
+
+        return new ResponseEntity<>(
+                new ClubBoardMultiResponseDto<>(responses, pageClubBoards, true), HttpStatus.OK
+        );
+    }
+
+    @GetMapping("/myPage/{member-id}")
+    public ResponseEntity viewMyClubBoardsByCategory(@PathVariable ("member-id") long memberId,
+                                                     @Positive @RequestParam int page,
+                                                     @Positive @RequestParam int size,
+                                                     @RequestParam String category) {
+        if (category.equals("all")) {
+            return viewMyClubBoards(memberId, page, size);
+        }
+
+        Page<ClubBoard> pageClubBoards = service.findMyClubBoardsByCategory(
+                page - 1, size, memberId, category);
+        List<ClubBoard> clubBoards = pageClubBoards.getContent();
+        List<ClubBoardResponsesDto> responses = mapper.clubBoardsToResponsesDto(clubBoards);
+
+        return new ResponseEntity<>(
+                new ClubBoardMultiResponseDto<>(responses, pageClubBoards, true), HttpStatus.OK
+        );
+    }
+
     @DeleteMapping("/{clubBoard-id}")
     public ResponseEntity deleteClubBoard(@PathVariable ("clubBoard-id") long clubBoardId) {
         service.deleteClubBoard(clubBoardId);
@@ -110,9 +132,15 @@ public class ClubBoardController {
                 new ClubBoardMultiResponseDto<>(responses, pageClubBoards, true), HttpStatus.OK);
     }
 
-    private long getMemberIdFromClaims(String authorization) {
-        String jwtToken = authorization.substring(7);
-        Jws<Claims> claims = jwtTokenizer.getClaims(jwtToken, jwtTokenizer.getSecretKey());
-        return claims.getBody().get("memberId", Long.class);
+    private ResponseEntity viewMyClubBoards(@PathVariable ("member-id") long memberId,
+                                           @Positive @RequestParam int page,
+                                           @Positive @RequestParam int size) {
+        Page<ClubBoard> pageClubBoards = service.findMyClubBoards(page - 1, size, memberId);
+        List<ClubBoard> clubBoards = pageClubBoards.getContent();
+        List<ClubBoardResponsesDto> responses = mapper.clubBoardsToResponsesDto(clubBoards);
+
+        return new ResponseEntity<>(
+                new ClubBoardMultiResponseDto<>(responses, pageClubBoards, true), HttpStatus.OK
+        );
     }
 }

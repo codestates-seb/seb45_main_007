@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,11 +28,11 @@ public class ClubBoard extends Audit {
 
     @Lob
     @Column
-    private byte[] photo;
+    private String photo;
 
     @Lob
     @Column
-    private byte[] voice;
+    private String voice;
 
     @Column
     private String category;

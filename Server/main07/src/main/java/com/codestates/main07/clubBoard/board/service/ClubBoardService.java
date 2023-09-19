@@ -51,6 +51,24 @@ public class ClubBoardService {
                 Sort.by("clubBoardId").descending()));
     }
 
+    public Page<ClubBoard> findClubBoardsByCategory(int page, int size, String category) {
+        Pageable pageable = PageRequest.of(page, size,
+                Sort.by("clubBoardId").descending());
+        return repository.findByCategoryIs(pageable, category);
+    }
+
+    public Page<ClubBoard> findMyClubBoards(int page, int size, long memberId) {
+        Pageable pageable = PageRequest.of(page, size,
+                Sort.by("clubBoardId").descending());
+        return repository.findByMember_MemberId(pageable, memberId);
+    }
+
+    public Page<ClubBoard> findMyClubBoardsByCategory(int page, int size, long memberId, String category) {
+        Pageable pageable = PageRequest.of(page, size,
+                Sort.by("clubBoardId").descending());
+        return repository.findByMember_MemberIdAndCategoryIs(pageable, memberId, category);
+    }
+
     public void deleteClubBoard(long clubBoardId) {
         ClubBoard clubBoard = findCorrectClubBoard(clubBoardId);
         repository.delete(clubBoard);

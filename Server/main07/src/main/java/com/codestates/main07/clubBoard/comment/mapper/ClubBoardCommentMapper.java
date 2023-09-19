@@ -13,6 +13,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ClubBoardCommentMapper {
+    @Mapping(source = "memberId", target = "member.memberId")
     ClubBoardComment createDtoToComment(ClubBoardCommentCreateDto createDto);
     ClubBoardComment updateDtoToComment(ClubBoardCommentUpdateDto updateDto);
 

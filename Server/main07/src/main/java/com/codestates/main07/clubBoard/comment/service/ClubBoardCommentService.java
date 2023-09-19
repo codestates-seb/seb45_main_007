@@ -6,6 +6,7 @@ import com.codestates.main07.exception.BusinessLogicException;
 import com.codestates.main07.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,9 +41,10 @@ public class ClubBoardCommentService {
         return findCorrectComment(clubBoardCommentId);
     }
 
-    public Page<ClubBoardComment> findComments(int page, int size) {
-        return repository.findAll(PageRequest.of(page, size,
-                Sort.by("clubBoardCommentId").descending()));
+    public Page<ClubBoardComment> findComments(int page, int size, long clubBoardId) {
+        Pageable pageable = PageRequest.of(page, size,
+                Sort.by("clubBoardCommentId").descending());
+        return repository.findByClubBoard_ClubBoardId(pageable, clubBoardId);
     }
 
     public void deleteComment(long clubBoardCommentId) {
