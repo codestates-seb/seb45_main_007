@@ -128,7 +128,7 @@ const Write = () => {
         if (response.data.success) {
           console.log("글이 성공적으로 등록되었습니다.");
           if (board === "바자회") {
-            navigate(`/market/oneContent`);
+            navigate(`/market/${response.data.marketBoardId}`);
           } else if (board === "동아리") {
             navigate(`/club/${category}/${response.data.clubBoardId}`);
           }
