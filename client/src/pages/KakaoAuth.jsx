@@ -10,9 +10,10 @@ function KakaoAuth() {
   const sendAuthCodeToBackend = async (code) => {
     try {
       const response = await axios.post(
-        `https://4208-125-181-59-71.ngrok-free.app/auth/kakao/login`,
+        `https://616e-125-181-59-71.ngrok-free.app/auth/kakao/login`,
         { code: code },
       );
+
       console.log("Response from backend:", response.data);
       console.log("Access token received:", response);
     } catch (error) {
@@ -41,6 +42,10 @@ function KakaoAuth() {
       console.log("Access token received:", response.data.access_token);
       // 토큰을 저장하고 추가 작업을 여기서 수행하세요
       localStorage.setItem("accessToken", response.data.access_token);
+      localStorage.setItem("refreshToken", response.data.refresh_token);
+      localStorage.setItem("memberId", response.data.id);
+
+      console.log("response", response);
     } catch (error) {
       console.error("Error getting access token:", error);
     }

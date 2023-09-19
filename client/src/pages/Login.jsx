@@ -22,6 +22,8 @@ export default function Login() {
   const [passwordIsValid, setPasswordIsValid] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [message, setMessage] = useState("");
+  const [idTouched, setIdTouched] = useState(false);
+  const [passwordTouched, setPasswordTouched] = useState(false);
 
   const KAKAO_REST_API_KEY = process.env.REACT_APP_KAKAO_CLIENT_KEY;
   const KAKAO_REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
@@ -44,6 +46,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   const onChangeHandlerId = (e) => {
+    setIdTouched(true);
     setId(e.target.value);
     if (e.target.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
       setIdIsValid(true);
@@ -52,6 +55,7 @@ export default function Login() {
     }
   };
   const onChangeHandlerPassword = (e) => {
+    setPasswordTouched(true);
     setPassword(e.target.value);
     if (e.target.value.length < 8) {
       setPasswordIsValid(false);
@@ -67,7 +71,7 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        "https://4208-125-181-59-71.ngrok-free.app/signin",
+        "https://616e-125-181-59-71.ngrok-free.app/signin",
         { email, password },
       );
       if (response.data.success) {
@@ -125,11 +129,13 @@ export default function Login() {
                   style={{ fontSize: "16px" }}
                 ></input>
               </div>
-              {!idIsValid ? (
-                <div className="error-message">
-                  유효한 이메일을 입력 해주세요.
-                </div>
-              ) : null}
+              <div className="error-box">
+                {!idIsValid && idTouched ? (
+                  <div className="error-message">
+                    유효한 이메일을 입력 해주세요.
+                  </div>
+                ) : null}
+              </div>
               <div className="input-content">
                 <img src="/images/mdi-password-outline.png" alt=""></img>
                 <input
@@ -140,9 +146,11 @@ export default function Login() {
                   style={{ fontSize: "16px" }}
                 ></input>
               </div>
-              {!passwordIsValid ? (
-                <div className="error-message">비밀번호를 입력 해주세요.</div>
-              ) : null}
+              <div className="error-box">
+                {!passwordIsValid && passwordTouched ? (
+                  <div className="error-message">비밀번호를 입력 해주세요.</div>
+                ) : null}
+              </div>
             </div>
             <div
               className="LoginButton"
