@@ -4,7 +4,6 @@ import { styled } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { LoginBox } from "./styles/LoginBox";
 import axios from "axios";
-import KakaoBtn from "./KakaoBtn.jsx";
 import { setUser } from "../redux/userSlice";
 
 const PageStyle = styled.div`
@@ -68,13 +67,29 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        "https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/signin",
+        "https://4208-125-181-59-71.ngrok-free.app/signin",
         { email, password },
       );
       if (response.data.success) {
         setLoggedIn(true);
-        dispatch(setUser(response.data));
-        console.log("로그인성공");
+
+        localStorage.setItem("accessToken", response.headers.authorization);
+        localStorage.setItem("refreshToken", response.headers.refresh);
+        localStorage.setItem("memberId", response.data.memberId);
+        console.log(response.headers.authorization, response.headers.refresh);
+        console.log(response);
+        console.log(response.data.memberId);
+
+        dispatch(
+          setUser({
+            loggedIn: true,
+            email: response.data.email,
+            name: response.data.name,
+            memberId: response.data.memberId,
+            accessToken: response.data.accessToken, // 토큰 저장
+            refreshToken: response.data.refreshToken, // 토큰 저장
+          }),
+        );
       } else {
         setMessage(response.data.message);
       }
@@ -170,7 +185,6 @@ export default function Login() {
               <div></div>
             </button>
           </div>
-          <KakaoBtn></KakaoBtn>
         </div>
         <div className="signup-box">
           <div className="signup1">회원이 아니신가요?</div>

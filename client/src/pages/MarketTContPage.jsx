@@ -211,20 +211,6 @@ export const MarketTContPage = () => {
     fetchData();
   }, []);
 
-  //       const response = await fetch(MarketAPI);
-  //       if (!response.ok) {
-  //         console.log("not response.ok");
-  //       }
-  //       const data = await response.json();
-  //       setMarketTData(data);
-  //     } catch (error) {
-  //       setMarketTData(MarketBasicData.brings);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
-
   useEffect(() => {
     if (MarketTData.length > 0) {
       const hotData = MarketTData.slice(0, 4);
