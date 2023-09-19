@@ -8,6 +8,7 @@ import IsSameDay from "../utility/IsSameDay.jsx";
 import { Link, useNavigate, useParams } from "react-router-dom";
 export default function MarketOneContPage() {
   const [data, setData] = useState({});
+  const [replyData, setReplyData] = useState([]);
   const navigate = useNavigate();
   const { marketBoardId } = useParams();
 
@@ -110,8 +111,8 @@ export default function MarketOneContPage() {
             </TextContentContainer>
             <BottomContainer>
               <div className="left">
-                <div>조회수 : {data.viewCount}</div> <div>찜 : 20</div>{" "}
-                <div>댓글 : 3</div>
+                <div>조회수 : {data.viewCount}</div> <div>찜 : 0</div>{" "}
+                <div>댓글 : {replyData.length}</div>
               </div>
               <div>
                 <StyledLink className="vote">♡ 찜하기</StyledLink>
@@ -157,7 +158,11 @@ export default function MarketOneContPage() {
               </div>
             </BottomContainer>
           </ContentContainer>
-          <Reply marketBoardId={marketBoardId} />
+          <Reply
+            marketBoardId={marketBoardId}
+            replyData={replyData}
+            setReplyData={setReplyData}
+          />
         </BoardNoteContainer>
       </TotalContainer>
     </>
