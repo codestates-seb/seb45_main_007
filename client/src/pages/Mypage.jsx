@@ -11,24 +11,42 @@ export default function Mypage() {
   const [newNickname, setNewNickname] = useState("");
   const [nickname, setNickname] = useState("코딩왕");
   const [clubData, setClubData] = useState([]);
-  const [pageInfo, setPageInfo] = useState({});
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [clubPageInfo, setClubPageInfo] = useState({});
+  const [marketData, setMarketData] = useState([]);
+  const [marketPageInfo, setMarketPageInfo] = useState({});
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const memberId = localStorage.getItem("memberId");
   const fetchData = async (page) => {
     try {
-      const response = await axios.get(
-        `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/clubBoards/myPage/1?page=${page}&size=5&category=${selectedCategory}`,
-        {
-          headers: {
-            "Content-Type": `application/json`,
-            "ngrok-skip-browser-warning": "69420",
+      const response = await axios.all([
+        axios.get(
+          `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/clubBoards/myPage/${memberId}?page=${page}&size=5&category=${selectedCategory}`,
+          {
+            headers: {
+              "Content-Type": `application/json`,
+              "ngrok-skip-browser-warning": "69420",
+            },
           },
-        },
-      );
-      setClubData(response.data.clubBoards || []);
-      setPageInfo(response.data.pageInfo || {});
+        ),
+        axios.get(
+          `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/marketBoards/myPage/${memberId}?page=${page}&size=5`,
+          {
+            headers: {
+              "Content-Type": `application/json`,
+              "ngrok-skip-browser-warning": "69420",
+            },
+          },
+        ),
+      ]);
+      console.log(response);
+      const clubResponse = response[0];
+      const marketResponse = response[1];
+      setClubData(clubResponse.data.clubBoards || []);
+      setClubPageInfo(clubResponse.data.pageInfo || {});
+      setMarketData(marketResponse.data.marketBoards || []);
+      setMarketPageInfo(marketResponse.data.pageInfo || {});
     } catch (error) {
       console.error("Error fetching the data", error);
-      setClubData([]);
     }
   };
   useEffect(() => {
@@ -124,109 +142,27 @@ export default function Mypage() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>56</td>
-                  <td>324</td>
-                  <td>판매중</td>
-                  <td>안녕하세요</td>
-                  <td>2023.08.23</td>
-                </tr>
-                <tr>
-                  <td>56</td>
-                  <td>324</td>
-                  <td>판매완료</td>
-                  <td>안녕하세요</td>
-                  <td>2023.08.23</td>
-                </tr>
-                <tr>
-                  <td>56</td>
-                  <td>324</td>
-                  <td>판매중</td>
-                  <td>안녕하세요</td>
-                  <td>2023.08.23</td>
-                </tr>
-                <tr>
-                  <td>56</td>
-                  <td>324</td>
-                  <td>판매중</td>
-                  <td>안녕하세요</td>
-                  <td>2023.08.23</td>
-                </tr>
-                <tr>
-                  <td>56</td>
-                  <td>324</td>
-                  <td>판매중</td>
-                  <td>안녕하세요</td>
-                  <td>2023.08.23</td>
-                </tr>
+                {marketData.map((post) => (
+                  <tr key={post.markeyBoardId}>
+                    <td>{post.marketBoardId}</td>
+                    <td>{post.viewCount}</td>
+                    <td>{post.tag}</td>
+                    <td>{post.title}</td>
+                    <td>{new Date(post.createdAt).toLocaleDateString()}</td>
+                  </tr>
+                ))}
               </tbody>
             </ContentsTable>
           </MiddleContents>
-          <PageNumber>1</PageNumber>
-        </MiddleContainer>
-        <MiddleContainer>
-          <MiddleTitle>
-            2. 내가 찜한 판매글{" "}
-            <div>
-              <FilterButton>판매중</FilterButton>
-              <FilterButton>판매완료</FilterButton>
-            </div>
-          </MiddleTitle>
-          <MiddleContents>
-            <ContentsTable>
-              <thead>
-                <tr>
-                  <th width="100">번호</th>
-                  <th width="150"> 조회수</th>
-                  <th width="150"> 판매여부</th>
-                  <th>글제목</th>
-                  <th width="200">작성일자</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>56</td>
-                  <td>324</td>
-                  <td>판매중</td>
-                  <td>안녕하세요</td>
-                  <td>2023.08.23</td>
-                </tr>
-                <tr>
-                  <td>56</td>
-                  <td>324</td>
-                  <td>판매완료</td>
-                  <td>안녕하세요</td>
-                  <td>2023.08.23</td>
-                </tr>
-                <tr>
-                  <td>56</td>
-                  <td>324</td>
-                  <td>판매중</td>
-                  <td>안녕하세요</td>
-                  <td>2023.08.23</td>
-                </tr>
-                <tr>
-                  <td>56</td>
-                  <td>324</td>
-                  <td>판매중</td>
-                  <td>안녕하세요</td>
-                  <td>2023.08.23</td>
-                </tr>
-                <tr>
-                  <td>56</td>
-                  <td>324</td>
-                  <td>판매중</td>
-                  <td>안녕하세요</td>
-                  <td>2023.08.23</td>
-                </tr>
-              </tbody>
-            </ContentsTable>
-          </MiddleContents>
-          <PageNumber>1</PageNumber>
+          {[...Array(marketPageInfo.totalPages)].map((_, i) => (
+            <PageNumber onClick={() => handlePageClick(i + 1)} key={i}>
+              {i + 1}
+            </PageNumber>
+          ))}
         </MiddleContainer>
         <BottomContainer>
           <BottomTitle>
-            3. 내가 쓴 게시글
+            2. 내가 쓴 게시글
             <CategoryDropdown
               setSelectedCategory={setSelectedCategory}
               fetchData={fetchData}
@@ -256,7 +192,7 @@ export default function Mypage() {
               </tbody>
             </ContentsTable>
           </BottomContents>
-          {[...Array(pageInfo.totalPages)].map((_, i) => (
+          {[...Array(clubPageInfo.totalPages)].map((_, i) => (
             <PageNumber onClick={() => handlePageClick(i + 1)} key={i}>
               {i + 1}
             </PageNumber>

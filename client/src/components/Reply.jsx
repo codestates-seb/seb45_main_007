@@ -9,7 +9,7 @@ export default function Reply({ marketBoardId }) {
   const [reply, setReply] = useState("");
   const [editedReply, setEditedReply] = useState("");
   const [editingId, setEditingId] = useState(null);
-
+  const memberId = localStorage.getItem("memberId");
   Reply.propTypes = {
     marketBoardId: PropTypes.string.isRequired,
   };
@@ -19,7 +19,7 @@ export default function Reply({ marketBoardId }) {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        "https://49c9-221-150-55-48.ngrok-free.app/marketBoards/13/comments",
+        `https://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/marketBoards/${marketBoardId}/comments`,
         {
           headers: {
             "Content-Type": `application/json`,
@@ -40,8 +40,8 @@ export default function Reply({ marketBoardId }) {
   const submitReply = async () => {
     try {
       const response = await axios.post(
-        `https://49c9-221-150-55-48.ngrok-free.app/marketBoards/${marketBoardId}/comments`,
-        { memberId: 1, marketBoardId: marketBoardId, content: reply },
+        `https://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/marketBoards/${marketBoardId}/comments`,
+        { memberId: memberId, marketBoardId: marketBoardId, content: reply },
         {
           headers: {
             "Content-Type": "application/json",
@@ -60,7 +60,7 @@ export default function Reply({ marketBoardId }) {
   const editReply = async (commentId) => {
     try {
       const response = await axios.put(
-        `https://49c9-221-150-55-48.ngrok-free.app/marketBoards/${marketBoardId}/comments/${commentId}`,
+        `https://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/marketBoards/${marketBoardId}/comments/${commentId}`,
         { content: editedReply },
         {
           headers: {
@@ -82,7 +82,7 @@ export default function Reply({ marketBoardId }) {
     if (window.confirm("정말로 이 댓글을 삭제하시겠습니까?")) {
       try {
         const response = await axios.delete(
-          `https://49c9-221-150-55-48.ngrok-free.app/marketBoards/13/comments/${commentId}`,
+          `https://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/marketBoards/${marketBoardId}/comments/${commentId}`,
           { headers: { "Content-Type": "application/json" } },
         );
         if (response.success) {
@@ -93,15 +93,42 @@ export default function Reply({ marketBoardId }) {
       }
     }
   };
-  const filteredReplyData = replyData.filter(
-    () => reply.marketBoardId === marketBoardId,
-  );
+  const submitReplyComment = async (marketBoardCommentId) => {
+    try {
+      const response = await axios.post(
+        `https://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/marketBoards/${marketBoardId}/comments`,
+        {
+          memberId: memberId,
+          marketBoardId: marketBoardId,
+          content: reply,
+          parentId: marketBoardCommentId,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "ngrok-skip-browser-warning": "69420",
+          },
+        },
+      );
+      if (response.success) {
+        setReply("");
+        fetchData();
+      }
+    } catch (error) {
+      console.error("Error posting the reply", error);
+      console.log(marketBoardCommentId);
+    }
+  };
+
   return (
     <>
-      {filteredReplyData.map((data) => {
+      {replyData.map((data) => {
         const isEditing = data.marketBoardCommentId === editingId;
         return (
-          <ReplyContainer key={data.marketBoardCommentId}>
+          <ReplyContainer
+            key={data.marketBoardCommentId}
+            marketBoardCommentId={data.marketBoardCommentId}
+          >
             <ReplyIcon>
               <img src={arrowIcon} alt="icon" />
             </ReplyIcon>
@@ -148,6 +175,20 @@ export default function Reply({ marketBoardId }) {
                 <ReplyCreatedAt>{IsSameDay(data.createdAt)}</ReplyCreatedAt>
               </Bottom>
             </ContentContainer>
+            <ReplyInput
+              type="text"
+              placeholder="댓글입력"
+              onChange={(e) => {
+                setReply(e.target.value);
+              }}
+            ></ReplyInput>
+            <ButtonContainer>
+              <Button
+                onClick={() => submitReplyComment(data.marketBoardCommentId)}
+              >
+                확인
+              </Button>
+            </ButtonContainer>
           </ReplyContainer>
         );
       })}
@@ -159,7 +200,7 @@ export default function Reply({ marketBoardId }) {
         }}
       ></ReplyInput>
       <ButtonContainer>
-        <Button onClick={submitReply}>확인</Button>
+        <Button onClick={() => submitReply()}>확인</Button>
       </ButtonContainer>
     </>
   );
