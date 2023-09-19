@@ -113,7 +113,7 @@ public class SecurityConfiguration {
                 "http://localhost:3000",
                 "http://localhost:8080",
                 "http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com",
-                "null"
+                "*"
         ));
         configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true); // 인증 정보(Credentials)를 허용
