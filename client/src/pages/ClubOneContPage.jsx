@@ -330,8 +330,10 @@ const LikeBtn = styled.div`
 const DeleteModal = styled.div`
   width: 500px;
   height: 500px;
-  background-color: black;
-  color: white;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  font-size: 32px;
   position: absolute;
   z-index: 100022;
   top: 50%;
@@ -342,11 +344,13 @@ const DeleteModal = styled.div`
 const DeleteCommentBtn = styled.div`
   width: 50px;
   height: 50px;
-  background-color: blue;
+  background-color: white;
+  color: black;
   font-size: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 `;
 
 export const ClubOneContPage = () => {
@@ -553,12 +557,12 @@ export const ClubOneContPage = () => {
   return (
     <>
       <NewHeader />
+      {deleteState ? (
+        <DeleteModal onClick={DeleteContentBtnClick}>
+          누르면 삭제 됩니다.
+        </DeleteModal>
+      ) : null}
       <BoardOneContContainer>
-        {deleteState ? (
-          <DeleteModal onClick={DeleteContentBtnClick}>
-            누르면 삭제 됩니다.
-          </DeleteModal>
-        ) : null}
         <BoardOneFilterSect></BoardOneFilterSect>
         <BoardOneContentSect>
           <BoardUpSect>

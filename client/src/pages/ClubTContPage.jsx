@@ -112,6 +112,7 @@ const SearchBarSect = styled.section`
   height: 10%;
   margin-top: 2.5%;
   display: flex;
+  position: relative;
 `;
 
 const SearchBarNameFilter = styled.div`
@@ -141,7 +142,10 @@ const SortFilterSect = styled.div`
   width: 30%;
   height: 90%;
   display: flex;
-  margin-left: 350px;
+  position: absolute;
+  right: 0;
+  align-items: center;
+  justify-content: end;
 `;
 
 const SortFilterBtn = styled.div`
