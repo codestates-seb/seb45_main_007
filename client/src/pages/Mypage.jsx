@@ -16,7 +16,7 @@ export default function Mypage() {
   const fetchData = async (page) => {
     try {
       const response = await axios.get(
-        `https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/myPage/1?page=${page}&size=5&category=${selectedCategory}`,
+        `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/clubBoards/myPage/1?page=${page}&size=5&category=${selectedCategory}`,
         {
           headers: {
             "Content-Type": `application/json`,

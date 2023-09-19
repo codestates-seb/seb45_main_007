@@ -175,7 +175,7 @@ export const MarketTContPage = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/marketBoards",
+          "http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/marketBoards",
           {
             headers: {
               "Content-Type": `application/json`,

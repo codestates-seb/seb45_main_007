@@ -377,9 +377,9 @@ export const ClubOneContPage = () => {
   const { clubBoardId } = useParams();
   const { category } = useParams();
   const [oneClubData, setOneClubData] = useState([]);
-  const OneContApiUrl = `https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}`;
+  const OneContApiUrl = `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/clubBoards/${clubBoardId}`;
 
-  const OneCommentAPiUrl = `https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}/comments?page=1&size=5`;
+  const OneCommentAPiUrl = `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/clubBoards/${clubBoardId}/comments?page=1&size=5`;
   const [editingState, setEditingState] = useState(false);
   const [editingTitle, setEditingTitle] = useState(oneClubData.title);
   const [editingContent, setEditingContent] = useState(oneClubData.content);
@@ -426,7 +426,7 @@ export const ClubOneContPage = () => {
   const EditingSubmitFunc = async () => {
     try {
       const response = await axios.put(
-        `https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}`,
+        `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/clubBoards/${clubBoardId}`,
         dataToSend, // 데이터는 여기에 넣어야 합니다.
         {
           headers: {
@@ -454,7 +454,7 @@ export const ClubOneContPage = () => {
   const CommentChangeBtnClick = async () => {
     try {
       const response = await axios.post(
-        `https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}/comments`,
+        `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/clubBoards/${clubBoardId}/comments`,
         dataToSendComment, // 데이터는 여기에 넣어야 합니다.
         {
           headers: {
@@ -477,7 +477,7 @@ export const ClubOneContPage = () => {
   const DeleteCommentBtnClick = async (clubBoardCommentId) => {
     try {
       const response = await axios.delete(
-        `https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}/comments/${clubBoardCommentId}`,
+        `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/clubBoards/${clubBoardId}/comments/${clubBoardCommentId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -545,7 +545,7 @@ export const ClubOneContPage = () => {
 
   const DeleteContentBtnClick = async () => {
     const response = await axios.delete(
-      `https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}`,
+      `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/clubBoards/${clubBoardId}`,
       {
         headers: {
           "Content-Type": "application/json",

@@ -103,7 +103,7 @@ const Write = () => {
 
       if (board === "바자회") {
         apiUrl =
-          "https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/marketBoards";
+          "http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.commarketBoards";
         payload = {
           memberId: memberId,
           title: title,
@@ -114,7 +114,7 @@ const Write = () => {
         };
       } else if (board === "동아리") {
         apiUrl =
-          "https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards";
+          "http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.comclubBoards";
         payload = {
           memberId: memberId,
           title: title,
