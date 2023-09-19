@@ -17,7 +17,11 @@ export default function MarketOneContPage() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
+
           `https://49c9-221-150-55-48.ngrok-free.app/marketBoards/${marketBoardId}`,
+
+          
+
           {
             headers: {
               "Content-Type": `application/json`,
@@ -25,7 +29,6 @@ export default function MarketOneContPage() {
             },
           },
         );
-        console.log(response);
         setData(response.data);
       } catch (error) {
         console.error("Error fetching the data", error);

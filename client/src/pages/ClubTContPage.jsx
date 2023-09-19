@@ -259,21 +259,38 @@ export const ClubTContPage = () => {
     setSearchTitle(newValue);
   };
 
-  const SearchTitleBtnClick = (title) => {
-    const matchedCategoryData = ClubMockData.clubBoards.filter(
-      (data) => data.category === category,
+  const SearchTitleBtnClick = async (searchTitle) => {
+    const response = await axios.get(
+      `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/searches?page=1&size=10&keyword=${searchTitle}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "69420",
+        },
+      },
     );
-    const matchedTitleData = matchedCategoryData.filter((data) =>
-      data.title.includes(title),
-    );
-    setTotalClubData(matchedTitleData);
+
+    if (response.status === 200) {
+      setTotalClubData(response.data.clubBoards);
+      setTotalPages(response.data.pageInfo.totalPages);
+      setCurrentPage(1);
+      console.log("검색됨");
+    } else {
+      const matchedCategoryData = ClubMockData.clubBoards.filter(
+        (data) => data.category === category,
+      );
+      const matchedTitleData = matchedCategoryData.filter((data) =>
+        data.title.includes(searchTitle),
+      );
+      setTotalClubData(matchedTitleData);
+    }
   };
 
   // useEffect(() => {
   //   setTotalPages(Math.floor(totalClubData.length / 10 + 1));
   // }, [totalClubData]);
 
-  const apiUrl = `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/category?page=1&size=5&category=${category}`;
+  const apiUrl = `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/category?page=1&size=10&category=${category}`;
   useEffect(() => {
     async function fetchData() {
       try {
@@ -304,7 +321,7 @@ export const ClubTContPage = () => {
 
   const changePage = async (newPage) => {
     const response = await axios.get(
-      `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/category?page=${newPage}&size=5&category=${category}`,
+      `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/category?page=${newPage}&size=10&category=${category}`,
       {
         headers: {
           "Content-Type": "application/json",

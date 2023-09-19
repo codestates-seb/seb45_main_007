@@ -4,6 +4,7 @@ import { NormalContent } from "../components/NormalContent.jsx";
 import { AnaLogClock } from "../components/Clock.jsx";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+
 const TotalContainer = styled.div`
   width: 100vw;
   position: relative;
@@ -156,6 +157,10 @@ export const MarketTContPage = () => {
   const [NormalContentData, setNormalContentData] = useState([]);
   const [menuIsVisible, setMenuIsVisible] = useState(false);
   const [noMoreRead, setNoMoreRead] = useState(false);
+  const authorizationHeaderValue = useSelector(
+    (state) => state.user.authorization,
+  );
+  console.log(authorizationHeaderValue);
 
   useEffect(() => {
     const hanldeMenuScroll = () => {

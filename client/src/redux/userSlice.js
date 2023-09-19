@@ -6,7 +6,9 @@ export const userSlice = createSlice({
     loggedIn: false,
     email: "",
     name: "",
-    memberId: 1,
+    memberId: localStorage.getItem("memberId") || 1,
+    accessToken: localStorage.getItem("accessToken") || "",
+    refreshToken: localStorage.getItem("refreshToken") || "",
   },
   reducers: {
     setUser: (state, action) => {
@@ -14,6 +16,10 @@ export const userSlice = createSlice({
       state.email = action.payload.email;
       state.name = action.payload.name;
       state.memberId = action.payload.memberId;
+      state.accessToken = action.payload.accessToken; // Setting new state properties
+      state.refreshToken = action.payload.refreshToken; // Setting new state properties
+
+      localStorage.setItem("memberId", action.payload.memberId);
       return state;
     },
   },

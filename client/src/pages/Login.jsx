@@ -1,10 +1,10 @@
 import { useEffect, useState, React } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { LoginBox } from "./styles/LoginBox";
 import axios from "axios";
-import KakaoBtn from "./KakaoBtn.jsx";
+import { setUser } from "../redux/userSlice";
 
 const PageStyle = styled.div`
   padding: 65px 0px;
@@ -22,6 +22,8 @@ export default function Login() {
   const [passwordIsValid, setPasswordIsValid] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [message, setMessage] = useState("");
+  const [idTouched, setIdTouched] = useState(false);
+  const [passwordTouched, setPasswordTouched] = useState(false);
 
   const KAKAO_REST_API_KEY = process.env.REACT_APP_KAKAO_CLIENT_KEY;
   const KAKAO_REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
@@ -39,10 +41,12 @@ export default function Login() {
   }, []);
 
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
   const onChangeHandlerId = (e) => {
+    setIdTouched(true);
     setId(e.target.value);
     if (e.target.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
       setIdIsValid(true);
@@ -51,6 +55,7 @@ export default function Login() {
     }
   };
   const onChangeHandlerPassword = (e) => {
+    setPasswordTouched(true);
     setPassword(e.target.value);
     if (e.target.value.length < 8) {
       setPasswordIsValid(false);
@@ -66,11 +71,29 @@ export default function Login() {
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        "https://69e6-125-181-59-71.ngrok-free.app/signin",
+        "https://616e-125-181-59-71.ngrok-free.app/signin",
         { email, password },
       );
       if (response.data.success) {
         setLoggedIn(true);
+
+        localStorage.setItem("accessToken", response.headers.authorization);
+        localStorage.setItem("refreshToken", response.headers.refresh);
+        localStorage.setItem("memberId", response.data.memberId);
+        console.log(response.headers.authorization, response.headers.refresh);
+        console.log(response);
+        console.log(response.data.memberId);
+
+        dispatch(
+          setUser({
+            loggedIn: true,
+            email: response.data.email,
+            name: response.data.name,
+            memberId: response.data.memberId,
+            accessToken: response.data.accessToken, // 토큰 저장
+            refreshToken: response.data.refreshToken, // 토큰 저장
+          }),
+        );
       } else {
         setMessage(response.data.message);
       }
@@ -106,11 +129,13 @@ export default function Login() {
                   style={{ fontSize: "16px" }}
                 ></input>
               </div>
-              {!idIsValid ? (
-                <div className="error-message">
-                  유효한 이메일을 입력 해주세요.
-                </div>
-              ) : null}
+              <div className="error-box">
+                {!idIsValid && idTouched ? (
+                  <div className="error-message">
+                    유효한 이메일을 입력 해주세요.
+                  </div>
+                ) : null}
+              </div>
               <div className="input-content">
                 <img src="/images/mdi-password-outline.png" alt=""></img>
                 <input
@@ -121,9 +146,11 @@ export default function Login() {
                   style={{ fontSize: "16px" }}
                 ></input>
               </div>
-              {!passwordIsValid ? (
-                <div className="error-message">비밀번호를 입력 해주세요.</div>
-              ) : null}
+              <div className="error-box">
+                {!passwordIsValid && passwordTouched ? (
+                  <div className="error-message">비밀번호를 입력 해주세요.</div>
+                ) : null}
+              </div>
             </div>
             <div
               className="LoginButton"
@@ -166,7 +193,6 @@ export default function Login() {
               <div></div>
             </button>
           </div>
-          <KakaoBtn></KakaoBtn>
         </div>
         <div className="signup-box">
           <div className="signup1">회원이 아니신가요?</div>
