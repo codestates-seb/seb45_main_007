@@ -153,4 +153,8 @@ export const LoginBox = styled.div`
     border: 0.1px solid gray;
     margin-left: 2.8px;
   }
+  .error-box {
+    width: 420px;
+    height: 30px;
+  }
 `;

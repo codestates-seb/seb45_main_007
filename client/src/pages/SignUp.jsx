@@ -15,18 +15,28 @@ const PageStyle = styled.div`
 export default function SignUp() {
   const [email, setId] = useState("");
   const [idIsValid, setIdIsValid] = useState(false);
+  const [idTouched, setIdTouched] = useState(false);
+
   const [password, setPassword] = useState("");
   const [passwordIsValid, setPasswordIsValid] = useState(false);
+  const [passwordTouched, setPasswordTouched] = useState(false);
+
   const [password2, setPassword2] = useState("");
   const [password2IsValid, setPassword2IsValid] = useState(false);
+  const [password2Touched, setPassword2Touched] = useState(false);
+
   const [username, setName] = useState("");
   const [nameIsValid, setNameIsValid] = useState(false);
+  const [nameTouched, setNameTouched] = useState(false);
+
   const [nickname, setNickname] = useState("");
   const [nicknameIsValid, setNicknameIsValid] = useState(false);
+  const [nicknameTouched, setNicknameTouched] = useState(false);
 
   const navigate = useNavigate();
 
   const onChangeHandlerId = (e) => {
+    setIdTouched(true);
     setId(e.target.value);
     if (e.target.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
       setIdIsValid(true);
@@ -35,6 +45,7 @@ export default function SignUp() {
     }
   };
   const onChangeHandlerName = (e) => {
+    setNameTouched(true);
     setName(e.target.value);
     if (e.target.value.length < 1) {
       setNameIsValid(false);
@@ -43,6 +54,7 @@ export default function SignUp() {
     }
   };
   const onChangeHandlerPassword = (e) => {
+    setPasswordTouched(true);
     setPassword(e.target.value);
     if (e.target.value.length >= 8 && e.target.value.length <= 16) {
       setPasswordIsValid(true);
@@ -51,6 +63,7 @@ export default function SignUp() {
     }
   };
   const onChangeHandlerPassword2 = (e) => {
+    setPassword2Touched(true);
     setPassword2(e.target.value);
     if (e.target.value !== password) {
       setPassword2IsValid(false);
@@ -60,6 +73,7 @@ export default function SignUp() {
   };
 
   const checkNickname = async () => {
+    setNicknameTouched(true);
     try {
       const response = await axios.post(
         "https://69e6-125-181-59-71.ngrok-free.app/signup",
@@ -113,7 +127,7 @@ export default function SignUp() {
               ></input>
             </div>
             <div className="error-box">
-              {!idIsValid ? (
+              {idTouched && !idIsValid ? (
                 <div className="error-message">
                   유효한 이메일을 입력 해주세요.
                 </div>
@@ -129,7 +143,7 @@ export default function SignUp() {
               ></input>
             </div>
             <div className="error-box">
-              {!nameIsValid ? (
+              {nameTouched && !nameIsValid ? (
                 <div className="error-message">이름을 입력 해주세요</div>
               ) : null}
             </div>
@@ -146,7 +160,7 @@ export default function SignUp() {
               </button>
             </div>
             <div className="error-box">
-              {!nicknameIsValid ? (
+              {nicknameTouched && !nicknameIsValid ? (
                 <div className="error-message">중복된 닉네임입니다.</div>
               ) : null}
             </div>
@@ -160,7 +174,7 @@ export default function SignUp() {
               ></input>
             </div>
             <div className="error-box">
-              {!passwordIsValid ? (
+              {passwordTouched && !passwordIsValid ? (
                 <div className="error-message">
                   8 ~ 16글자의 비밀번호를 입력해주세요.
                 </div>
@@ -176,7 +190,7 @@ export default function SignUp() {
               ></input>
             </div>
             <div className="error-box">
-              {!password2IsValid ? (
+              {password2Touched && !password2IsValid ? (
                 <div className="error-message">
                   비밀번호가 일치하지 않습니다.
                 </div>
