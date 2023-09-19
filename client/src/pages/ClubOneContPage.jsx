@@ -357,9 +357,9 @@ export const ClubOneContPage = () => {
   const { clubBoardId } = useParams();
   const { category } = useParams();
   const [oneClubData, setOneClubData] = useState([]);
-  const OneContApiUrl = `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}`;
+  const OneContApiUrl = `https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}`;
 
-  const OneCommentAPiUrl = `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}/comments?page=1&size=5`;
+  const OneCommentAPiUrl = `https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}/comments?page=1&size=5`;
   const [editingState, setEditingState] = useState(false);
   const [editingTitle, setEditingTitle] = useState(oneClubData.title);
   const [editingContent, setEditingContent] = useState(oneClubData.content);
@@ -403,7 +403,7 @@ export const ClubOneContPage = () => {
   const EditingSubmitFunc = async () => {
     try {
       const response = await axios.put(
-        `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}`,
+        `https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}`,
         dataToSend, // 데이터는 여기에 넣어야 합니다.
         {
           headers: {
@@ -431,7 +431,7 @@ export const ClubOneContPage = () => {
   const CommentChangeBtnClick = async () => {
     try {
       const response = await axios.post(
-        `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}/comments`,
+        `https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}/comments`,
         dataToSendComment, // 데이터는 여기에 넣어야 합니다.
         {
           headers: {
@@ -453,7 +453,7 @@ export const ClubOneContPage = () => {
   const DeleteCommentBtnClick = async (clubBoardCommentId) => {
     try {
       const response = await axios.delete(
-        `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}/comments/${clubBoardCommentId}`,
+        `https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}/comments/${clubBoardCommentId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -521,7 +521,7 @@ export const ClubOneContPage = () => {
 
   const DeleteContentBtnClick = async () => {
     const response = await axios.delete(
-      `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}`,
+      `https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}`,
       {
         headers: {
           "Content-Type": "application/json",

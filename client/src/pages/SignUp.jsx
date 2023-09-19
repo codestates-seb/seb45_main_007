@@ -30,8 +30,6 @@ export default function SignUp() {
   const [nameTouched, setNameTouched] = useState(false);
 
   const [nickname, setNickname] = useState("");
-  const [nicknameIsValid, setNicknameIsValid] = useState(false);
-  const [nicknameTouched, setNicknameTouched] = useState(false);
 
   const navigate = useNavigate();
 
@@ -72,32 +70,18 @@ export default function SignUp() {
     }
   };
 
-  const checkNickname = async () => {
-    setNicknameTouched(true);
-    try {
-      const response = await axios.post(
-        "https://69e6-125-181-59-71.ngrok-free.app/signup",
-        { nickname },
-      );
-      if (response.data.success) {
-        setNicknameIsValid(false);
-      } else {
-        setNicknameIsValid(true);
-      }
-    } catch (error) {
-      console.error("Nickname check error:", error);
-    }
-  };
-
   const signUp = async () => {
     if (idIsValid && passwordIsValid && password2IsValid && nameIsValid) {
       try {
-        const response = await axios.post("/members/signup", {
-          email,
-          password,
-          username,
-          nickname,
-        });
+        const response = await axios.post(
+          "https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/members/signup",
+          {
+            email,
+            password,
+            username,
+            nickname,
+          },
+        );
         console.log(response.data.message);
         if (response.data.success) {
           alert("회원가입에 성공하셨습니다.");
@@ -154,15 +138,8 @@ export default function SignUp() {
                 value={nickname}
                 placeholder="닉네임을 입력해주세요"
               ></input>
-              <button className="duplicate" onClick={checkNickname}>
-                중복확인
-              </button>
             </div>
-            <div className="error-box">
-              {nicknameTouched && !nicknameIsValid ? (
-                <div className="error-message">중복된 닉네임입니다.</div>
-              ) : null}
-            </div>
+            <div className="error-box"></div>
             <div className="input-content">
               <img src="/images/mdi-password-outline.png" alt=""></img>
               <input

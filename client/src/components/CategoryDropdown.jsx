@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import { styled } from "styled-components";
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 export default function CategoryDropdown({ setSelectedCategory }) {

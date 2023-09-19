@@ -14,7 +14,7 @@ export default function MarketOneContPage() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://49c9-221-150-55-48.ngrok-free.app/marketBoards/${marketBoardId}`,
+          `https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/marketBoards/${marketBoardId}`,
           {
             headers: {
               "Content-Type": `application/json`,
@@ -35,7 +35,7 @@ export default function MarketOneContPage() {
     if (window.confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
       try {
         const response = await axios.delete(
-          `https://49c9-221-150-55-48.ngrok-free.app/marketBoards/${marketBoardId}`,
+          `https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/marketBoards/${marketBoardId}`,
           { headers: { "Content-Type": "application/json" } },
         );
         if (response.status === 200) {
