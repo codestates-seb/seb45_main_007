@@ -145,7 +145,7 @@ const ClubMainFooterSect = styled.div`
 
 function ClubMainPage() {
   const [clubTotalData, setClubTotalData] = useState([]);
-  const apiUrl = `https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards?page=1&size=300`;
+  const apiUrl = `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/clubBoards?page=1&size=300`;
 
   useEffect(() => {
     async function fetchData() {

@@ -41,6 +41,7 @@ const TitleBox = styled.input`
 `;
 const ImageBox = styled.div`
   width: 75%;
+  height: 30px;
   display: flex;
   justify-content: start;
 `;
@@ -62,12 +63,18 @@ const SubmitButton = styled.button`
   height: 48px;
 `;
 
+const InputSubBox = styled.input`
+  width: 100%;
+  padding-left: 10px;
+`;
+
 const Write = () => {
   const [board, setBoard] = useState("");
   const [category, setCategory] = useState("");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [photoURL, setPhotoURL] = useState("");
+  const [price, setPrice] = useState("");
 
   const memberId = localStorage.getItem("memberId");
   const navigate = useNavigate();
@@ -77,7 +84,8 @@ const Write = () => {
       board &&
       title &&
       content &&
-      (board !== "동아리" || (board === "동아리" && category))
+      ((board === "바자회" && photoURL && price) ||
+        (board === "동아리" && category))
     ) {
       return true;
     }
@@ -95,18 +103,18 @@ const Write = () => {
 
       if (board === "바자회") {
         apiUrl =
-          "https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/marketBoards";
+          "http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.commarketBoards";
         payload = {
-          memberId: 1,
+          memberId: memberId,
           title: title,
           content: content,
           photo: photoURL,
-          priceContent: 10000,
+          priceContent: price,
           tag: "SALE",
         };
       } else if (board === "동아리") {
         apiUrl =
-          "https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards";
+          "http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.comclubBoards";
         payload = {
           memberId: memberId,
           title: title,
@@ -176,20 +184,28 @@ const Write = () => {
 
         <TitleBox
           type="text"
-          placeholder="제목"
+          placeholder="제목을 입력해주세요."
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
         <ImageBox>
-          <input
+          <InputSubBox
             type="text"
-            placeholder="이미지 URL"
+            placeholder="이미지 URL을 입력해주세요."
             value={photoURL}
             onChange={(e) => setPhotoURL(e.target.value)}
           />
+          {board === "바자회" && (
+            <InputSubBox
+              type="text"
+              placeholder="금액을 입력해주세요. (숫자만 입력 가능)"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+            />
+          )}
         </ImageBox>
         <ContentBox
-          placeholder="내용"
+          placeholder="내용을 입력해주세요."
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />

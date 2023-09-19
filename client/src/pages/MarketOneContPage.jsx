@@ -10,11 +10,44 @@ export default function MarketOneContPage() {
   const [data, setData] = useState({});
   const navigate = useNavigate();
   const { marketBoardId } = useParams();
+
+  const [editMode, setEditMode] = useState(false);
+  const [editedData, setEditedData] = useState({
+    title: "",
+    content: "",
+    photo: "",
+    priceContent: "",
+  });
+
+  const handleEditSubmit = async () => {
+    try {
+      const response = await axios.put(
+        `https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/marketBoards/${marketBoardId}`,
+        editedData,
+        { headers: { "Content-Type": "application/json" } },
+      );
+      if (response.status === 200) {
+        setData(response.data);
+        setEditMode(false);
+      }
+    } catch (error) {
+      console.error("Error updating the post", error);
+    }
+  };
+
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditedData({
+      ...editedData,
+      [name]: value,
+    });
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/marketBoards/${marketBoardId}`,
+          `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/marketBoards/${marketBoardId}`,
           {
             headers: {
               "Content-Type": `application/json`,
@@ -35,7 +68,7 @@ export default function MarketOneContPage() {
     if (window.confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
       try {
         const response = await axios.delete(
-          `https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/marketBoards/${marketBoardId}`,
+          `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/marketBoards/${marketBoardId}`,
           { headers: { "Content-Type": "application/json" } },
         );
         if (response.status === 200) {
@@ -82,7 +115,44 @@ export default function MarketOneContPage() {
               </div>
               <div>
                 <StyledLink className="vote">♡ 찜하기</StyledLink>
-                <StyledLink>수정</StyledLink>{" "}
+                {editMode ? (
+                  <div>
+                    <input
+                      type="text"
+                      name="title"
+                      value={editedData.title}
+                      onChange={handleEditChange}
+                      placeholder="Title"
+                    />
+                    <input
+                      type="text"
+                      name="content"
+                      value={editedData.content}
+                      onChange={handleEditChange}
+                      placeholder="Content"
+                    />
+                    <input
+                      type="text"
+                      name="photo"
+                      value={editedData.photo}
+                      onChange={handleEditChange}
+                      placeholder="Photo URL"
+                    />
+                    <input
+                      type="text"
+                      name="priceContent"
+                      value={editedData.priceContent}
+                      onChange={handleEditChange}
+                      placeholder="Price Content"
+                    />
+                    <button onClick={handleEditSubmit}>Save</button>
+                    <button onClick={() => setEditMode(false)}>Cancel</button>
+                  </div>
+                ) : (
+                  <StyledLink onClick={() => setEditMode(true)}>
+                    수정
+                  </StyledLink>
+                )}
                 <StyledLink onClick={deletePost}>삭제</StyledLink>
               </div>
             </BottomContainer>

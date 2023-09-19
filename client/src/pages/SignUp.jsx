@@ -74,18 +74,23 @@ export default function SignUp() {
     if (idIsValid && passwordIsValid && password2IsValid && nameIsValid) {
       try {
         const response = await axios.post(
-          "https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/members/signup",
+          "http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/members/signup",
           {
             email,
             password,
             username,
             nickname,
           },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          },
         );
         console.log(response.data.message);
         if (response.data.success) {
           alert("회원가입에 성공하셨습니다.");
-          navigate("/signin");
+          navigate("/login");
         }
       } catch (error) {
         console.log("failed to signUp");
