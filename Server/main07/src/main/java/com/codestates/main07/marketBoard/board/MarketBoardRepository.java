@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MarketBoardRepository extends JpaRepository<MarketBoard, Long> {
-    Page<MarketBoard> findByMember_MemberId(Pageable pageable, long memberId, Tag tag);
+    Page<MarketBoard> findByMember_MemberId(Pageable pageable, long memberId);
 }

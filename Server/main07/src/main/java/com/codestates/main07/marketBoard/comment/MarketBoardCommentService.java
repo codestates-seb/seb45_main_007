@@ -49,6 +49,7 @@ public class MarketBoardCommentService {
         } else {
             // 댓글 생성
             marketBoardComment.updateBoard(marketBoard);
+            marketBoardComment.updateMember(member);
         }
         marketBoardComment.update(marketBoardComment.getContent());
         return marketBoardCommentRepository.save(marketBoardComment);
@@ -88,4 +89,9 @@ public class MarketBoardCommentService {
         return optionalMarketBoardComment.orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
     }
+
+    public Page<MarketBoardComment> commentListByMarketBoardId(Pageable pageable, long marketBoardId) {
+        return marketBoardCommentRepository.findByMarketBoard_MarketBoardId(pageable, marketBoardId);
+    }
+
 }

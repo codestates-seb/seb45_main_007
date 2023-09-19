@@ -4,10 +4,7 @@ import com.codestates.main07.exception.BusinessLogicException;
 import com.codestates.main07.exception.ExceptionCode;
 import com.codestates.main07.marketBoard.board.domain.MarketBoard;
 import com.codestates.main07.marketBoard.board.domain.Tag;
-import com.codestates.main07.marketBoard.board.dto.MarketBoardCreate;
-import com.codestates.main07.marketBoard.board.dto.MarketBoardResponse;
-import com.codestates.main07.marketBoard.board.dto.MarketBoardUpdate;
-import com.codestates.main07.marketBoard.board.dto.SuccessDto;
+import com.codestates.main07.marketBoard.board.dto.*;
 import com.codestates.main07.marketBoard.photo.PhotoService;
 import com.codestates.main07.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -61,20 +58,22 @@ public class MarketBoardController {
     /**
      * 마이페이지의 내가 쓴 글 목록 조회
      * @param memberId
-     * @param pageable
-     * @param tag
+     * @param
+     * @param
      * @return
      */
     @GetMapping("/myPage/{memberId}")
     public ResponseEntity myMarketBoardList (@PathVariable ("memberId") long memberId,
-                                             Pageable pageable, Tag tag) {
-        Page<MarketBoard> marketBoardPage = marketBoardService.myBoardList(pageable, memberId, tag);
+                                             @Positive @RequestParam int page,
+                                             @Positive @RequestParam int size) {
+        Page<MarketBoard> marketBoardPage = marketBoardService.myBoardList(page - 1, size, memberId);
         List<MarketBoardResponse> response = marketBoardPage.getContent()
                 .stream()
                 .map(mapper::marketBoardToMarketBoardResponseDto)
                 .collect(Collectors.toList());
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(
+                new MarketBoardMultiResponseDto<>(response, marketBoardPage, true), HttpStatus.OK);
     }
 
     /**

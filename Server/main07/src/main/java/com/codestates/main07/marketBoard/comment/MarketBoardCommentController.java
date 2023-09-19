@@ -27,9 +27,9 @@ public class MarketBoardCommentController {
     private final MarketBoardCommentMapper mapper;
 
     @GetMapping
-    public ResponseEntity <List<MarketBoardCommentResponse>> marketBoardCommentList (Pageable pageable,
-                                                                                     @PathVariable long marketBoardId) {
-        Page<MarketBoardComment> marketBoardCommentPage = marketBoardCommentService.commentList(pageable);
+    public ResponseEntity<List<MarketBoardCommentResponse>> marketBoardCommentList(Pageable pageable,
+                                                                                   @PathVariable long marketBoardId) {
+        Page<MarketBoardComment> marketBoardCommentPage = marketBoardCommentService.commentListByMarketBoardId(pageable, marketBoardId);
         List<MarketBoardCommentResponse> response = marketBoardCommentPage.getContent()
                 .stream()
                 .map(mapper::marketBoardCommentToMarketBoardCommentResponseDto)
