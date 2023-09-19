@@ -8,15 +8,20 @@ import { NewHeader } from "../components/NewHeader.jsx";
 import charImg from "../images/userExample.png";
 import axios from "axios";
 import IsSameDay from "../utility/IsSameDay.jsx";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 export default function MarketOneContPage() {
   const [data, setData] = useState({});
   const navigate = useNavigate();
+  const { marketBoardId } = useParams();
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://49c9-221-150-55-48.ngrok-free.app/marketBoards/19",
+
+          `https://49c9-221-150-55-48.ngrok-free.app/marketBoards/${marketBoardId}`,
+
+          
+
           {
             headers: {
               "Content-Type": `application/json`,
@@ -27,6 +32,7 @@ export default function MarketOneContPage() {
         setData(response.data);
       } catch (error) {
         console.error("Error fetching the data", error);
+        console.log(marketBoardId);
       }
     };
 
@@ -37,7 +43,7 @@ export default function MarketOneContPage() {
     if (window.confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
       try {
         const response = await axios.delete(
-          "https://49c9-221-150-55-48.ngrok-free.app/marketBoards/13",
+          `https://49c9-221-150-55-48.ngrok-free.app/marketBoards/${marketBoardId}`,
           { headers: { "Content-Type": "application/json" } },
         );
         console.log(response);
@@ -96,7 +102,7 @@ export default function MarketOneContPage() {
               </div>
             </BottomContainer>
           </ContentContainer>
-          <Reply />
+          <Reply marketBoardId={marketBoardId} />
           {/* <HotContent /> */}
         </BoardNoteContainer>
       </TotalContainer>

@@ -2,17 +2,42 @@ import { styled } from "styled-components";
 import React from "react";
 import pinImg from "../images/pin.png";
 import chalkImg from "../images/chalk.png";
+import { Link } from "react-router-dom";
 
+// const BoardOneSect = styled.section`
+//   width: 1440px;
+//   height: 550px;
+//   display: flex;
+//   justify-content: center;
+//   flex-direction: column;
+//   align-items: center;
+//   margin-bottom: 30px;
+// `;
 const BoardOneSect = styled.section`
-  width: 1440px;
-  height: 550px;
+  width: 100%;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 30px;
+  flex-wrap: wrap;
+  height: auto;
 `;
 
+const BoardNoteSect = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+`;
+// const BoardNoteSect = styled.div`
+//   width: 100%;
+//   height: 500px;
+//   display: flex;
+//   justify-content: space-around;
+//   flex-wrap: wrap;
+// `;
 const BoardOneTitle = styled.div`
   width: 100%;
   font-size: 22px;
@@ -48,16 +73,9 @@ const BoardTitleChalkImg = styled.img`
   position: absolute;
 `;
 
-const BoardNoteSect = styled.div`
-  width: 100%;
-  height: 500px;
-  display: flex;
-  justify-content: space-between;
-`;
-
-const BoardNote = styled.div`
-  width: 24%;
-  height: 85%;
+const BoardNote = styled(Link)`
+  width: calc(24% - 20px);
+  height: 75%;
   border-radius: 10px;
   margin-top: 1%;
   cursor: pointer;
@@ -100,6 +118,10 @@ const BoardNoteCircle = styled.div`
     height: 120%;
     transition: 0.2s ease-in;
   }
+  img {
+    width: 100%;
+    height: 250px;
+  }
 `;
 
 const BoardCircleImg = styled.img`
@@ -118,8 +140,7 @@ const BoardNoteTitle = styled.div`
 `;
 
 // eslint-disable-next-line react/prop-types
-export const HotContent = ({ title, color, HotContentData }) => {
-  console.log(HotContentData);
+export const HotContent = ({ title, HotContentData }) => {
   return (
     <>
       <BoardOneSect>
@@ -130,7 +151,10 @@ export const HotContent = ({ title, color, HotContentData }) => {
         <BoardNoteSect>
           {/* eslint-disable-next-line react/prop-types */}
           {HotContentData.map((data) => (
-            <BoardNote color={color} key={data.market_board_id}>
+            <BoardNote
+              to={`/market/${data.marketBoardId}`}
+              key={data.market_board_id}
+            >
               <BoardNotePhotoTape src={pinImg} />
               <BoardNoteInnerLine>
                 <BoardNoteCircle>
