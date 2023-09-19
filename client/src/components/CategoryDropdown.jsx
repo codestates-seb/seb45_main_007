@@ -43,10 +43,17 @@ const Container = styled.div`
 `;
 const ListContainer = styled.ul`
   list-style: none;
+  width: 250px;
+  text-align: center;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 const DropdownMenu = styled.div`
   visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
   border: 0.5px solid black;
+  background-color: white;
+  height: ${(props) => (props.isOpen ? "auto" : "0")};
 `;
 
 const List = styled.li`
@@ -54,4 +61,7 @@ const List = styled.li`
   justify-content: center;
   align-items: center;
   font-family: "ChosunKm";
+  font-size: 20px;
+  border-bottom: 1px solid;
+  height: 30px;
 `;

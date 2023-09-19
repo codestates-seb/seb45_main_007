@@ -1,6 +1,5 @@
 import { styled } from "styled-components";
 import { HotContent } from "../components/HotContent.jsx";
-import { NormalContent } from "../components/NormalContent.jsx";
 import { AnaLogClock } from "../components/Clock.jsx";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -144,7 +143,13 @@ const BoardFooterSect = styled.div`
   height: 10vh;
   background-color: #fffff0;
 `;
-
+const ButtonContainer = styled.div`
+  width: 100%;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 export const MarketTContPage = () => {
   const [MarketTData, setMarketTData] = useState([]);
   const [NormalContentData, setNormalContentData] = useState([]);
@@ -201,19 +206,19 @@ export const MarketTContPage = () => {
     }
   }, [MarketTData]);
   useEffect(() => {
-    if (NormalContentData.length >= MarketTData.length) {
+    if (4 >= MarketTData.length) {
       setNoMoreRead(true);
+    } else {
+      setNoMoreRead(false);
     }
   }, [NormalContentData]);
 
   const MoreReadNormalData = () => {
-    const startIndex = NormalContent.length;
-    const endIndex = startIndex + 8;
+    const startIndex = NormalContentData.length;
+    const endIndex = startIndex + 4;
     const moreData = MarketTData.slice(startIndex, endIndex);
     setNormalContentData((prev) => [...prev, ...moreData]);
   };
-
-  console.log(MarketTData);
 
   return (
     <TotalContainer>
@@ -239,12 +244,14 @@ export const MarketTContPage = () => {
             title="판매중인 물건"
             HotContentData={NormalContentData}
           />
-          <MarketMoreReadBtn
-            onClick={MoreReadNormalData}
-            noMoreRead={noMoreRead}
-          >
-            더 보기
-          </MarketMoreReadBtn>
+          <ButtonContainer>
+            <MarketMoreReadBtn
+              onClick={MoreReadNormalData}
+              noMoreRead={noMoreRead}
+            >
+              더 보기
+            </MarketMoreReadBtn>
+          </ButtonContainer>
         </BoardNoteSection>
       </BoardNoteContainer>
       <BoardFooterSect />

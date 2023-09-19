@@ -123,7 +123,13 @@ const BoardNoteTitle = styled.div`
   justify-content: center;
   font-size: 18px;
 `;
-
+const BottomContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  font-size: 16px;
+  justify-content: space-between;
+`;
 // eslint-disable-next-line react/prop-types
 export const HotContent = ({ title, HotContentData }) => {
   return (
@@ -147,6 +153,9 @@ export const HotContent = ({ title, HotContentData }) => {
                 </BoardNoteCircle>
                 <BoardNoteTitle>{data.title}</BoardNoteTitle>
               </BoardNoteInnerLine>
+              <BottomContainer>
+                <div>{data.priceContent}원</div> <div>{data.nickname}</div>
+              </BottomContainer>
             </BoardNote>
           ))}
         </BoardNoteSect>

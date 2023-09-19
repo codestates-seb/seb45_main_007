@@ -4,17 +4,22 @@ import arrowIcon from "../icon/arrow-right.png";
 import axios from "axios";
 import IsSameDay from "../utility/IsSameDay.jsx";
 import PropTypes from "prop-types";
-export default function Reply({ marketBoardId }) {
-  const [replyData, setReplyData] = useState([]);
+export default function Reply({ marketBoardId, replyData, setReplyData }) {
   const [reply, setReply] = useState("");
   const [editedReply, setEditedReply] = useState("");
   const [editingId, setEditingId] = useState(null);
+  const [replyCommentId, setReplyCommentId] = useState(null);
   const memberId = localStorage.getItem("memberId");
   Reply.propTypes = {
     marketBoardId: PropTypes.string.isRequired,
+    replyData: PropTypes.string.isRequired,
+    setReplyData: PropTypes.string.isRequired,
   };
   const handleEditClick = (commentId) => {
     setEditingId(commentId);
+  };
+  const handleCommentClick = (commentId) => {
+    setReplyCommentId(commentId);
   };
   const fetchData = async () => {
     try {
@@ -27,7 +32,6 @@ export default function Reply({ marketBoardId }) {
           },
         },
       );
-      console.log(response);
       setReplyData(response.data);
     } catch (error) {
       console.error("Error fetching the data", error);
@@ -49,7 +53,7 @@ export default function Reply({ marketBoardId }) {
           },
         },
       );
-      if (response.success) {
+      if (response.status === 201) {
         setReply("");
         fetchData();
       }
@@ -69,7 +73,7 @@ export default function Reply({ marketBoardId }) {
           },
         },
       );
-      if (response.success) {
+      if (response.status === 201) {
         setReply("");
         fetchData();
       }
@@ -85,7 +89,7 @@ export default function Reply({ marketBoardId }) {
           `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/marketBoards/${marketBoardId}/comments/${commentId}`,
           { headers: { "Content-Type": "application/json" } },
         );
-        if (response.success) {
+        if (response.code === 200) {
           fetchData();
         }
       } catch (error) {
@@ -110,13 +114,13 @@ export default function Reply({ marketBoardId }) {
           },
         },
       );
-      if (response.success) {
+      if (response.status === 201) {
         setReply("");
         fetchData();
+        setReplyCommentId(null);
       }
     } catch (error) {
       console.error("Error posting the reply", error);
-      console.log(marketBoardCommentId);
     }
   };
 
@@ -124,74 +128,92 @@ export default function Reply({ marketBoardId }) {
     <>
       {replyData.map((data) => {
         const isEditing = data.marketBoardCommentId === editingId;
+        const isComment = data.marketBoardCommentId === replyCommentId;
         return (
           <ReplyContainer
             key={data.marketBoardCommentId}
             marketBoardCommentId={data.marketBoardCommentId}
           >
-            <ReplyIcon>
-              <img src={arrowIcon} alt="icon" />
-            </ReplyIcon>
-            <ReplyWriterConatiner>{data.nickname} : </ReplyWriterConatiner>
-            <ContentContainer>
-              {isEditing ? (
-                <ReplyContents>
-                  <input
+            <TopContainer>
+              <ReplyIcon>
+                <img src={arrowIcon} alt="icon" />
+              </ReplyIcon>
+              <ReplyWriterConatiner>{data.nickname} : </ReplyWriterConatiner>
+              <ContentContainer>
+                {isEditing ? (
+                  <ReplyContents>
+                    <input
+                      type="text"
+                      placeholder={data.content}
+                      onChange={(e) => {
+                        setEditedReply(e.target.value);
+                      }}
+                    />
+                    <Button
+                      onClick={() => handleEditClick(null)}
+                      className="edit"
+                    >
+                      취소
+                    </Button>
+                    <Button
+                      onClick={() => editReply(data.marketBoardCommentId)}
+                      className="edit"
+                    >
+                      수정
+                    </Button>
+                  </ReplyContents>
+                ) : (
+                  <ReplyContents>{data.content}</ReplyContents>
+                )}
+                <Bottom>
+                  {" "}
+                  {!isEditing && (
+                    <Utill
+                      onClick={() => handleEditClick(data.marketBoardCommentId)}
+                    >
+                      수정
+                    </Utill>
+                  )}
+                  <Utill onClick={() => deleteRply(data.marketBoardCommentId)}>
+                    삭제
+                  </Utill>
+                  <Utill
+                    onClick={() =>
+                      handleCommentClick(data.marketBoardCommentId)
+                    }
+                  >
+                    답글달기
+                  </Utill>
+                  <ReplyCreatedAt>{IsSameDay(data.createdAt)}</ReplyCreatedAt>
+                </Bottom>
+              </ContentContainer>
+            </TopContainer>
+            <BottomContainer>
+              {!isEditing && isComment && (
+                <>
+                  <ReplyInput
                     type="text"
-                    placeholder={data.content}
+                    placeholder="답글 입력"
                     onChange={(e) => {
-                      setEditedReply(e.target.value);
+                      setReply(e.target.value);
                     }}
                   />
-                  <Button
-                    onClick={() => handleEditClick(null)}
-                    className="edit"
-                  >
-                    취소
-                  </Button>
-                  <Button
-                    onClick={() => editReply(data.marketBoardCommentId)}
-                    className="edit"
-                  >
-                    수정
-                  </Button>
-                </ReplyContents>
-              ) : (
-                <ReplyContents>{data.content}</ReplyContents>
+                  <ButtonContainer>
+                    <Button
+                      onClick={() =>
+                        submitReplyComment(data.marketBoardCommentId)
+                      }
+                    >
+                      답글달기
+                    </Button>
+                  </ButtonContainer>
+                </>
               )}
-              <Bottom>
-                {" "}
-                {!isEditing && (
-                  <Utill
-                    onClick={() => handleEditClick(data.marketBoardCommentId)}
-                  >
-                    수정
-                  </Utill>
-                )}
-                <Utill onClick={() => deleteRply(data.marketBoardCommentId)}>
-                  삭제
-                </Utill>
-                <Utill>답글달기</Utill>
-                <ReplyCreatedAt>{IsSameDay(data.createdAt)}</ReplyCreatedAt>
-              </Bottom>
-            </ContentContainer>
-            <ReplyInput
-              type="text"
-              placeholder="댓글입력"
-              onChange={(e) => {
-                setReply(e.target.value);
-              }}
-            ></ReplyInput>
-            <ButtonContainer>
-              <Button
-                onClick={() => submitReplyComment(data.marketBoardCommentId)}
-              >
-                확인
-              </Button>
-            </ButtonContainer>
+            </BottomContainer>
           </ReplyContainer>
         );
       })}
+
       <ReplyInput
         type="text"
         placeholder="댓글입력"
@@ -213,13 +235,13 @@ const ReplyContainer = styled.div`
   font-weight: bold;
   border-bottom: 2px solid white;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   margin-top: 30px;
 `;
 const ReplyWriterConatiner = styled.div`
   display: flex;
   margin-left: 20px;
-  width: 7%;
+  width: 30%;
   font-size: 20px;
   padding-top: 20px;
 `;
@@ -310,4 +332,16 @@ const Utill = styled.div`
   &:hover {
     cursor: pointer;
   }
+`;
+const TopContainer = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+`;
+const BottomContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
