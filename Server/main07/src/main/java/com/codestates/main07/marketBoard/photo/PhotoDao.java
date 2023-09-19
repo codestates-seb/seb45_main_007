@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PhotoDao extends JpaRepository<Photo, Long> {
-    public void save(PhotoDto photoDto);
+    void save(PhotoDto photoDto);
 }

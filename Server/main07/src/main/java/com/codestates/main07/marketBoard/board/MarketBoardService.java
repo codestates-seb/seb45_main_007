@@ -2,8 +2,8 @@ package com.codestates.main07.marketBoard.board;
 
 import com.codestates.main07.exception.BusinessLogicException;
 import com.codestates.main07.exception.ExceptionCode;
-import com.codestates.main07.marketBoard.board.dto.MarketBoardUpdate;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.codestates.main07.marketBoard.board.domain.MarketBoard;
+import com.codestates.main07.marketBoard.board.domain.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Transactional
@@ -23,15 +24,20 @@ public class MarketBoardService {
     }
 
     public MarketBoard createBoard(MarketBoard marketBoard) {
+        marketBoard.setTag(Tag.SALE);
         return marketBoardRepository.save(marketBoard);
     }
 
     public MarketBoard updateBoard(MarketBoard marketBoard) {
         MarketBoard findMarketBoard = findCorrectMarketBoard(marketBoard.getMarketBoardId());
+        findMarketBoard.setTag(Tag.SALE);
 
-        findMarketBoard.update(marketBoard.getTitle(), marketBoard.getContent());
+        findMarketBoard.update(marketBoard.getTitle(),
+                marketBoard.getContent(),
+                marketBoard.getPriceContent(),
+                marketBoard.getPhoto());
 
-//        findMarketBoard.setModifiedAt(LocalDateTime.now());
+        findMarketBoard.setModifiedAt(LocalDateTime.now());
 
         return marketBoardRepository.save(findMarketBoard);
     }
@@ -47,12 +53,17 @@ public class MarketBoardService {
     }
 
     public Page<MarketBoard> boardList(Pageable pageable) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),sort);
+
         return marketBoardRepository.findAll(pageable);
     }
 
-    public void updateViewCount (long marketBoardId, MarketBoardUpdate updateDto) {
-        MarketBoard marketBoard = findCorrectMarketBoard(marketBoardId);
-        marketBoard.updateView(updateDto.getViewCount());
+    public Page<MarketBoard> myBoardList(Pageable pageable, long memberId, Tag tag) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),sort);
+
+        return marketBoardRepository.findByMember_MemberId(pageable, memberId, tag);
     }
 
     private MarketBoard findCorrectMarketBoard(long marketBoardId) {

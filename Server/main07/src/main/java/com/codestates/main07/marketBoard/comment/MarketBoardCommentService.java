@@ -2,14 +2,18 @@ package com.codestates.main07.marketBoard.comment;
 
 import com.codestates.main07.exception.BusinessLogicException;
 import com.codestates.main07.exception.ExceptionCode;
-import com.codestates.main07.marketBoard.board.MarketBoard;
+import com.codestates.main07.marketBoard.board.domain.MarketBoard;
 import com.codestates.main07.marketBoard.board.MarketBoardRepository;
 import com.codestates.main07.marketBoard.comment.dto.MarketBoardCommentCreate;
+import com.codestates.main07.marketBoard.comment.dto.MarketBoardCommentUpdate;
+import com.codestates.main07.member.entity.Member;
+import com.codestates.main07.member.repository.MemberRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Transactional
@@ -17,39 +21,46 @@ import java.util.Optional;
 public class MarketBoardCommentService {
     private final MarketBoardCommentRepository marketBoardCommentRepository;
     private final MarketBoardRepository marketBoardRepository;
-//    private final MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
     private final MarketBoardCommentMapper mapper;
 
-    public MarketBoardCommentService(MarketBoardCommentRepository marketBoardCommentRepository, MarketBoardRepository marketBoardRepository, MarketBoardCommentMapper mapper) {
+    public MarketBoardCommentService(MarketBoardCommentRepository marketBoardCommentRepository, MarketBoardRepository marketBoardRepository, MemberRepository memberRepository, MarketBoardCommentMapper mapper) {
         this.marketBoardCommentRepository = marketBoardCommentRepository;
         this.marketBoardRepository = marketBoardRepository;
+        this.memberRepository = memberRepository;
         this.mapper = mapper;
     }
 
-    public MarketBoardComment createComment(MarketBoardComment marketBoardComment) {
-        return marketBoardCommentRepository.save(marketBoardComment);
-    }
+    public MarketBoardComment createComment(MarketBoardComment marketBoardComment, MarketBoardCommentCreate createDto) {
+        Member member = memberRepository.findById(createDto.getMemberId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
-    public MarketBoardComment createCommentOrReply(MarketBoardComment marketBoardComment, MarketBoardCommentCreate createDto) {
+        MarketBoard marketBoard = marketBoardRepository.findById(marketBoardComment.getMarketBoard().getMarketBoardId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
+
+//        MarketBoardComment marketBoardComments = findCorrectMarketBoardComment(marketBoardComment.getMarketBoardCommentId());
+
         if (createDto.getParentId() != null) {
             // 대댓글 생성
             MarketBoardComment parentComment = findCorrectMarketBoardComment(createDto.getParentId());
             marketBoardComment.updateParent(parentComment);
             parentComment.getChildren().add(marketBoardComment);
+            marketBoardComment.updateMember(member);
         } else {
             // 댓글 생성
-            MarketBoard marketBoard = marketBoardRepository.findById(createDto.getMarketBoardId())
-                    .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
             marketBoardComment.updateBoard(marketBoard);
         }
-        marketBoardComment.update(createDto.getContent());
+        marketBoardComment.update(marketBoardComment.getContent());
         return marketBoardCommentRepository.save(marketBoardComment);
     }
 
-    public MarketBoardComment updateComment(MarketBoardComment marketBoardComment) {
-        MarketBoardComment findMarketBoardComment = findCorrectMarketBoardComment(marketBoardComment.getMarketBoardCommentId());
+    public MarketBoardComment updateComment(long marketBoardCommentId,MarketBoardCommentUpdate updateDto) {
 
-        findMarketBoardComment.update(marketBoardComment.getContent());
+        MarketBoardComment findMarketBoardComment = findCorrectMarketBoardComment(marketBoardCommentId);
+
+        findMarketBoardComment.update(updateDto.getContent());
+
+        findMarketBoardComment.setModifiedAt(LocalDateTime.now());
 
         return marketBoardCommentRepository.save(findMarketBoardComment);
     }
@@ -66,6 +77,10 @@ public class MarketBoardCommentService {
 
     public Page<MarketBoardComment> commentList (Pageable pageable) {
         return marketBoardCommentRepository.findAll(pageable);
+    }
+
+    public MarketBoardComment findComment(long marketBoardCommentId) {
+        return findCorrectMarketBoardComment(marketBoardCommentId);
     }
 
     private MarketBoardComment findCorrectMarketBoardComment(long marketBoardCommentId) {
