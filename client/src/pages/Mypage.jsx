@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import { styled } from "styled-components";
 import { Link } from "react-router-dom";
 import modifyIcon from "../icon/modify.png";
 import React, { useState, useEffect } from "react";

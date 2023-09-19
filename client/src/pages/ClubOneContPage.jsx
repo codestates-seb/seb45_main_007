@@ -3,8 +3,6 @@ import { NewHeader } from "../components/NewHeader.jsx";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { ClubMockData } from "../data/ClubMockData.js";
-// import { ClubCommentData } from "../data/ClubCommentData.js";
 
 const BoardOneContContainer = styled.section`
   width: 100%;
@@ -306,16 +304,6 @@ const CommentUserBox = styled.div`
   margin-top: 15px;
 `;
 
-// const CommentPassBox = styled.div`
-//   width: 75%;
-//   height: 30%;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   border: 1px solid gray;
-//   border-radius: 5px;
-// `;
-
 const CommentUpRight = styled.div`
   width: 85%;
   height: 100%;
@@ -332,37 +320,6 @@ const CommentRightInputBox = styled.input`
   border: 1px solid gray;
   padding: 30px;
 `;
-
-// const SubComment = styled.div`
-//   width: 100%;
-//   height: 50px;
-//   border-bottom: 1px solid gray;
-//   display: flex;
-//   align-items: center;
-//   padding: 30px;
-//   font-size: 13px;
-// `;
-
-// const SubCommentPlus = styled.div`
-//   width: 30px;
-//   height: 30px;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   background-color: #e2e2ff;
-//   position: absolute;
-//   right: 0;
-// `;
-
-// const SubcommentInput = styled.input`
-//   width: 100%;
-//   height: 50px;
-//   border-bottom: 1px solid gray;
-//   display: flex;
-//   align-items: center;
-//   padding: 30px;
-//   font-size: 13px;
-// `;
 
 const LikeBtn = styled.div`
   width: 50px;
@@ -393,7 +350,6 @@ const DeleteCommentBtn = styled.div`
 `;
 
 export const ClubOneContPage = () => {
-  // const navigate = useNavigate();
   const { clubBoardId } = useParams();
   const { category } = useParams();
   const [oneClubData, setOneClubData] = useState([]);
@@ -413,112 +369,6 @@ export const ClubOneContPage = () => {
   const DeleteChangeFunc = () => {
     setDeleteState(true);
   };
-
-  // 추천수 늘리는 코드
-
-  // const sendLikeRequest = async () => {
-  //   try {
-  //     // 요청을 보낼 URL
-  //     const url = `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}/recommends`;
-
-  //     // POST 요청 보내기
-  //     const response = await axios.post(url, postData, {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "ngrok-skip-browser-warning": "69420",
-  //       },
-  //     });
-
-  //     // 요청이 성공한 경우
-  //     console.log("POST 요청 성공:", response.data);
-  //   } catch (error) {
-  //     // 요청이 실패한 경우
-  //     console.error("POST 요청 실패:", error);
-  //   }
-  // };
-
-  // 좋아요 불러오는 코드
-
-  // const sendLikeReadRequest = async () => {
-  //   try {
-  //     // 요청을 보낼 URL
-  //     const url = `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}/recommends`;
-
-  //     // POST 요청 보내기
-  //     const response = await axios.get(url, {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "ngrok-skip-browser-warning": "69420",
-  //       },
-  //     });
-
-  //     // 요청이 성공한 경우
-  //     console.log("POST 요청 성공:", response.data);
-  //   } catch (error) {
-  //     // 요청이 실패한 경우
-  //     console.error("POST 요청 실패:", error);
-  //   }
-  // };
-
-  // 좋아요 취소하는 코드
-
-  // const sendLikeCancelRequest = async () => {
-  //   try {
-  //     const url = `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/${clubBoardId}/recommends`;
-
-  //     const response = await axios.delete(url, {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         "ngrok-skip-browser-warning": "69420",
-  //       },
-  //     });
-  //     console.log("POST 요청 성공:", response.data);
-  //   } catch (error) {
-  //     // 요청이 실패한 경우
-  //     console.error("POST 요청 실패:", error);
-  //   }
-  // };
-
-  // const [commentInputStates, setCommentInputStates] = useState(
-  //   baseCommentData.map(() => ({
-  //     subcommentAdd: false,
-  //     subcommentText: "",
-  //   })),
-  // );
-
-  // const toggleSubCommentInput = (index) => {
-  //   setCommentInputStates((prevStates) =>
-  //     prevStates.map((state, i) =>
-  //       i === index ? { ...state, subcommentAdd: !state.subcommentAdd } : state,
-  //     ),
-  //   );
-  // };
-
-  // const handleSubCommentChange = (index, event) => {
-  //   const { name, value } = event.target;
-  //   setCommentInputStates((prevStates) =>
-  //     prevStates.map((state, i) =>
-  //       i === index ? { ...state, [name]: value } : state,
-  //     ),
-  //   );
-  // };
-
-  // const addSubComment = (index) => {
-  //   const updatedCommentData = [...baseCommentData];
-  //   updatedCommentData[index].subComment.push(
-  //     commentInputStates[index].subcommentText,
-  //   );
-  //   setBaseCommentData(updatedCommentData);
-
-  //   // 입력 상태 초기화
-  //   setCommentInputStates((prevStates) =>
-  //     prevStates.map((state, i) =>
-  //       i === index
-  //         ? { ...state, subcommentAdd: false, subcommentText: "" }
-  //         : state,
-  //     ),
-  //   );
-  // };
 
   const InsertCommentFunc = (event) => {
     const newValue = event.target.value;
@@ -588,7 +438,6 @@ export const ClubOneContPage = () => {
       );
       if (response.status === 201) {
         console.log("댓글 추가 성공");
-        fetch;
       } else {
         console.log("수정 실패");
       }
@@ -630,7 +479,6 @@ export const ClubOneContPage = () => {
 
       if (response.status === 200) {
         setBaseCommentData(response.data.clubBoardComments);
-        console.log(baseCommentData);
       } else {
         console.error("200 코드가 아님");
       }
@@ -661,38 +509,11 @@ export const ClubOneContPage = () => {
           console.error("200 코드가 아님");
         }
       } catch (error) {
-        console.log(clubBoardId);
-        const OneData = ClubMockData.clubBoards.filter(
-          (data) => data.clubBoardId === Number(clubBoardId),
-        );
-        setOneClubData(...OneData);
+        console.error("200 코드가 아님");
       }
     }
     fetchData();
   }, []);
-
-  // useEffect(() => {
-  //   async function fetchCommentData() {
-  //     try {
-  //       const response = await axios.get(OneCommentAPiUrl, {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           "ngrok-skip-browser-warning": "69420",
-  //         },
-  //       });
-
-  //       if (response.status === 200) {
-  //         setBaseCommentData(response.data.clubBoardComments);
-  //         console.log(baseCommentData);
-  //       } else {
-  //         console.error("200 코드가 아님");
-  //       }
-  //     } catch (error) {
-  //       console.log("error");
-  //     }
-  //   }
-  //   fetchCommentData();
-  // }, []);
 
   const DeleteContentBtnClick = async () => {
     const response = await axios.delete(
@@ -827,12 +648,6 @@ export const ClubOneContPage = () => {
                     <CommentOneLeft>{data.nickname}</CommentOneLeft>
                     <CommentOneCenter>{data.content}</CommentOneCenter>
                     <CommentOneRight>{data.createdAt}</CommentOneRight>
-                    {/* <SubCommentPlus
-                      onClick={() => toggleSubCommentInput(index)}
-                    >
-                      +
-                    </SubCommentPlus> */}
-
                     <DeleteCommentBtn
                       onClick={() =>
                         DeleteCommentBtnClick(data.clubBoardCommentId)
@@ -841,25 +656,6 @@ export const ClubOneContPage = () => {
                       댓글 삭제하기
                     </DeleteCommentBtn>
                   </BoardOneCommentOne>
-
-                  {/* {data.subComment.map((item) => (
-                    <>
-                      <SubComment key={item}> ============{item}</SubComment>
-                    </>
-                  ))}
-                  {commentInputStates[index].subcommentAdd && (
-                    <>
-                      <SubcommentInput
-                        type="text"
-                        name="subcommentText"
-                        value={commentInputStates[index].subcommentText}
-                        onChange={(event) =>
-                          handleSubCommentChange(index, event)
-                        }
-                      />
-                      <button onClick={() => addSubComment(index)}>추가</button>
-                    </>
-                  )} */}
                 </>
               ))}
             </BoardOneCommentSect>

@@ -1,8 +1,5 @@
 import { styled } from "styled-components";
 import Reply from "../components/Reply.jsx";
-// import nextIcon from "../icon/next.png";
-// import preIcon from "../icon/pre.png";
-// import { HotContent } from "../components/HotContent.jsx";
 import React, { useEffect, useState } from "react";
 import { NewHeader } from "../components/NewHeader.jsx";
 import charImg from "../images/userExample.png";
@@ -17,11 +14,7 @@ export default function MarketOneContPage() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-
           `https://49c9-221-150-55-48.ngrok-free.app/marketBoards/${marketBoardId}`,
-
-          
-
           {
             headers: {
               "Content-Type": `application/json`,
@@ -32,7 +25,6 @@ export default function MarketOneContPage() {
         setData(response.data);
       } catch (error) {
         console.error("Error fetching the data", error);
-        console.log(marketBoardId);
       }
     };
 
@@ -46,9 +38,8 @@ export default function MarketOneContPage() {
           `https://49c9-221-150-55-48.ngrok-free.app/marketBoards/${marketBoardId}`,
           { headers: { "Content-Type": "application/json" } },
         );
-        console.log(response);
         if (response.status === 200) {
-          navigate("/"); // 홈페이지로 리디렉션
+          navigate("/");
         }
       } catch (error) {
         console.error("Error deleting the post", error);
@@ -74,17 +65,11 @@ export default function MarketOneContPage() {
               </WriterContainer>
             </SecondContainer>
             <ContentImage>
-              {/* <Icon className="pre">
-                <img src={preIcon} alt="previous" />
-              </Icon> */}
               <img
                 src={data.photo}
                 alt="mdExample"
                 style={{ height: "650px" }}
               />
-              {/* <Icon className="next">
-                <img src={nextIcon} alt="next" />
-              </Icon> */}
             </ContentImage>
             <TextContentContainer>
               <Price>{data.priceContent}원</Price>
@@ -103,7 +88,6 @@ export default function MarketOneContPage() {
             </BottomContainer>
           </ContentContainer>
           <Reply marketBoardId={marketBoardId} />
-          {/* <HotContent /> */}
         </BoardNoteContainer>
       </TotalContainer>
     </>
@@ -176,16 +160,6 @@ const ContentImage = styled.div`
     border-radius: 12px;
   }
 `;
-// const Icon = styled.div`
-//   width: 30px;
-//   height: 30px;
-//   display: flex;
-//   justify-content: center;
-//   &:hover {
-//     cursor: pointer;
-//     filter: opacity(0.5) drop-shadow(0 0 0 gray);
-//   }
-// `;
 
 const WriterContainer = styled.div`
   display: flex;
