@@ -81,11 +81,16 @@ export default function SignUp() {
             username,
             nickname,
           },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          },
         );
         console.log(response.data.message);
         if (response.data.success) {
           alert("회원가입에 성공하셨습니다.");
-          navigate("/signin");
+          navigate(-1);
         }
       } catch (error) {
         console.log("failed to signUp");

@@ -3,6 +3,7 @@ import { NewHeader } from "../components/NewHeader.jsx";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import IsSameDay from "../utility/IsSameDay.jsx";
 
 const BoardOneContContainer = styled.section`
   width: 100%;
@@ -31,7 +32,28 @@ const BoardUpSect = styled.div`
   display: flex;
   position: relative;
 `;
+const PrevBoardBtn3 = styled.div`
+  width: 80px;
+  height: 30px;
+  border-radius: 5px;
+  background-color: #e6e6ff;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
+const PrevBoardBtn2 = styled.div`
+  width: 153px;
+  height: 50px;
+  border-radius: 15px;
+  background-color: #e6e6ff;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+`;
 const PrevBoardBtn = styled.div`
   width: 100px;
   height: 50px;
@@ -321,24 +343,22 @@ const CommentRightInputBox = styled.input`
   padding: 30px;
 `;
 
-const LikeBtn = styled.div`
-  width: 50px;
-  height: 50px;
-  background-color: blue;
-`;
-
 const DeleteModal = styled.div`
-  width: 500px;
-  height: 500px;
+  width: 100px;
+  height: 40px;
   background-color: white;
   color: black;
   cursor: pointer;
   font-size: 32px;
   position: absolute;
   z-index: 100022;
-  top: 50%;
-  left: 50%;
+  top: 14%;
+  left: 77%;
   transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
 `;
 
 const DeleteCommentBtn = styled.div`
@@ -372,6 +392,9 @@ export const ClubOneContPage = () => {
 
   const DeleteChangeFunc = () => {
     setDeleteState(true);
+  };
+  const CancleChangeFunc = () => {
+    setDeleteState(false);
   };
 
   const InsertCommentFunc = (event) => {
@@ -442,6 +465,7 @@ export const ClubOneContPage = () => {
       );
       if (response.status === 201) {
         console.log("댓글 추가 성공");
+        fetchCommentData();
       } else {
         console.log("수정 실패");
       }
@@ -558,8 +582,14 @@ export const ClubOneContPage = () => {
     <>
       <NewHeader />
       {deleteState ? (
-        <DeleteModal onClick={DeleteContentBtnClick}>
-          누르면 삭제 됩니다.
+        <DeleteModal>
+          <PrevBoardBtn3
+            onClick={DeleteContentBtnClick}
+            style={{ backgroundColor: "#ff8080" }}
+          >
+            확인
+          </PrevBoardBtn3>
+          <PrevBoardBtn3 onClick={CancleChangeFunc}>취소</PrevBoardBtn3>
         </DeleteModal>
       ) : null}
       <BoardOneContContainer>
@@ -571,10 +601,12 @@ export const ClubOneContPage = () => {
               만화
             </BoardTitleText>
 
-            <PrevBoardBtn onClick={SetEditingBtnClick}>
+            <PrevBoardBtn2 onClick={SetEditingBtnClick}>
               글 수정 하기
-            </PrevBoardBtn>
-            <PrevBoardBtn onClick={DeleteChangeFunc}>글 삭제 하기</PrevBoardBtn>
+            </PrevBoardBtn2>
+            <PrevBoardBtn2 onClick={DeleteChangeFunc}>
+              글 삭제 하기
+            </PrevBoardBtn2>
             <Link to={`/club/${category}`}>
               <PrevBoardBtn>글 목록 가기</PrevBoardBtn>
             </Link>
@@ -609,27 +641,14 @@ export const ClubOneContPage = () => {
             <BasicSizeContentBox>
               {!editingState ? (
                 <COneContTextBox>
+                  <img
+                    src={oneClubData.photo}
+                    alt="fdf"
+                    style={{ width: "50%", height: "50%" }}
+                  />
+                  <br />
                   {oneClubData.content}
                   <br />
-                  <br />
-                  <br />
-                  <br />
-                  <br />
-                  {oneClubData.content}
-                  <br />
-                  <br />
-                  <br />
-                  <br />
-                  <br />
-                  <br />
-                  <br />
-                  <br />
-                  <br />
-                  <br />
-                  <img src={oneClubData.photo} alt="fdf" />
-                  {oneClubData.content}
-                  <br />
-                  <LikeBtn>좋아요 버튼</LikeBtn>
                 </COneContTextBox>
               ) : (
                 <EditingCOneContTextBox
@@ -651,13 +670,15 @@ export const ClubOneContPage = () => {
                   <BoardOneCommentOne key={data.clubBoardCommentId}>
                     <CommentOneLeft>{data.nickname}</CommentOneLeft>
                     <CommentOneCenter>{data.content}</CommentOneCenter>
-                    <CommentOneRight>{data.createdAt}</CommentOneRight>
+                    <CommentOneRight>
+                      {IsSameDay(data.createdAt)}
+                    </CommentOneRight>
                     <DeleteCommentBtn
                       onClick={() =>
                         DeleteCommentBtnClick(data.clubBoardCommentId)
                       }
                     >
-                      댓글 삭제하기
+                      삭제
                     </DeleteCommentBtn>
                   </BoardOneCommentOne>
                 </>

@@ -20,7 +20,7 @@ const BoardHeaderSect = styled.section`
 `;
 
 const NavLinkSection = styled.div`
-  width: 50%;
+  width: 70%;
   height: 100%;
   align-items: center;
   display: flex;
@@ -37,9 +37,9 @@ const NavUl = styled.ul`
 `;
 
 const NavLi = styled.li`
-  width: 13%;
+  width: 150px;
   height: 100%;
-  font-size: 18px;
+  font-size: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -116,6 +116,11 @@ export const NewHeader = () => {
               <NavLiImg src={menuImg5} />
               <CustomNavLink as={NavLink} to="/mypage">
                 마이페이지
+              </CustomNavLink>
+            </NavLi>
+            <NavLi>
+              <CustomNavLink as={NavLink} to="/write">
+                글쓰기
               </CustomNavLink>
             </NavLi>
           </NavUl>
