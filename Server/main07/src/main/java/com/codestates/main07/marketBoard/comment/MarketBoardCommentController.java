@@ -51,8 +51,6 @@ public class MarketBoardCommentController {
     @PostMapping
     public ResponseEntity createComment(@PathVariable long marketBoardId,
                                         @RequestBody MarketBoardCommentCreate createDto) {
-        Object a = (Object) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         MarketBoardComment marketBoardComment = mapper.createDtoToMarketBoardComment(createDto);
 
         MarketBoardComment createdComment = marketBoardCommentService.createComment(marketBoardComment, createDto);
@@ -66,8 +64,6 @@ public class MarketBoardCommentController {
     public ResponseEntity editComment (@PathVariable long marketBoardId,
                                        @PathVariable ("marketBoardCommentId") long marketBoardCommentId,
                                        @RequestBody MarketBoardCommentUpdate updateDto) {
-        Object a = (Object) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         MarketBoardComment updatedMarketBoardComment = marketBoardCommentService.updateComment(marketBoardCommentId, updateDto);
         MarketBoardCommentResponse response = mapper.marketBoardCommentToMarketBoardCommentResponseDto(updatedMarketBoardComment);
 
@@ -78,8 +74,6 @@ public class MarketBoardCommentController {
     @DeleteMapping("/{marketBoardCommentId}")
     public ResponseEntity deleteComment (@PathVariable long marketBoardId,
                                          @PathVariable ("marketBoardCommentId") long marketBoardCommentId) {
-        Object a = (Object) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         marketBoardCommentService.deleteComment(marketBoardCommentId);
 
         return new ResponseEntity<>(new SuccessDto(true), HttpStatus.OK);

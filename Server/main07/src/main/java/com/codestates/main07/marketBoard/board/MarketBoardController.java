@@ -104,8 +104,6 @@ public class MarketBoardController {
      */
     @PostMapping
     public ResponseEntity addMarketBoard (@RequestBody MarketBoardCreate createDto) {
-        Object a = (Object) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         MarketBoard marketBoard = mapper.createDtoToMarketBoard(createDto);
 
         marketBoard.setTag(createDto.getTag());
@@ -132,8 +130,6 @@ public class MarketBoardController {
     @PutMapping("/{marketBoardId}")
     public ResponseEntity editMarketBoard (@PathVariable ("marketBoardId") long marketBoardId,
                                  @RequestBody MarketBoardUpdate updateDto) {
-        Object a = (Object) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         updateDto.setMarketBoardId(marketBoardId);
         MarketBoard marketBoard = mapper.updateDtoToMarketBoard(updateDto);
 
@@ -152,8 +148,6 @@ public class MarketBoardController {
      */
     @DeleteMapping("/{marketBoardId}")
     public ResponseEntity deleteMarketBoard (@PathVariable ("marketBoardId") long marketBoardId) {
-        Object a = (Object) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         marketBoardService.deleteBoard(marketBoardId);
 
         return new ResponseEntity<>(new SuccessDto(true), HttpStatus.OK);
