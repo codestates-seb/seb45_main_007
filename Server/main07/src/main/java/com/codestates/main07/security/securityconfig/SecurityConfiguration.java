@@ -81,7 +81,7 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.DELETE, "/*/members/**").hasRole("USER") // 탈퇴 회원만
                         .antMatchers("/auth/**/login").permitAll() // OAuth2 로그인 프로세스 시작
                         .antMatchers("/").permitAll()  // root URL은 모든 사용자에게 허용
-                        .anyRequest().authenticated()  // 그 외 URL은 인증된 사용자만 접근 가능
+                       // .anyRequest().authenticated()  // 그 외 URL은 인증된 사용자만 접근 가능
                 )
                 .oauth2Login()
                 .loginPage("/auth/login")
