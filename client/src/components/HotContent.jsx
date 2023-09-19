@@ -4,15 +4,6 @@ import pinImg from "../images/pin.png";
 import chalkImg from "../images/chalk.png";
 import { Link } from "react-router-dom";
 
-// const BoardOneSect = styled.section`
-//   width: 1440px;
-//   height: 550px;
-//   display: flex;
-//   justify-content: center;
-//   flex-direction: column;
-//   align-items: center;
-//   margin-bottom: 30px;
-// `;
 const BoardOneSect = styled.section`
   width: 100%;
   display: flex;
@@ -31,13 +22,7 @@ const BoardNoteSect = styled.div`
   justify-content: space-around;
   flex-wrap: wrap;
 `;
-// const BoardNoteSect = styled.div`
-//   width: 100%;
-//   height: 500px;
-//   display: flex;
-//   justify-content: space-around;
-//   flex-wrap: wrap;
-// `;
+
 const BoardOneTitle = styled.div`
   width: 100%;
   font-size: 22px;

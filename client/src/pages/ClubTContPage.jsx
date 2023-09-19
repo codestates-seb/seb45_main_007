@@ -2,7 +2,6 @@ import { styled } from "styled-components";
 import { ClubContents } from "../components/ClubContents.jsx";
 import { NewHeader } from "../components/NewHeader.jsx";
 import boardmarker from "../images/theme/white board marker.jpg";
-import { ClubMockData } from "../data/ClubMockData.js";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Pagination from "../components/Pagination.jsx";
@@ -276,13 +275,7 @@ export const ClubTContPage = () => {
       setCurrentPage(1);
       console.log("검색됨");
     } else {
-      const matchedCategoryData = ClubMockData.clubBoards.filter(
-        (data) => data.category === category,
-      );
-      const matchedTitleData = matchedCategoryData.filter((data) =>
-        data.title.includes(searchTitle),
-      );
-      setTotalClubData(matchedTitleData);
+      console.log("error");
     }
   };
 
@@ -304,12 +297,7 @@ export const ClubTContPage = () => {
           console.log("데이터 가져오기 실패");
         }
       } catch (error) {
-        const filteredClubData = ClubMockData.clubBoards.filter(
-          (data) => data.category === category,
-        );
-        console.log("에러코드실행");
-        setTotalClubData(filteredClubData.slice(0, 10));
-        setTotalPages(Math.ceil(filteredClubData.length / 10) + 1);
+        console.log("error");
       }
     }
     fetchData();

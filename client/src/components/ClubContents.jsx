@@ -99,5 +99,3 @@ export const ClubContents = ({ totalClubData }) => {
     </>
   );
 };
-
-// 각 데이터를 데이터 구조에 맞게 분리하여서 배열로서 맵핑시켜보아야 함.
