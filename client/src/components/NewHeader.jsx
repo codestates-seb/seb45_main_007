@@ -1,7 +1,6 @@
 import { styled } from "styled-components";
 import { NavLink, useLocation } from "react-router-dom/dist";
 import React from "react";
-import { SecondHeaderHeight } from "./NewHeaderUtil";
 import menuImg1 from "../images/menu/candybar.png";
 import menuImg2 from "../images/menu/bear.png";
 import menuImg3 from "../images/menu/cotton.png";
@@ -10,7 +9,7 @@ import menuImg5 from "../images/menu/chocolate.png";
 
 const BoardHeaderSect = styled.section`
   width: 100vw;
-  height: ${SecondHeaderHeight}px;
+  height: 72px;
   display: flex;
   top: 0;
   left: 0;
@@ -77,23 +76,6 @@ export const NewHeader = () => {
   const currentPath = location.pathname;
 
   const isHome = currentPath === "/";
-  // const [headerColorChange, setHeaderColorChange] = useState(false);
-
-  // useEffect(() => {
-  //   const hanldeMenuScroll = () => {
-  //     if (window.scrollY >= 390) {
-  //       setHeaderColorChange(true);
-  //     } else {
-  //       setHeaderColorChange(false);
-  //     }
-  //   };
-
-  //   window.addEventListener("scroll", hanldeMenuScroll);
-
-  //   return () => {
-  //     window.removeEventListener("scroll", hanldeMenuScroll);
-  //   };
-  // }, []);
 
   return (
     <>
@@ -133,7 +115,7 @@ export const NewHeader = () => {
             <NavLi>
               <NavLiImg src={menuImg5} />
               <CustomNavLink as={NavLink} to="/mypage">
-                바자회
+                마이페이지
               </CustomNavLink>
             </NavLi>
           </NavUl>
