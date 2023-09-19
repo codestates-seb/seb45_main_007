@@ -1,8 +1,8 @@
-package com.codestates.main07.jwt.auth.userdetails;
+package com.codestates.main07.security.jwt.auth.userdetails;
 
 import com.codestates.main07.exception.BusinessLogicException;
 import com.codestates.main07.exception.ExceptionCode;
-import com.codestates.main07.jwt.utils.CustomAuthorityUtils;
+import com.codestates.main07.security.jwt.utils.CustomAuthorityUtils;
 import com.codestates.main07.member.entity.Member;
 import com.codestates.main07.member.repository.MemberRepository;
 import org.springframework.security.core.Authentication;
@@ -17,8 +17,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-
-import static org.apache.tomcat.jni.SSL.setPassword;
 
 @Component
 public class MemberDetailsService implements UserDetailsService {

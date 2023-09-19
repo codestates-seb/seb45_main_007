@@ -1,4 +1,4 @@
-package com.codestates.main07.jwt.auth.handler;
+package com.codestates.main07.security.jwt.auth.handler;
 
 import com.codestates.main07.exception.ErrorResponse;
 import com.google.gson.Gson;
