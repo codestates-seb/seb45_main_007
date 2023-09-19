@@ -103,7 +103,7 @@ const Write = () => {
 
       if (board === "바자회") {
         apiUrl =
-          "http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.commarketBoards";
+          "http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/marketBoards";
         payload = {
           memberId: memberId,
           title: title,
@@ -114,7 +114,7 @@ const Write = () => {
         };
       } else if (board === "동아리") {
         apiUrl =
-          "http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.comclubBoards";
+          "http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/clubBoards";
         payload = {
           memberId: memberId,
           title: title,
