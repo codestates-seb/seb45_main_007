@@ -88,9 +88,9 @@ public class MemberService {
         return response;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Member findByEmail(String email) {
         return memberRepository.findByEmail(email)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+                .orElse(null);
     }
 }

@@ -50,42 +50,24 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         // 현재 인증된 사용자의 정보를 가져옴
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
 
-        // 인증에 사용된 제공자(Google, Kakao 등)를 파악하기 위한 로직
-        String providerType = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .filter(auth -> auth.startsWith("ROLE_OAUTH2_"))
-                .findFirst()
-                .orElse("")
-                .replaceFirst("ROLE_OAUTH2_", "")
-                .toUpperCase();
-
         String email;
         String name;
 
-        // 제공자별로 반환되는 사용자 정보의 attribute key가 다르기 때문에 분기 처리
-        switch (providerType) {
-            case "GOOGLE":
-                email = oAuth2User.getAttribute("email");
-                name = oAuth2User.getAttribute("name");
-                break;
-            case "KAKAO":
-                email = oAuth2User.getAttribute("account_email");
-                name = oAuth2User.getAttribute("profile_nickname");
-                break;
-            default:
-                throw new IllegalArgumentException("Unsupported provider: " + providerType);
-        }
+        // 카카오의 경우 해당 attribute 키를 사용하여 정보를 가져옴
+        email = oAuth2User.getAttribute("account_email"); // 사용자가 동의한 경우에만 받을 수 있음
+        name = oAuth2User.getAttribute("profile_nickname");
 
         // DB에서 email을 기준으로 사용자 정보를 조회
         Member member = memberService.findByEmail(email);
         if (member == null) {
             log.error("OAuth2 login failed. No member found with email: " + email);
-            throw new EntityNotFoundException("Member with email " + email + " not found.");
+            // 사용자가 없는 경우 새로운 Member 생성
+            member = new Member();
+            member.setEmail(email);
+        } else {
+            member.setEmail(email);
+            member.setUsername(name);
         }
-
-        // 사용자 정보를 Member 엔터티에 저장
-        member.setEmail(email);
-        member.setUsername(name);
         memberRepository.save(member); // 사용자 정보를 저장
 
         // OAuth2로 로그인한 사용자의 권한을 설정
@@ -108,6 +90,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         // 생성된 JWT 토큰을 응답 헤더에 추가
         response.setHeader("Authorization", "Bearer " + jwt);
-        log.info(providerType + " OAuth2 login succeeded. JWT token has been set.");
+        log.info("KAKAO OAuth2 login succeeded. JWT token has been set.");
     }
 }

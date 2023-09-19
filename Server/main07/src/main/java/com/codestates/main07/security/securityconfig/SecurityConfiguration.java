@@ -114,7 +114,6 @@ public class SecurityConfiguration {
                 "http://localhost:8080",
                 "null"
         ));
-//        configuration.setAllowedHeaders(Arrays.asList("*")); 기존 set 사용 시
         configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true); // 인증 정보(Credentials)를 허용
         configuration.setExposedHeaders(Arrays.asList("Authorization", "Refresh", "Access-Control-Allow-Origin"));

@@ -8,22 +8,21 @@ import org.springframework.stereotype.Component;
 @PropertySource("classpath:application.yml")
 public class KakaoProperties {
 
-    @Value("${kakao.client-id}")
-    private String restApiKey;
+    @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
+    private String clientId;
 
-    @Value("${kakao.client-secret}")
-    private String restApiSecret;
+    @Value("${spring.security.oauth2.client.registration.kakao.client-secret}")
+    private String clientSecret;
 
-    @Value("${kakao.redirect-uri}")
+    @Value("${spring.security.oauth2.client.registration.kakao.redirect-uri}")
     private String redirectUri;
 
-    // Getter 메서드
-    public String getRestApiKey() {
-        return restApiKey;
+    public String getClientId() {
+        return clientId;
     }
 
-    public String getRestApiSecret() {
-        return restApiSecret;
+    public String getClientSecret() {
+        return clientSecret;
     }
 
     public String getRedirectUri() {
