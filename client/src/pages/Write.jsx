@@ -100,18 +100,18 @@ const Write = () => {
           title: title,
           content: content,
           photo: photoURL,
-          priceContent: 10000, // 필요하다면 동적 값 추가
-          tag: "SALE", // 필요하다면 동적 값 추가
+          priceContent: 10000,
+          tag: "SALE",
         };
       } else if (board === "동아리") {
         apiUrl =
-          "https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards"; // 실제 도메인으로 업데이트
+          "https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards";
         payload = {
           memberId: memberId,
           title: title,
           content: content,
-          photo: photoURL, // photo가 파일 객체를 가지고 있다고 가정
-          voice: "", // 이 값은 선택사항이며 비워 둘 수 있다고 가정. 필요하다면 동적 값 추가
+          photo: photoURL,
+          voice: "",
           category: category,
         };
       }
@@ -119,7 +119,7 @@ const Write = () => {
       const config = {
         headers: {
           "Content-type": "application/json",
-          Authorization: `Bearer [YOUR_DYNAMIC_JWT_TOKEN_HERE]`, // 동적 토큰 검색 방법으로 업데이트
+          Authorization: `Bearer [YOUR_DYNAMIC_JWT_TOKEN_HERE]`,
         },
       };
 

@@ -4,6 +4,7 @@ import { NormalContent } from "../components/NormalContent.jsx";
 import { AnaLogClock } from "../components/Clock.jsx";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const TotalContainer = styled.div`
   width: 100vw;
@@ -144,16 +145,8 @@ const BoardFooterSect = styled.div`
   background-color: #fffff0;
 `;
 
-// const NormalContentTitleSect = styled.div`
-//   width: 100%;
-//   height: 100px;
-//   font-size: 22px;
-//   margin-top: 50px;
-// `;
-
 export const MarketTContPage = () => {
   const [MarketTData, setMarketTData] = useState([]);
-  // const [HotContentData, setHotContentData] = useState([]);
   const [NormalContentData, setNormalContentData] = useState([]);
   const [menuIsVisible, setMenuIsVisible] = useState(false);
   const [noMoreRead, setNoMoreRead] = useState(false);
@@ -203,9 +196,7 @@ export const MarketTContPage = () => {
 
   useEffect(() => {
     if (MarketTData.length > 0) {
-      // const hotData = MarketTData.slice(0, 4);
       const normalData = MarketTData.slice(0, 4);
-      // setHotContentData(hotData);
       setNormalContentData(normalData);
     }
   }, [MarketTData]);
@@ -248,8 +239,6 @@ export const MarketTContPage = () => {
             title="판매중인 물건"
             HotContentData={NormalContentData}
           />
-          {/* <NormalContentTitleSect>판매중인 물건 </NormalContentTitleSect>
-          <NormalContent NormalContentData={NormalContentData} /> */}
           <MarketMoreReadBtn
             onClick={MoreReadNormalData}
             noMoreRead={noMoreRead}

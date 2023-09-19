@@ -8,14 +8,37 @@ import ClubMainPage from "./pages/ClubMainPage.jsx";
 import Mypage from "./pages/Mypage.jsx";
 import UserModify from "./pages/UserModify.jsx";
 import MarketOneContPage from "./pages/MarketOneContPage.jsx";
-import React from "react";
-import "./App.css";
+import React, { useEffect } from "react";
 import { NewHeader } from "./components/NewHeader.jsx";
 import Write from "./pages/Write.jsx";
 import KakaoAuth from "./pages/KakaoAuth.jsx";
 import GoogleOAuth2RedirectPage from "./pages/GoogleOAuth2RedirectPage.jsx";
+import { useDispatch } from "react-redux";
+import { setUser } from "./redux/userSlice.js";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    const refreshToken = localStorage.getItem("refreshToken");
+    const email = localStorage.getItem("email");
+    const name = localStorage.getItem("name");
+    const memberId = localStorage.getItem("memberId");
+
+    if (accessToken && refreshToken) {
+      dispatch(
+        setUser({
+          loggedIn: true,
+          email,
+          name,
+          memberId,
+          accessToken,
+          refreshToken,
+        }),
+      );
+    }
+  }, [dispatch]);
   return (
     <Router>
       <NewHeader></NewHeader>

@@ -16,8 +16,8 @@ export const userSlice = createSlice({
       state.email = action.payload.email;
       state.name = action.payload.name;
       state.memberId = action.payload.memberId;
-      state.accessToken = action.payload.accessToken; // Setting new state properties
-      state.refreshToken = action.payload.refreshToken; // Setting new state properties
+      state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken;
 
       localStorage.setItem("memberId", action.payload.memberId);
       return state;
@@ -25,7 +25,6 @@ export const userSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
 export const { setUser } = userSlice.actions;
 
 export default userSlice.reducer;

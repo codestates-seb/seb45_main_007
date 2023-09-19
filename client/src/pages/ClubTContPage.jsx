@@ -286,10 +286,6 @@ export const ClubTContPage = () => {
     }
   };
 
-  // useEffect(() => {
-  //   setTotalPages(Math.floor(totalClubData.length / 10 + 1));
-  // }, [totalClubData]);
-
   const apiUrl = `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/category?page=1&size=10&category=${category}`;
   useEffect(() => {
     async function fetchData() {
@@ -335,14 +331,7 @@ export const ClubTContPage = () => {
       setTotalPages(response.data.pageInfo.totalPages);
       setCurrentPage(newPage);
     } else {
-      const filteredClubData = ClubMockData.clubBoards.filter(
-        (data) => data.category === category,
-      );
-      const startIdx = newPage * 10 - 10 + 1;
-      const sliceClubData = filteredClubData.slice(startIdx, startIdx + 10);
-      setTotalClubData(sliceClubData);
-      setTotalPages(Math.ceil(filteredClubData.length / 10));
-      setCurrentPage(newPage);
+      console.log("Not 200");
     }
   };
 
@@ -359,11 +348,7 @@ export const ClubTContPage = () => {
       setSortByCreatedAt(true);
       setSortByViewState(false);
     } else {
-      setTotalClubData(
-        ClubMockData.clubBoards.filter((data) => data.category === category),
-      );
-      setSortByCreatedAt(false);
-      setSortByViewState(false);
+      console.log("Not 200");
     }
   };
 
@@ -380,11 +365,7 @@ export const ClubTContPage = () => {
       setSortByCreatedAt(false);
       setSortByViewState(true);
     } else {
-      setTotalClubData(
-        ClubMockData.clubBoards.filter((data) => data.category === category),
-      );
-      setSortByCreatedAt(false);
-      setSortByViewState(false);
+      console.log("Not 200");
     }
   };
 

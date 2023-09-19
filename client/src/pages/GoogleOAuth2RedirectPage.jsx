@@ -1,9 +1,7 @@
 import { useEffect } from "react";
 
 function GoogleOAuth2RedirectPage() {
-  // 1. 인가코드
   const code = new URL(window.location.href).searchParams.get("code");
-  // 2. access Token 요청
   const getToken = async (code) => {
     const REST_API_KEY = process.env.REACT_APP_GOOGLE_CLIENT_ID;
     const REDIRECT_URI = process.env.REACT_APP_GOOGLE_REDIRECT_URI;

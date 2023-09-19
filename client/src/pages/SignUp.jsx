@@ -104,7 +104,6 @@ export default function SignUp() {
           navigate("/signin");
         }
       } catch (error) {
-        // Handle any errors
         console.log("failed to signUp");
         console.error("Request error:", error);
       }

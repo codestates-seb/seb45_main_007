@@ -76,22 +76,19 @@ export default function Login() {
       );
       if (response.data.success) {
         setLoggedIn(true);
-
         localStorage.setItem("accessToken", response.headers.authorization);
         localStorage.setItem("refreshToken", response.headers.refresh);
         localStorage.setItem("memberId", response.data.memberId);
-        console.log(response.headers.authorization, response.headers.refresh);
-        console.log(response);
-        console.log(response.data.memberId);
-
+        localStorage.setItem("email", response.data.email);
+        localStorage.setItem("name", response.data.name);
         dispatch(
           setUser({
             loggedIn: true,
             email: response.data.email,
             name: response.data.name,
             memberId: response.data.memberId,
-            accessToken: response.data.accessToken, // 토큰 저장
-            refreshToken: response.data.refreshToken, // 토큰 저장
+            accessToken: response.data.accessToken,
+            refreshToken: response.data.refreshToken,
           }),
         );
       } else {
@@ -159,9 +156,7 @@ export default function Login() {
             >
               Login
             </div>
-            {message && (
-              <div className="error-message">{message}</div> // 에러 메시지 출력
-            )}
+            {message && <div className="error-message">{message}</div>}
           </div>
         </div>
         <div className="social-box">
