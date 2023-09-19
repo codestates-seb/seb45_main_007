@@ -19,7 +19,7 @@ export default function Reply({ marketBoardId }) {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `https://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/marketBoards/${marketBoardId}/comments`,
+        `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/marketBoards/${marketBoardId}/comments`,
         {
           headers: {
             "Content-Type": `application/json`,
@@ -40,7 +40,7 @@ export default function Reply({ marketBoardId }) {
   const submitReply = async () => {
     try {
       const response = await axios.post(
-        `https://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/marketBoards/${marketBoardId}/comments`,
+        `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/marketBoards/${marketBoardId}/comments`,
         { memberId: memberId, marketBoardId: marketBoardId, content: reply },
         {
           headers: {
@@ -60,7 +60,7 @@ export default function Reply({ marketBoardId }) {
   const editReply = async (commentId) => {
     try {
       const response = await axios.put(
-        `https://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/marketBoards/${marketBoardId}/comments/${commentId}`,
+        `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/marketBoards/${marketBoardId}/comments/${commentId}`,
         { content: editedReply },
         {
           headers: {
@@ -82,7 +82,7 @@ export default function Reply({ marketBoardId }) {
     if (window.confirm("정말로 이 댓글을 삭제하시겠습니까?")) {
       try {
         const response = await axios.delete(
-          `https://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/marketBoards/${marketBoardId}/comments/${commentId}`,
+          `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/marketBoards/${marketBoardId}/comments/${commentId}`,
           { headers: { "Content-Type": "application/json" } },
         );
         if (response.success) {
@@ -96,7 +96,7 @@ export default function Reply({ marketBoardId }) {
   const submitReplyComment = async (marketBoardCommentId) => {
     try {
       const response = await axios.post(
-        `https://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/marketBoards/${marketBoardId}/comments`,
+        `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/marketBoards/${marketBoardId}/comments`,
         {
           memberId: memberId,
           marketBoardId: marketBoardId,
