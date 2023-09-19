@@ -1,14 +1,13 @@
 package com.codestates.main07.marketBoardLike.entity;
 
 import com.codestates.main07.member.entity.Member;
-import com.codestates.main07.marketBoard.board.MarketBoard;
+import com.codestates.main07.marketBoard.board.domain.MarketBoard;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor

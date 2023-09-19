@@ -2,6 +2,7 @@ package com.codestates.main07.marketBoard.board.domain;
 
 import com.codestates.main07.audit.Audit;
 import com.codestates.main07.marketBoard.comment.MarketBoardComment;
+import com.codestates.main07.marketBoardLike.entity.Likes;
 import com.codestates.main07.member.entity.Member;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
@@ -48,8 +49,8 @@ public class MarketBoard extends Audit {
     @OrderBy("marketBoardCommentId desc")
     private List<MarketBoardComment> comments;
 
-//    @OneToMany(mappedBy = "market_board", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-//    private List<Likes> likes;
+    @OneToMany(mappedBy = "marketBoard", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Likes> likes;
 
 //    @Builder
 //    public MarketBoard(String title, String content, int viewCount, Member member) {

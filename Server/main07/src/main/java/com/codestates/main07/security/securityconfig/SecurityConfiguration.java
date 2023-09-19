@@ -108,10 +108,9 @@ public class SecurityConfiguration {
         CorsConfiguration configuration = new CorsConfiguration();
 
 
-        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PATCH", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:3000",
-                "https://6b4f-125-181-59-71.ngrok-free.app",
                 "http://localhost:8080",
                 "null"
         ));

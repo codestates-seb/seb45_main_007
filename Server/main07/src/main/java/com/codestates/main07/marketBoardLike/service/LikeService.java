@@ -1,7 +1,7 @@
 package com.codestates.main07.marketBoardLike.service;
 
 import com.codestates.main07.marketBoard.board.MarketBoardRepository;
-import com.codestates.main07.marketBoard.board.MarketBoard;
+import com.codestates.main07.marketBoard.board.domain.MarketBoard;
 import com.codestates.main07.member.repository.MemberRepository;
 import com.codestates.main07.marketBoardLike.dto.LikeResponseDto;
 import com.codestates.main07.marketBoardLike.entity.Likes;
@@ -12,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
