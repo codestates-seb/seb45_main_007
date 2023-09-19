@@ -31,7 +31,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/club" element={<ClubMainPage />} />
         <Route path="/mypage" element={<Mypage />} />
-        <Route path="/market/onecontent" element={<MarketOneContPage />} />
+        <Route path="/market/:marketBoardId" element={<MarketOneContPage />} />
         <Route path="/usermodify" element={<UserModify />} />
         <Route path="/write" element={<Write />} />
         <Route path="/oauth2/authorization/kakao" element={<KakaoAuth />} />

@@ -3,12 +3,16 @@ import React, { useEffect, useState } from "react";
 import arrowIcon from "../icon/arrow-right.png";
 import axios from "axios";
 import IsSameDay from "../utility/IsSameDay.jsx";
-export default function Reply() {
+import PropTypes from "prop-types";
+export default function Reply({ marketBoardId }) {
   const [replyData, setReplyData] = useState([]);
   const [reply, setReply] = useState("");
   const [editedReply, setEditedReply] = useState("");
   const [editingId, setEditingId] = useState(null);
 
+  Reply.propTypes = {
+    marketBoardId: PropTypes.string.isRequired,
+  };
   const handleEditClick = (commentId) => {
     setEditingId(commentId);
   };
@@ -36,8 +40,8 @@ export default function Reply() {
   const submitReply = async () => {
     try {
       const response = await axios.post(
-        "https://49c9-221-150-55-48.ngrok-free.app/marketBoards/13/comments",
-        { memberId: 1, marketBoardId: 5, content: reply },
+        `https://49c9-221-150-55-48.ngrok-free.app/marketBoards/${marketBoardId}/comments`,
+        { memberId: 1, marketBoardId: marketBoardId, content: reply },
         {
           headers: {
             "Content-Type": "application/json",
@@ -56,7 +60,7 @@ export default function Reply() {
   const editReply = async (commentId) => {
     try {
       const response = await axios.put(
-        `https://49c9-221-150-55-48.ngrok-free.app/marketBoards/13/comments/${commentId}`,
+        `https://49c9-221-150-55-48.ngrok-free.app/marketBoards/${marketBoardId}/comments/${commentId}`,
         { content: editedReply },
         {
           headers: {
@@ -89,9 +93,12 @@ export default function Reply() {
       }
     }
   };
+  const filteredReplyData = replyData.filter(
+    () => reply.marketBoardId === marketBoardId,
+  );
   return (
     <>
-      {replyData.map((data) => {
+      {filteredReplyData.map((data) => {
         const isEditing = data.marketBoardCommentId === editingId;
         return (
           <ReplyContainer key={data.marketBoardCommentId}>

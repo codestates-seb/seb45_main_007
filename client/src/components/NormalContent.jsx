@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import React from "react";
-
+import { NavLink } from "react-router-dom";
 const BoardOneSect = styled.section`
   width: 100%;
   display: flex;
@@ -89,6 +89,7 @@ const BoardCircleImg = styled.img`
   object-position: top center;
   filter: brightness(0.9);
 `;
+const StyledLink = styled(NavLink)``;
 // eslint-disable-next-line react/prop-types
 export const NormalContent = ({ NormalContentData }) => {
   return (
@@ -97,17 +98,24 @@ export const NormalContent = ({ NormalContentData }) => {
         <BoardNoteSect>
           {/* eslint-disable-next-line react/prop-types */}
           {NormalContentData.map((data) => (
-            <OneBoard key={data.marketBoardId}>
-              <BoardNote>
-                <BoardNoteCircle>
-                  <BoardCircleImg
-                    src={data.photo}
-                    style={{ objectPosition: "bottom center" }}
-                  />
-                </BoardNoteCircle>
-              </BoardNote>
-              <BoardNoteTitle>{data.title}</BoardNoteTitle>
-            </OneBoard>
+            <>
+              <OneBoard key={data.marketBoardId}>
+                <BoardNote>
+                  <BoardNoteCircle>
+                    <StyledLink
+                      to={`/market/${data.marketBoardId}`}
+                      key={data.marketBoardId}
+                    >
+                      <BoardCircleImg
+                        src={data.photo}
+                        style={{ objectPosition: "bottom center" }}
+                      />
+                    </StyledLink>
+                  </BoardNoteCircle>
+                </BoardNote>
+                <BoardNoteTitle>{data.title}</BoardNoteTitle>
+              </OneBoard>
+            </>
           ))}
         </BoardNoteSect>
       </BoardOneSect>

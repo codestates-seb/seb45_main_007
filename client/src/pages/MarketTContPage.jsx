@@ -3,9 +3,7 @@ import { HotContent } from "../components/HotContent.jsx";
 import { NormalContent } from "../components/NormalContent.jsx";
 import { AnaLogClock } from "../components/Clock.jsx";
 import React, { useState, useEffect } from "react";
-import { MarketBasicData } from "../data/MarketBasicData.js";
 import axios from "axios";
-
 const TotalContainer = styled.div`
   width: 100vw;
   position: relative;
@@ -145,25 +143,19 @@ const BoardFooterSect = styled.div`
   background-color: #fffff0;
 `;
 
-const NormalContentTitleSect = styled.div`
-  width: 100%;
-  height: 100px;
-  font-size: 22px;
-  margin-top: 50px;
-`;
+// const NormalContentTitleSect = styled.div`
+//   width: 100%;
+//   height: 100px;
+//   font-size: 22px;
+//   margin-top: 50px;
+// `;
 
 export const MarketTContPage = () => {
   const [MarketTData, setMarketTData] = useState([]);
-  const [HotContentData, setHotContentData] = useState([]);
+  // const [HotContentData, setHotContentData] = useState([]);
   const [NormalContentData, setNormalContentData] = useState([]);
   const [menuIsVisible, setMenuIsVisible] = useState(false);
   const [noMoreRead, setNoMoreRead] = useState(false);
-
-  useEffect(() => {
-    if (NormalContentData.length >= MarketBasicData.brings.length) {
-      setNoMoreRead(true);
-    }
-  }, [NormalContentData]);
 
   useEffect(() => {
     const hanldeMenuScroll = () => {
@@ -194,8 +186,8 @@ export const MarketTContPage = () => {
           },
         );
 
-        console.log(response);
         setMarketTData(response.data);
+        console.log(MarketTData);
       } catch (error) {
         console.error("Error fetching the data", error);
       }
@@ -204,28 +196,19 @@ export const MarketTContPage = () => {
     fetchData();
   }, []);
 
-  //       const response = await fetch(MarketAPI);
-  //       if (!response.ok) {
-  //         console.log("not response.ok");
-  //       }
-  //       const data = await response.json();
-  //       setMarketTData(data);
-  //     } catch (error) {
-  //       setMarketTData(MarketBasicData.brings);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
-
   useEffect(() => {
     if (MarketTData.length > 0) {
-      const hotData = MarketTData.slice(0, 4);
-      const normalData = MarketTData.slice(0, 16);
-      setHotContentData(hotData);
+      // const hotData = MarketTData.slice(0, 4);
+      const normalData = MarketTData.slice(0, 4);
+      // setHotContentData(hotData);
       setNormalContentData(normalData);
     }
   }, [MarketTData]);
+  useEffect(() => {
+    if (NormalContentData.length >= MarketTData.length) {
+      setNoMoreRead(true);
+    }
+  }, [NormalContentData]);
 
   const MoreReadNormalData = () => {
     const startIndex = NormalContent.length;
@@ -257,17 +240,11 @@ export const MarketTContPage = () => {
           </BoardLetterSect>
 
           <HotContent
-            title="최신 판매"
-            color="red"
-            HotContentData={HotContentData}
+            title="판매중인 물건"
+            HotContentData={NormalContentData}
           />
-          <HotContent
-            title="오래된 판매"
-            color="blue"
-            HotContentData={HotContentData}
-          />
-          <NormalContentTitleSect>판매중인 물건 </NormalContentTitleSect>
-          <NormalContent NormalContentData={NormalContentData} />
+          {/* <NormalContentTitleSect>판매중인 물건 </NormalContentTitleSect>
+          <NormalContent NormalContentData={NormalContentData} /> */}
           <MarketMoreReadBtn
             onClick={MoreReadNormalData}
             noMoreRead={noMoreRead}
