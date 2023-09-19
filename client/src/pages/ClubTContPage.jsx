@@ -264,7 +264,7 @@ export const ClubTContPage = () => {
 
   const SearchTitleBtnClick = async (searchTitle) => {
     const response = await axios.get(
-      `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/searches?page=1&size=10&keyword=${searchTitle}`,
+      `https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/searches?page=1&size=10&keyword=${searchTitle}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -283,7 +283,7 @@ export const ClubTContPage = () => {
     }
   };
 
-  const apiUrl = `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/category?page=1&size=10&category=${category}`;
+  const apiUrl = `https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/category?page=1&size=10&category=${category}`;
   useEffect(() => {
     async function fetchData() {
       try {
@@ -309,7 +309,7 @@ export const ClubTContPage = () => {
 
   const changePage = async (newPage) => {
     const response = await axios.get(
-      `https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/category?page=${newPage}&size=10&category=${category}`,
+      `https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards/category?page=${newPage}&size=10&category=${category}`,
       {
         headers: {
           "Content-Type": "application/json",

@@ -94,7 +94,8 @@ const Write = () => {
       let payload = {};
 
       if (board === "바자회") {
-        apiUrl = "https://49c9-221-150-55-48.ngrok-free.app/marketBoards";
+        apiUrl =
+          "https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/marketBoards";
         payload = {
           memberId: 1,
           title: title,
@@ -105,7 +106,7 @@ const Write = () => {
         };
       } else if (board === "동아리") {
         apiUrl =
-          "https://01db-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards";
+          "https://e5da-2406-5900-705c-f80b-14a4-7259-d8f4-2a43.ngrok-free.app/clubBoards";
         payload = {
           memberId: memberId,
           title: title,
