@@ -82,7 +82,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.setHeader("Refresh", refreshToken);
 
         // 응답 DTO 생성 및 설정
-        LoginResponseDto responseDto = new LoginResponseDto(true, member.getUsername() + "님 반갑습니다.", member.getUsername(), member.getEmail(), member.getMemberId());
+        LoginResponseDto responseDto = new LoginResponseDto(true, member.getUsername() + "님 반갑습니다.", member.getUsername(), member.getEmail(), member.getMemberId(),member.getNickname());
         ObjectMapper mapper = new ObjectMapper();
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(mapper.writeValueAsString(responseDto));
@@ -98,10 +98,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         claims.put("email", member.getEmail()); // 이메일 추가
         claims.put("roles", member.getRoles());
         claims.put("username", member.getUsername());
+        claims.put("nickname", member.getNickname());
 
         long memberId = member.getMemberId();
         String email = member.getEmail();
         String username = member.getUsername();
+        String nickname = member.getNickname();
 
         if(!claims.containsKey("memberId")) {
             claims.put("memberId", memberId);
@@ -111,6 +113,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         }
         if (!claims.containsKey("username")) {
             claims.put("username", username);
+        }
+        if (!claims.containsKey("nickname")) {
+            claims.put("nickname", nickname);
         }
 
 
