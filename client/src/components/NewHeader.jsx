@@ -6,6 +6,7 @@ import menuImg2 from "../images/menu/bear.png";
 import menuImg3 from "../images/menu/cotton.png";
 import menuImg4 from "../images/menu/lolpop.png";
 import menuImg5 from "../images/menu/chocolate.png";
+import { useSelector } from "react-redux";
 
 const BoardHeaderSect = styled.section`
   width: 100vw;
@@ -75,6 +76,8 @@ export const NewHeader = () => {
   const location = useLocation();
   const currentPath = location.pathname;
 
+  const { loggedIn } = useSelector((state) => state.user);
+
   const isHome = currentPath === "/";
 
   return (
@@ -108,18 +111,13 @@ export const NewHeader = () => {
             </NavLi>
             <NavLi>
               <NavLiImg src={menuImg4} />
-              <CustomNavLink as={NavLink} to="/login">
-                로그인
+              <CustomNavLink as={NavLink} to={loggedIn ? "/mypage" : "/login"}>
+                {loggedIn ? "마이페이지" : "로그인"}
               </CustomNavLink>
             </NavLi>
             <NavLi>
               <NavLiImg src={menuImg5} />
-              <CustomNavLink as={NavLink} to="/mypage">
-                마이페이지
-              </CustomNavLink>
-            </NavLi>
-            <NavLi>
-              <CustomNavLink as={NavLink} to="/write">
+              <CustomNavLink as={NavLink} to="write">
                 글쓰기
               </CustomNavLink>
             </NavLi>
