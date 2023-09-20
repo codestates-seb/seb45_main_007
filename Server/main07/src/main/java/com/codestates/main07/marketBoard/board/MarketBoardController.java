@@ -86,8 +86,7 @@ public class MarketBoardController {
 
         MarketBoard marketBoard = marketBoardService.viewBoard(marketBoardId);
 
-        marketBoard.incrementViewCount();
-
+        marketBoardService.plusViewCount(marketBoard);
 //        int updatedViewCount = marketBoard.getViewCount() + 1;
 //        marketBoard.updateView(updatedViewCount);
 
