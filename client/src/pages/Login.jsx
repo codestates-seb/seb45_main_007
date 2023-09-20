@@ -80,15 +80,17 @@ export default function Login() {
         localStorage.setItem("refreshToken", response.headers.refresh);
         localStorage.setItem("memberId", response.data.memberId);
         localStorage.setItem("email", response.data.email);
-        localStorage.setItem("name", response.data.name);
+        localStorage.setItem("username", response.data.username);
+        localStorage.setItem("nickname", response.data.nickname);
         dispatch(
           setUser({
             loggedIn: true,
             email: response.data.email,
-            name: response.data.name,
+            username: response.data.username,
             memberId: response.data.memberId,
             accessToken: response.data.accessToken,
             refreshToken: response.data.refreshToken,
+            nickname: response.data.nickname,
           }),
         );
         console.log(response);
@@ -105,6 +107,7 @@ export default function Login() {
 
   useEffect(() => {
     if (loggedIn) {
+      alert("이미 로그인 된 사용자입니다.");
       navigate(-1);
     }
   }, [loggedIn, navigate]);

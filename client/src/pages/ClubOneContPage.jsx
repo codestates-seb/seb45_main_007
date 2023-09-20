@@ -98,7 +98,6 @@ const BoardTitleSect = styled.article`
 const BoardTitleBox = styled.div`
   width: 100%;
   height: 100%;
-  border-top: 1px solid black;
   border-bottom: 1px solid black;
   display: flex;
   flex-direction: column;
@@ -113,7 +112,7 @@ const WritedTitleBox = styled.div`
   display: flex;
   align-items: center;
   border-bottom: 1px solid black;
-  border-top: 3px solid red;
+  border-top: 3px solid ${(props) => props.borderColor || "red"};
 `;
 
 const LeftTitleSect = styled.div`
@@ -222,8 +221,8 @@ const BoardOneCommentSect = styled.article`
   margin-top: 5%;
   display: flex;
   flex-direction: column;
-  border-bottom: 3px solid brown;
-  border-top: 3px solid brown;
+  border-bottom: 3px solid ${(props) => props.borderColor || "red"};
+  border-top: 3px solid ${(props) => props.borderColor || "red"};
 `;
 
 const BoardOneCommentOne = styled.div`
@@ -232,8 +231,8 @@ const BoardOneCommentOne = styled.div`
   display: flex;
   align-items: center;
   font-size: 16px;
-  border-bottom: 1px solid gray;
   position: relative;
+  border-bottom: 1px solid gray;
 `;
 
 const CommentOneLeft = styled.div`
@@ -315,7 +314,7 @@ const CommentUpLeft = styled.div`
 `;
 
 const CommentUserBox = styled.div`
-  width: 150px;
+  width: 130px;
   height: 40px;
   display: flex;
   align-items: center;
@@ -329,7 +328,7 @@ const CommentUserBox = styled.div`
 const CommentUpRight = styled.div`
   width: 85%;
   height: 100%;
-  margin-top: 1%;
+  margin-top: 15px;
 `;
 
 const CommentRightInputBox = styled.input`
@@ -364,7 +363,6 @@ const DeleteModal = styled.div`
 const DeleteCommentBtn = styled.div`
   width: 50px;
   height: 50px;
-  background-color: white;
   color: black;
   font-size: 12px;
   display: flex;
@@ -384,9 +382,11 @@ export const ClubOneContPage = () => {
   const [editingTitle, setEditingTitle] = useState(oneClubData.title);
   const [editingContent, setEditingContent] = useState(oneClubData.content);
   const [baseCommentData, setBaseCommentData] = useState([]);
-  const [insertComment, setInserComment] = useState("");
+  const [insertComment, setInsertComment] = useState("");
 
   const [deleteState, setDeleteState] = useState(false);
+
+  const memberId = localStorage.getItem("memberId");
 
   const navigate = useNavigate();
 
@@ -399,7 +399,7 @@ export const ClubOneContPage = () => {
 
   const InsertCommentFunc = (event) => {
     const newValue = event.target.value;
-    setInserComment(newValue);
+    setInsertComment(newValue);
   };
 
   const SetEditingBtnClick = () => {
@@ -447,13 +447,37 @@ export const ClubOneContPage = () => {
   };
 
   const dataToSendComment = {
-    memberId: 1,
+    memberId: memberId,
     content: insertComment,
   };
 
   const CommentChangeBtnClick = async () => {
     try {
       const response = await axios.post(
+        `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/clubBoards/${clubBoardId}/comments`,
+        dataToSendComment, // 데이터는 여기에 넣어야 합니다.
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "ngrok-skip-browser-warning": "69420",
+          },
+        },
+      );
+      if (response.status === 201) {
+        console.log("댓글 추가 성공");
+        fetchCommentData();
+        setInsertComment("");
+      } else {
+        console.log("수정 실패");
+      }
+    } catch (error) {
+      console.error("수정 요청 실패:", error);
+    }
+  };
+
+  const CommentUpdateBtnClick = async () => {
+    try {
+      const response = await axios.put(
         `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/clubBoards/${clubBoardId}/comments`,
         dataToSendComment, // 데이터는 여기에 넣어야 합니다.
         {
@@ -522,6 +546,7 @@ export const ClubOneContPage = () => {
   useEffect(() => {
     async function fetchData() {
       try {
+        console.log("Fetching data from:", OneContApiUrl);
         const response = await axios.get(OneContApiUrl, {
           headers: {
             "Content-Type": "application/json",
@@ -540,7 +565,45 @@ export const ClubOneContPage = () => {
         console.error("200 코드가 아님");
       }
     }
+
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchDetailsAndComments = async () => {
+      try {
+        const [detailsResponse, commentsResponse] = await Promise.all([
+          axios.get(OneContApiUrl, {
+            headers: {
+              "Content-Type": "application/json",
+              "ngrok-skip-browser-warning": "69420",
+            },
+          }),
+          axios.get(OneCommentAPiUrl, {
+            headers: {
+              "Content-Type": "application/json",
+              "ngrok-skip-browser-warning": "69420",
+            },
+          }),
+        ]);
+
+        if (detailsResponse.status === 200) {
+          setOneClubData(detailsResponse.data);
+        } else {
+          console.error("200 코드가 아님 (Details)");
+        }
+
+        if (commentsResponse.status === 200) {
+          setBaseCommentData(commentsResponse.data.clubBoardComments);
+        } else {
+          console.error("200 코드가 아님 (Comments)");
+        }
+      } catch (error) {
+        console.error("데이터 가져오기 실패:", error);
+      }
+    };
+
+    fetchDetailsAndComments();
   }, []);
 
   const DeleteContentBtnClick = async () => {
@@ -578,6 +641,39 @@ export const ClubOneContPage = () => {
       return "#006400";
     }
   };
+  let borderColor;
+  if (category === "comic") {
+    borderColor = "#800000";
+  } else if (category === "movie") {
+    borderColor = "#ff4500";
+  } else if (category === "tvshow") {
+    borderColor = "#cccc00";
+  } else if (category === "music") {
+    borderColor = "#00008b";
+  } else if (category === "game") {
+    borderColor = "#4b0082";
+  } else if (category === "item") {
+    borderColor = "#006400";
+  }
+
+  const getCategoryLabel = () => {
+    switch (category) {
+      case "comic":
+        return "만화";
+      case "movie":
+        return "영화";
+      case "tvshow":
+        return "TV 프로그램";
+      case "music":
+        return "노래";
+      case "game":
+        return "게임";
+      case "item":
+        return "아이템";
+      default:
+        return "";
+    }
+  };
   return (
     <>
       <NewHeader />
@@ -598,7 +694,7 @@ export const ClubOneContPage = () => {
           <BoardUpSect>
             <BoardTitleText>
               <BoardTitleLabel color={BoardTitleLabelColorChange} />
-              만화
+              {getCategoryLabel()}
             </BoardTitleText>
 
             <PrevBoardBtn2 onClick={SetEditingBtnClick}>
@@ -614,7 +710,7 @@ export const ClubOneContPage = () => {
           <BoardBottomSect>
             <BoardTitleSect>
               <BoardTitleBox>
-                <WritedTitleBox>
+                <WritedTitleBox borderColor={borderColor}>
                   <LeftTitleSect>제목</LeftTitleSect>
                   {!editingState ? (
                     <CenterTitleBox>{oneClubData.title}</CenterTitleBox>
@@ -641,11 +737,13 @@ export const ClubOneContPage = () => {
             <BasicSizeContentBox>
               {!editingState ? (
                 <COneContTextBox>
-                  <img
-                    src={oneClubData.photo}
-                    alt="fdf"
-                    style={{ width: "50%", height: "50%" }}
-                  />
+                  {oneClubData.photo && (
+                    <img
+                      src={oneClubData.photo}
+                      alt=""
+                      style={{ width: "50%", height: "50%" }}
+                    />
+                  )}
                   <br />
                   {oneClubData.content}
                   <br />
@@ -664,7 +762,7 @@ export const ClubOneContPage = () => {
               </PrevBoardBtn>
             ) : null}
 
-            <BoardOneCommentSect>
+            <BoardOneCommentSect borderColor={borderColor}>
               {baseCommentData.map((data) => (
                 <>
                   <BoardOneCommentOne key={data.clubBoardCommentId}>
@@ -673,6 +771,13 @@ export const ClubOneContPage = () => {
                     <CommentOneRight>
                       {IsSameDay(data.createdAt)}
                     </CommentOneRight>
+                    <DeleteCommentBtn
+                      onClick={() =>
+                        CommentUpdateBtnClick(data.clubBoardCommentId)
+                      }
+                    >
+                      수정
+                    </DeleteCommentBtn>
                     <DeleteCommentBtn
                       onClick={() =>
                         DeleteCommentBtnClick(data.clubBoardCommentId)

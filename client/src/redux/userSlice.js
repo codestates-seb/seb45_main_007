@@ -4,10 +4,10 @@ export const userSlice = createSlice({
   name: "user",
   initialState: {
     loggedIn: false,
-    email: "",
+    email: localStorage.getItem("email") || "",
     name: "",
-    username: "",
-    nickname: "",
+    username: localStorage.getItem("username") || "",
+    nickname: localStorage.getItem("nockname") || "",
     memberId: localStorage.getItem("memberId") || 1,
     accessToken: localStorage.getItem("accessToken") || "",
     refreshToken: localStorage.getItem("refreshToken") || "",

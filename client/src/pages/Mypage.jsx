@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import modifyIcon from "../icon/modify.png";
 import React, { useState, useEffect } from "react";
 import userImg from "../images/userExample.png";
@@ -15,6 +15,17 @@ export default function Mypage() {
   const [marketData, setMarketData] = useState([]);
   const [marketPageInfo, setMarketPageInfo] = useState({});
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setUsername(localStorage.getItem("username") || "이름 없음");
+    setEmail(localStorage.getItem("email") || "이메일 없음");
+    fetchData(1);
+  }, [selectedCategory]);
+
   const memberId = localStorage.getItem("memberId");
   const fetchData = async (page) => {
     try {
@@ -79,7 +90,7 @@ export default function Mypage() {
               <UserTable>
                 <tr>
                   <th>이름</th>
-                  <td>김코딩</td>
+                  <td>{username}</td>
                 </tr>
                 <tr>
                   <th>별명</th>
@@ -107,7 +118,7 @@ export default function Mypage() {
                 </tr>
                 <tr>
                   <th>이메일</th>
-                  <td>kimcoding@codestates.com</td>
+                  <td>{email}</td>
                 </tr>
               </UserTable>
             </UserTableContainer>
@@ -200,7 +211,7 @@ export default function Mypage() {
         </BottomContainer>
         <BottomContainer>
           <ButtonContianer>
-            <Button>뒤로가기</Button>
+            <Button onClick={() => navigate(-1)}>뒤로가기</Button>
           </ButtonContianer>
         </BottomContainer>
       </Container>
