@@ -72,6 +72,12 @@ public class MemberDetailsService implements UserDetailsService {
 
 
         @Override
+        public String getPassword() {
+            return super.getPassword();
+        }
+
+
+        @Override
         public boolean isAccountNonExpired() {
             return true;
         }
