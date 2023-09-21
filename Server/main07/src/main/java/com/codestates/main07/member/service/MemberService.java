@@ -31,8 +31,7 @@ public class MemberService {
                 throw new BusinessLogicException(ExceptionCode.EMAIL_ALREADY_EXISTS);
             }
 
-            // 닉네임 중복 검사
-            if (memberRepository.findByNickname(member.getNickname()).isPresent()) {
+            if (isNicknameExists(member.getNickname())) {
                 throw new BusinessLogicException(ExceptionCode.NICKNAME_ALREADY_EXISTS);
             }
 
@@ -113,4 +112,9 @@ public class MemberService {
         return memberRepository.findByEmail(email)
                 .orElse(null);
     }
+
+    public boolean isNicknameExists(String nickname) {
+        return memberRepository.findByNickname(nickname).isPresent();
+    }
+
 }
