@@ -31,8 +31,7 @@ public class MemberService {
                 throw new BusinessLogicException(ExceptionCode.EMAIL_ALREADY_EXISTS);
             }
 
-            // 닉네임 중복 검사
-            if (memberRepository.findByNickname(member.getNickname()).isPresent()) {
+            if (isNicknameExists(member.getNickname())) {
                 throw new BusinessLogicException(ExceptionCode.NICKNAME_ALREADY_EXISTS);
             }
 
@@ -47,14 +46,34 @@ public class MemberService {
         }
 
     @Transactional
-    public Map<String, Boolean> updateMember(Member member) {
-        if (!memberRepository.existsById(member.getMemberId())) {
-            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
+    public Map<String, Boolean> updateMember(Member updatedMember) {
+        // 먼저 데이터베이스에서 기존의 회원 정보를 조회
+        // 만약 해당 ID의 회원 정보가 존재하지 않으면 BusinessLogicException을 발생
+        Member existingMember = memberRepository.findById(updatedMember.getMemberId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        // 받아온 Member 객체의 각 필드가 null인지 확인
+        // 값이 제공된 경우, 기존 회원 정보의 Email을 새로운 Email로 업데이트 (나머지 데이터도 동일한 코드)
+        if (updatedMember.getEmail() != null) {
+            existingMember.setEmail(updatedMember.getEmail());
         }
-        memberRepository.save(member);
+        if (updatedMember.getUsername() != null) {
+            existingMember.setUsername(updatedMember.getUsername());
+        }
+        if (updatedMember.getNickname() != null) {
+            existingMember.setNickname(updatedMember.getNickname());
+        }
+        if (updatedMember.getPassword() != null) {
+            // 비밀번호 암호화 후 저장
+            String hashedPassword = passwordEncoder.encode(updatedMember.getPassword());
+            existingMember.setPassword(hashedPassword);
+        }
+
+        // 수정된 정보로 회원 정보를 업데이트
+        memberRepository.save(existingMember);
 
         Map<String, Boolean> response = new HashMap<>();
-        response.put("success", true);
+        response.put("updated", true);
         return response;
     }
 
@@ -93,4 +112,9 @@ public class MemberService {
         return memberRepository.findByEmail(email)
                 .orElse(null);
     }
+
+    public boolean isNicknameExists(String nickname) {
+        return memberRepository.findByNickname(nickname).isPresent();
+    }
+
 }

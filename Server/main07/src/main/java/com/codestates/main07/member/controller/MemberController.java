@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -77,5 +78,13 @@ public class MemberController {
             @PathVariable("member-id") @Positive long memberId) {
         Map<String, Boolean> result = memberService.deleteMember(memberId);
         return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/check-nickname")
+    public ResponseEntity<?> checkNicknameAvailability(@RequestParam String nickname) {
+        boolean isAvailable = !memberService.isNicknameExists(nickname);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("isAvailable", isAvailable);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
