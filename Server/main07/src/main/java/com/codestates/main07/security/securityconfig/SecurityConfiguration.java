@@ -113,6 +113,7 @@ public class SecurityConfiguration {
                 "http://localhost:3000",
                 "http://localhost:8080",
                 "http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com",
+                "http://sevenelrabbit.s3-website.ap-northeast-2.amazonaws.com",
                 "null"
         ));
         configuration.addAllowedHeader("*");

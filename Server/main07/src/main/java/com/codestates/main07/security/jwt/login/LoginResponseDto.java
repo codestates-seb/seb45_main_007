@@ -12,16 +12,15 @@ public class LoginResponseDto {
     private String username;
     private String email;
     private long memberId;
+    private String nickname;
 
-    public LoginResponseDto() {
-    }
-
-    public LoginResponseDto(boolean success, String message, String username, String email, long memberId) {
+    public LoginResponseDto(boolean success, String message, String username, String email, long memberId, String nickname) {
         this.success = success;
         this.message = message;
         this.username = username;
         this.email = email;
         this.memberId = memberId;
+        this.nickname = nickname;
     }
 
     public static LoginResponseDto fromMember(Member member, boolean success, String message) {
@@ -30,7 +29,8 @@ public class LoginResponseDto {
                 message,
                 member.getUsername(),
                 member.getEmail(),
-                member.getMemberId()
+                member.getMemberId(),
+                member.getNickname()
         );
     }
 }

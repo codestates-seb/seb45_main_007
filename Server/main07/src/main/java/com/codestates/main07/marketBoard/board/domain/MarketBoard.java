@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,8 +35,8 @@ public class MarketBoard extends Audit {
     @Column
     private String photo;
 
-    @Column (columnDefinition = "integer default 0", nullable = false)
-    private int viewCount;
+    @Column (nullable = false)
+    private int viewCount = 0;
 
     @Enumerated(EnumType.STRING)
     @Column

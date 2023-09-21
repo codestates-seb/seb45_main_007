@@ -29,8 +29,8 @@ public class MemberDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Member> optionalMember = memberRepository.findByEmail(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Optional<Member> optionalMember = memberRepository.findByEmail(email);
         Member findMember = optionalMember.orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
         return new MemberDetails(findMember);
@@ -42,7 +42,9 @@ public class MemberDetailsService implements UserDetailsService {
             setMemberId(member.getMemberId());
             setEmail(member.getEmail());
             setPassword(member.getPassword());
-//            setRole(member.getRole());
+            setUsername(member.getUsername());
+            setNickname(member.getNickname());
+            setRoles(member.getRoles());
         }
 
         @Override
@@ -60,8 +62,14 @@ public class MemberDetailsService implements UserDetailsService {
 
         @Override
         public String getUsername() {
-            return getEmail();
+            return super.getUsername();
         }
+
+        @Override
+        public String getEmail() {
+            return super.getEmail();
+        }
+
 
         @Override
         public boolean isAccountNonExpired() {

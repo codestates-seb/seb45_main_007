@@ -69,4 +69,8 @@ public class MarketBoardService {
         return optionalMarketBoard.orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
     }
+
+    public void plusViewCount(MarketBoard marketBoard) {
+        marketBoard.setViewCount(marketBoard.getViewCount() + 1);
+    }
 }
