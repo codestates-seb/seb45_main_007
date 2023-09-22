@@ -7,7 +7,7 @@ export const userSlice = createSlice({
     email: localStorage.getItem("email") || "",
     name: "",
     username: localStorage.getItem("username") || "",
-    nickname: localStorage.getItem("nockname") || "",
+    nickname: localStorage.getItem("nickname") || "",
     memberId: localStorage.getItem("memberId") || 1,
     accessToken: localStorage.getItem("accessToken") || "",
     refreshToken: localStorage.getItem("refreshToken") || "",
