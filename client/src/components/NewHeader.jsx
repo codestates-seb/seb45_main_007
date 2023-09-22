@@ -1,7 +1,6 @@
 import { styled } from "styled-components";
-import { NavLink, useLocation } from "react-router-dom/dist";
+import { NavLink } from "react-router-dom/dist";
 import React from "react";
-import menuImg1 from "../images/menu/candybar.png";
 import menuImg2 from "../images/menu/bear.png";
 import menuImg3 from "../images/menu/cotton.png";
 import menuImg4 from "../images/menu/lolpop.png";
@@ -58,13 +57,15 @@ const CustomNavLink = styled.a`
   border: 3px solid white;
   width: 80%;
   height: 100%;
-  border-radius: 40%;
   padding: 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  &.active {
+    border: 5px solid #b4714b;
+  }
   &:hover,
   &:active {
     color: white;
@@ -73,29 +74,13 @@ const CustomNavLink = styled.a`
 `;
 
 export const NewHeader = () => {
-  const location = useLocation();
-  const currentPath = location.pathname;
-
   const { loggedIn } = useSelector((state) => state.user);
-
-  const isHome = currentPath === "/";
 
   return (
     <>
       <BoardHeaderSect>
         <NavLinkSection>
           <NavUl>
-            <NavLi>
-              <NavLiImg src={menuImg1} />
-              <CustomNavLink
-                as={NavLink}
-                to="/"
-                className={isHome ? "active" : ""}
-              >
-                메인
-              </CustomNavLink>
-            </NavLi>
-
             <NavLi>
               <NavLiImg src={menuImg2} />
               <CustomNavLink as={NavLink} to="/market/totalcontents">

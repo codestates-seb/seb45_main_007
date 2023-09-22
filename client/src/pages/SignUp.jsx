@@ -30,6 +30,7 @@ export default function SignUp() {
   const [nameTouched, setNameTouched] = useState(false);
 
   const [nickname, setNickname] = useState("");
+  const [isNicknameAvailable, setIsNicknameAvailable] = useState(null);
 
   const navigate = useNavigate();
 
@@ -67,6 +68,28 @@ export default function SignUp() {
       setPassword2IsValid(false);
     } else {
       setPassword2IsValid(true);
+    }
+  };
+
+  const checkNicknameAvailability = async () => {
+    try {
+      const response = await axios.get(
+        "http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/members/check-nickname",
+        {
+          params: { nickname: nickname },
+        },
+      );
+
+      setIsNicknameAvailable(response.data.isAvailable);
+
+      if (!response.data.isAvailable) {
+        alert("이미 사용중인 닉네임입니다. 다른 닉네임을 선택해주세요.");
+      } else {
+        alert("사용 가능한 닉네임입니다.");
+      }
+    } catch (error) {
+      console.error("닉네임 중복 검사 오류:", error);
+      alert("닉네임 중복 검사 중 오류가 발생했습니다.");
     }
   };
 
@@ -143,8 +166,13 @@ export default function SignUp() {
                 value={nickname}
                 placeholder="닉네임을 입력해주세요"
               ></input>
+              <button onClick={checkNicknameAvailability}>중복 검사</button>
             </div>
-            <div className="error-box"></div>
+            <div className="error-box">
+              {isNicknameAvailable === false ? (
+                <div className="error-message">이미 사용중인 닉네임입니다.</div>
+              ) : null}
+            </div>
             <div className="input-content">
               <img src="/images/mdi-password-outline.png" alt=""></img>
               <input

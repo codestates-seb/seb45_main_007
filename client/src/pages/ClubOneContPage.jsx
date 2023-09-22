@@ -544,32 +544,6 @@ export const ClubOneContPage = () => {
   }, []);
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        console.log("Fetching data from:", OneContApiUrl);
-        const response = await axios.get(OneContApiUrl, {
-          headers: {
-            "Content-Type": "application/json",
-            "ngrok-skip-browser-warning": "69420",
-          },
-        });
-
-        if (response.status === 200) {
-          setOneClubData(response.data);
-          console.log(response.data);
-          console.log(oneClubData);
-        } else {
-          console.error("200 코드가 아님");
-        }
-      } catch (error) {
-        console.error("200 코드가 아님");
-      }
-    }
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
     const fetchDetailsAndComments = async () => {
       try {
         const [detailsResponse, commentsResponse] = await Promise.all([

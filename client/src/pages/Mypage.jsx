@@ -23,10 +23,49 @@ export default function Mypage() {
   useEffect(() => {
     setUsername(localStorage.getItem("username") || "이름 없음");
     setEmail(localStorage.getItem("email") || "이메일 없음");
+    setNickname(localStorage.getItem("nickname") || "별명 없음");
     fetchData(1);
   }, [selectedCategory]);
 
   const memberId = localStorage.getItem("memberId");
+
+  const handleDeleteAccount = async () => {
+    try {
+      const memberId = localStorage.getItem("memberId");
+      if (!memberId) {
+        alert("멤버 ID를 찾을 수 없습니다.");
+        return;
+      }
+
+      const response = await axios.delete(
+        `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/members/${memberId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // 이 부분은 실제 토큰을 어떻게 저장하고 사용하는지에 따라 조정되어야 합니다.
+          },
+        },
+      );
+
+      if (response.status === 204) {
+        // 204 No Content
+        alert("회원 탈퇴가 성공적으로 처리되었습니다.");
+        localStorage.clear();
+        navigate("/");
+
+        // 추가적인 로직 (예: 로그아웃 처리, 메인 페이지로 리다이렉트 등)을 여기에 추가할 수 있습니다.
+      } else {
+        alert("알 수 없는 오류가 발생했습니다.");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        alert("해당 멤버를 찾을 수 없습니다.");
+      } else {
+        alert("회원탈퇴 중 오류 발생");
+        console.error("회원탈퇴 중 오류 발생", error);
+      }
+    }
+  };
+
   const fetchData = async (page) => {
     try {
       const response = await axios.all([
@@ -127,7 +166,9 @@ export default function Mypage() {
             <StyledLink to="/usermodify" className="modify">
               비밀번호변경
             </StyledLink>
-            <StyledLink className="delete">회원탈퇴</StyledLink>
+            <StyledLink className="delete" onClick={handleDeleteAccount}>
+              회원탈퇴
+            </StyledLink>
           </UserModify>
           <UserImg>
             <img src={userImg} alt="userimage" />
