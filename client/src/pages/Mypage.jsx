@@ -5,6 +5,8 @@ import React, { useState, useEffect } from "react";
 import userImg from "../images/userExample.png";
 import axios from "axios";
 import CategoryDropdown from "../components/CategoryDropdown.jsx";
+import { useDispatch } from "react-redux";
+import { logoutState } from "../redux/userSlice";
 
 export default function Mypage() {
   const [editing, setEditing] = useState(false);
@@ -19,6 +21,12 @@ export default function Mypage() {
   const [email, setEmail] = useState("");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logoutState());
+    navigate("/");
+  };
 
   useEffect(() => {
     setUsername(localStorage.getItem("username") || "이름 없음");
@@ -281,6 +289,7 @@ export default function Mypage() {
         <BottomContainer>
           <ButtonContianer>
             <Button onClick={() => navigate(-1)}>뒤로가기</Button>
+            <Button onClick={handleLogout}>로그아웃</Button>
           </ButtonContianer>
         </BottomContainer>
       </Container>
