@@ -475,10 +475,10 @@ export const ClubOneContPage = () => {
     }
   };
 
-  const CommentUpdateBtnClick = async () => {
+  const CommentUpdateBtnClick = async (clubBoardCommentId) => {
     try {
       const response = await axios.put(
-        `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/clubBoards/${clubBoardId}/comments`,
+        `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/clubBoards/${clubBoardId}/comments/${clubBoardCommentId}`,
         dataToSendComment, // 데이터는 여기에 넣어야 합니다.
         {
           headers: {
@@ -488,7 +488,7 @@ export const ClubOneContPage = () => {
         },
       );
       if (response.status === 201) {
-        console.log("댓글 추가 성공");
+        console.log("댓글 수정 성공");
         fetchCommentData();
       } else {
         console.log("수정 실패");
@@ -648,6 +648,8 @@ export const ClubOneContPage = () => {
         return "";
     }
   };
+
+  console.log(oneClubData);
   return (
     <>
       <NewHeader />
@@ -670,13 +672,16 @@ export const ClubOneContPage = () => {
               <BoardTitleLabel color={BoardTitleLabelColorChange} />
               {getCategoryLabel()}
             </BoardTitleText>
-
-            <PrevBoardBtn2 onClick={SetEditingBtnClick}>
-              글 수정 하기
-            </PrevBoardBtn2>
-            <PrevBoardBtn2 onClick={DeleteChangeFunc}>
-              글 삭제 하기
-            </PrevBoardBtn2>
+            {memberId === `${oneClubData.clubBoardId}` && (
+              <>
+                <PrevBoardBtn2 onClick={SetEditingBtnClick}>
+                  글 수정 하기
+                </PrevBoardBtn2>
+                <PrevBoardBtn2 onClick={DeleteChangeFunc}>
+                  글 삭제 하기
+                </PrevBoardBtn2>
+              </>
+            )}
             <Link to={`/club/${category}`}>
               <PrevBoardBtn>글 목록 가기</PrevBoardBtn>
             </Link>

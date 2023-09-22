@@ -26,9 +26,27 @@ export const userSlice = createSlice({
       localStorage.setItem("memberId", action.payload.memberId);
       return state;
     },
+    logoutState: (state) => {
+      state.loggedIn = false;
+      state.email = "";
+      state.name = "";
+      state.username = "";
+      state.nickname = "";
+      state.memberId = 1;
+      state.accessToken = "";
+      state.refreshToken = "";
+
+      localStorage.removeItem("email");
+      localStorage.removeItem("username");
+      localStorage.removeItem("nickname");
+      localStorage.removeItem("memberId");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      return state;
+    },
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, logoutState } = userSlice.actions;
 
 export default userSlice.reducer;

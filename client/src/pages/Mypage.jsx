@@ -5,6 +5,8 @@ import React, { useState, useEffect } from "react";
 import userImg from "../images/userExample.png";
 import axios from "axios";
 import CategoryDropdown from "../components/CategoryDropdown.jsx";
+import { useDispatch } from "react-redux";
+import { logoutState } from "../redux/userSlice";
 
 export default function Mypage() {
   const [editing, setEditing] = useState(false);
@@ -19,6 +21,12 @@ export default function Mypage() {
   const [email, setEmail] = useState("");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logoutState());
+    navigate("/");
+  };
 
   useEffect(() => {
     setUsername(localStorage.getItem("username") || "이름 없음");
@@ -110,14 +118,42 @@ export default function Mypage() {
     setNewNickname(nickname);
   };
 
-  const handleConfirmClick = () => {
-    setEditing(false);
-    setNickname(newNickname);
+  const handleConfirmClick = async () => {
+    try {
+      const response = await axios.put(
+        `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/members/${memberId}`,
+        {
+          nickname: newNickname,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        },
+      );
+
+      if (response.data.updated) {
+        alert("닉네임이 성공적으로 변경되었습니다."); // 성공 메시지 출력
+        setNickname(newNickname); // 변경된 닉네임 상태 업데이트
+        localStorage.setItem("nickname", newNickname);
+        setEditing(false); // 편집 모드 종료
+      } else {
+        alert(response.data.message); // 실패 메시지 출력
+      }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        alert(error.response.data.message); // API에서 반환된 오류 메시지 출력
+      } else {
+        alert("닉네임 변경 중 오류 발생");
+        console.error("닉네임 변경 중 오류 발생", error);
+      }
+    }
   };
 
   const handleNicknameChange = (e) => {
     setNewNickname(e.target.value);
   };
+
   return (
     <>
       <Container>
@@ -253,6 +289,7 @@ export default function Mypage() {
         <BottomContainer>
           <ButtonContianer>
             <Button onClick={() => navigate(-1)}>뒤로가기</Button>
+            <Button onClick={handleLogout}>로그아웃</Button>
           </ButtonContianer>
         </BottomContainer>
       </Container>
