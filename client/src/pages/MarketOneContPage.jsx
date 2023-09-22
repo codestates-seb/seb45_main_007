@@ -20,6 +20,14 @@ export default function MarketOneContPage() {
     priceContent: "",
   });
 
+  const loggedInMemberId = localStorage.getItem("memberId");
+
+  console.log(data);
+  console.log(loggedInMemberId);
+  console.log(localStorage.getItem("memberId"));
+  console.log(`${data.memberId}`);
+  console.log(data.memberId);
+
   const handleEditSubmit = async () => {
     try {
       const response = await axios.put(
@@ -116,45 +124,48 @@ export default function MarketOneContPage() {
               </div>
               <div>
                 <StyledLink className="vote">♡ 찜하기</StyledLink>
-                {editMode ? (
-                  <div>
-                    <input
-                      type="text"
-                      name="title"
-                      value={editedData.title}
-                      onChange={handleEditChange}
-                      placeholder="Title"
-                    />
-                    <input
-                      type="text"
-                      name="content"
-                      value={editedData.content}
-                      onChange={handleEditChange}
-                      placeholder="Content"
-                    />
-                    <input
-                      type="text"
-                      name="photo"
-                      value={editedData.photo}
-                      onChange={handleEditChange}
-                      placeholder="Photo URL"
-                    />
-                    <input
-                      type="text"
-                      name="priceContent"
-                      value={editedData.priceContent}
-                      onChange={handleEditChange}
-                      placeholder="Price Content"
-                    />
-                    <button onClick={handleEditSubmit}>Save</button>
-                    <button onClick={() => setEditMode(false)}>Cancel</button>
-                  </div>
-                ) : (
-                  <StyledLink onClick={() => setEditMode(true)}>
-                    수정
-                  </StyledLink>
-                )}
-                <StyledLink onClick={deletePost}>삭제</StyledLink>
+                {loggedInMemberId === `${data.memberId}` &&
+                  (editMode ? (
+                    <div>
+                      <input
+                        type="text"
+                        name="title"
+                        value={editedData.title}
+                        onChange={handleEditChange}
+                        placeholder="Title"
+                      />
+                      <input
+                        type="text"
+                        name="content"
+                        value={editedData.content}
+                        onChange={handleEditChange}
+                        placeholder="Content"
+                      />
+                      <input
+                        type="text"
+                        name="photo"
+                        value={editedData.photo}
+                        onChange={handleEditChange}
+                        placeholder="Photo URL"
+                      />
+                      <input
+                        type="text"
+                        name="priceContent"
+                        value={editedData.priceContent}
+                        onChange={handleEditChange}
+                        placeholder="Price Content"
+                      />
+                      <button onClick={handleEditSubmit}>Save</button>
+                      <button onClick={() => setEditMode(false)}>Cancel</button>
+                    </div>
+                  ) : (
+                    <>
+                      <StyledLink onClick={() => setEditMode(true)}>
+                        수정
+                      </StyledLink>
+                      <StyledLink onClick={deletePost}>삭제</StyledLink>
+                    </>
+                  ))}
               </div>
             </BottomContainer>
           </ContentContainer>

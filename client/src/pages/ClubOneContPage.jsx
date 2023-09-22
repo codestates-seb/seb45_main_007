@@ -648,6 +648,8 @@ export const ClubOneContPage = () => {
         return "";
     }
   };
+
+  console.log(oneClubData);
   return (
     <>
       <NewHeader />
@@ -670,13 +672,16 @@ export const ClubOneContPage = () => {
               <BoardTitleLabel color={BoardTitleLabelColorChange} />
               {getCategoryLabel()}
             </BoardTitleText>
-
-            <PrevBoardBtn2 onClick={SetEditingBtnClick}>
-              글 수정 하기
-            </PrevBoardBtn2>
-            <PrevBoardBtn2 onClick={DeleteChangeFunc}>
-              글 삭제 하기
-            </PrevBoardBtn2>
+            {memberId === `${oneClubData.clubBoardId}` && (
+              <>
+                <PrevBoardBtn2 onClick={SetEditingBtnClick}>
+                  글 수정 하기
+                </PrevBoardBtn2>
+                <PrevBoardBtn2 onClick={DeleteChangeFunc}>
+                  글 삭제 하기
+                </PrevBoardBtn2>
+              </>
+            )}
             <Link to={`/club/${category}`}>
               <PrevBoardBtn>글 목록 가기</PrevBoardBtn>
             </Link>
