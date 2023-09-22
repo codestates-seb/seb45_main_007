@@ -475,10 +475,10 @@ export const ClubOneContPage = () => {
     }
   };
 
-  const CommentUpdateBtnClick = async () => {
+  const CommentUpdateBtnClick = async (clubBoardCommentId) => {
     try {
       const response = await axios.put(
-        `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/clubBoards/${clubBoardId}/comments`,
+        `http://ec2-13-209-7-250.ap-northeast-2.compute.amazonaws.com/clubBoards/${clubBoardId}/comments/${clubBoardCommentId}`,
         dataToSendComment, // 데이터는 여기에 넣어야 합니다.
         {
           headers: {
@@ -488,7 +488,7 @@ export const ClubOneContPage = () => {
         },
       );
       if (response.status === 201) {
-        console.log("댓글 추가 성공");
+        console.log("댓글 수정 성공");
         fetchCommentData();
       } else {
         console.log("수정 실패");
