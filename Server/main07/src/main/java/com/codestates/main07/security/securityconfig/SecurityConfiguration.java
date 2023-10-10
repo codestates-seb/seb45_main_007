@@ -13,7 +13,7 @@ import com.codestates.main07.security.jwt.auth.jwt.JwtTokenizer;
 import com.codestates.main07.security.jwt.utils.CustomAuthorityUtils;
 import com.codestates.main07.security.jwt.utils.SHA256PasswordEncoder;
 import com.codestates.main07.security.oauth.handler.OAuth2SuccessHandler;
-import com.codestates.main07.security.oauth.sevice.CustomOAuth2UserService;
+import com.codestates.main07.security.oauth.service.CustomOAuth2UserService;
 import com.codestates.main07.security.oauth.handler.OAuth2FailureHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
