@@ -17,13 +17,25 @@
 ## 🖥 구현 이미지
 | 페이지 (기능)  | 이미지 |
 | :---: | :---: |
-| 바자회 | ![바자회](https://github.com/codestates-seb/seb45_main_007/assets/130030410/c941dea8-0406-42ca-9ac9-81eaad27cd86)|
-| 동아리 | ![동아리](https://github.com/codestates-seb/seb45_main_007/assets/130030410/adae93c7-a57b-4164-9d31-9906b9851ad0)|
-| 로그인페이지 | ![로그인](https://github.com/codestates-seb/seb45_main_007/assets/130030410/6e9b0aa1-9c1c-4f6f-ab67-1b2fed3186cc)|
-| 마이페이지 | ![마이페이지](https://github.com/codestates-seb/seb45_main_007/assets/130030410/668b025a-21b8-446c-a5a1-d36e8310c6fe)|
-| 비밀번호 변경 | ![비밀번호변경](https://github.com/codestates-seb/seb45_main_007/assets/130030410/bab793be-a705-4bb9-8edd-78eceb7e52f7)|
-| 글쓰기 | ![글쓰기](https://github.com/codestates-seb/seb45_main_007/assets/130030410/614b53c5-127c-4a45-8075-84c64b85142c)|
+| 바자회 | ![바자회](https://github.com/codestates-seb/seb45_main_007/assets/130030410/afe14f5b-d591-4c5e-abe2-eb446aa5e384)|
+| 동아리 | ![동아리](https://github.com/codestates-seb/seb45_main_007/assets/130030410/6aa56164-c363-4de5-96da-d95c13c338f1)|
+| 로그인페이지 | ![로그인](https://github.com/codestates-seb/seb45_main_007/assets/130030410/8859caf0-4282-44a2-8a8c-55dab3f0336d)|
+| 마이페이지 | ![마이페이지](https://github.com/codestates-seb/seb45_main_007/assets/130030410/65f9aa25-4acb-4706-b0f2-437ac4c2215d)|
+| 비밀번호 변경 | ![비밀번호](https://github.com/codestates-seb/seb45_main_007/assets/130030410/e4c7b925-dc73-421e-8175-beec6ba4e475)|
+| 글쓰기 | ![글쓰기](https://github.com/codestates-seb/seb45_main_007/assets/130030410/848cf8f4-ecc2-4792-b6a6-e425cf7eb51a)|
 
+<details>
+  <summary><h3>📌 API명세서</h3></summary>
+ 
+  ![api](https://github.com/codestates-seb/seb45_main_007/assets/130030410/41918b48-23f2-45ab-9770-ad7c0c6064cf)
+  
+</details>
+<details>
+  <summary><h3>📌 ERD</h3></summary>
+ 
+  ![erd](https://github.com/codestates-seb/seb45_main_007/assets/130030410/c414dcfe-3775-42f8-a754-d80e336958ef)
+  
+</details>
 
 # Commit Convention
 ✨  `feat` : 코드 변경과 함께 새로운 기능을 도입하는 경우
