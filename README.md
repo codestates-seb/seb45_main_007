@@ -14,6 +14,17 @@
 ## 🔧 기술 스택
 ![image](https://github.com/codestates-seb/seb45_main_007/assets/130030410/cfa1a3d1-8910-4c05-abfa-038359b2e207)
 
+## 🖥 구현 이미지
+| 페이지 (기능)  | 이미지 |
+| :---: | :---: |
+| 바자회 | ![바자회](https://github.com/codestates-seb/seb45_main_007/assets/130030410/c941dea8-0406-42ca-9ac9-81eaad27cd86)|
+| 동아리 | ![동아리](https://github.com/codestates-seb/seb45_main_007/assets/130030410/adae93c7-a57b-4164-9d31-9906b9851ad0)|
+| 로그인페이지 | ![로그인](https://github.com/codestates-seb/seb45_main_007/assets/130030410/6e9b0aa1-9c1c-4f6f-ab67-1b2fed3186cc)|
+| 마이페이지 | ![마이페이지](https://github.com/codestates-seb/seb45_main_007/assets/130030410/668b025a-21b8-446c-a5a1-d36e8310c6fe)|
+| 비밀번호 변경 | ![비밀번호변경](https://github.com/codestates-seb/seb45_main_007/assets/130030410/bab793be-a705-4bb9-8edd-78eceb7e52f7)|
+| 글쓰기 | ![글쓰기](https://github.com/codestates-seb/seb45_main_007/assets/130030410/614b53c5-127c-4a45-8075-84c64b85142c)|
+
+
 # Commit Convention
 ✨  `feat` : 코드 변경과 함께 새로운 기능을 도입하는 경우
 
